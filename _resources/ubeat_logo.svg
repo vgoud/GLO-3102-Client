@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="128"
+   height="128"
+   id="svg6599"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="ubeat_logo.svg">
+  <defs
+     id="defs6601">
+    <linearGradient
+       id="linearGradient7143">
+      <stop
+         style="stop-color:#1a1a1a;stop-opacity:1;"
+         offset="0"
+         id="stop7145" />
+      <stop
+         id="stop8601"
+         offset="0.5"
+         style="stop-color:#1a1a1a;stop-opacity:0.49803922;" />
+      <stop
+         style="stop-color:#1a1a1a;stop-opacity:0;"
+         offset="1"
+         id="stop7147" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="3.9240541"
+     inkscape:cx="39.864555"
+     inkscape:cy="59.896586"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     inkscape:document-units="px"
+     inkscape:window-width="1858"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:snap-global="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid6607"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata6604">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     transform="translate(0,112)">
+    <text
+       xml:space="preserve"
+       style="font-size:199.32853699px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ff6600;fill-opacity:1;stroke:none;font-family:Segoe UI;-inkscape-font-specification:Segoe UI Bold"
+       x="-14.317152"
+       y="15.346148"
+       id="text7137"
+       sodipodi:linespacing="125%"
+       transform="scale(1.1090288,0.90168983)"
+       inkscape:transform-center-x="-252.88881"
+       inkscape:transform-center-y="269.50745"><tspan
+         sodipodi:role="line"
+         id="tspan7139"
+         x="-14.317152"
+         y="15.346148">U</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:44.26945877px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Segoe WP;-inkscape-font-specification:Segoe WP"
+       x="-3.4510689"
+       y="-52.154873"
+       id="text6613"
+       sodipodi:linespacing="125%"
+       transform="scale(1.3373045,0.74777283)"><tspan
+         sodipodi:role="line"
+         id="tspan6615"
+         x="-3.4510689"
+         y="-52.154873">BEAT</tspan></text>
+  </g>
+</svg>
