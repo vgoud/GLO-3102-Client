@@ -4,7 +4,7 @@ body {
     height: 100%;
 }
 
-#artist-page {
+#container {
     position: absolute;
     display: inline-block;
     width: 100%;
@@ -14,12 +14,24 @@ body {
 #search-results-container {
     background: white;
     position: relative;
-    float: left;
+    height: 100%;
+    width: 14%;
     top: 10px;
     left: 10px;
-    width: 15%;
-    height: 100%;
+    float: left;
 }
+
+#artist-page {
+    background: cornflowerblue;
+    display: block;
+    height: 100%;
+    width: 80%;
+    top: 10px;
+    left: 10px;
+    position: relative;
+    float: left;
+}
+
 #search-title {
     position: relative;
     color: black;
@@ -34,14 +46,6 @@ body {
     min-height: 200px;
     width: 90%;
     height: 30%;
-}
-
-#right-nav {
-    display: block;
-    position: relative;
-    float: left;
-    width: 80%;
-    height: 20%;
 }
 
 #artist-albums {
@@ -59,4 +63,8 @@ body {
     top: 0px;
     width: 200px;
     height: 200px
+}
+
+#top-tracks-section ul {
+    list-style-type: none;
 }
