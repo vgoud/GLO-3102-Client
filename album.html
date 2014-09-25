@@ -48,15 +48,8 @@
 </div>
 
 <div class="uk-container uk-container-center">
-    <div id="album-page" class="uk-grid uk-grid-small" data-uk-grid-match="{target:.uk-panel}">
-        <div id="search-results-container" class="uk-width-medium-1-4 uk-width-large-1-6 uk-hidden-small">
-            <div class="uk-panel uk-panel-box">
-                <div id="search-title"><h4>Recherches associées</h4></div>
-                <div class="search-album">ALBUM FOUND 1</div>
-                <div class="search-album">ALBUM FOUND 2</div>
-            </div>
-        </div>
-        <div class="uk-width-medium-3-4 uk-width-large-5-6">
+    <div id="album-page" class="uk-grid uk-grid-small" data-uk-grid-match>
+        <div class="uk-width-medium-3-4 uk-push-1-4 uk-width-large-5-6">
             <ul class="uk-grid">
                 <li class="uk-width-1-1">
                     <div class="uk-panel uk-panel-box">
@@ -75,7 +68,7 @@
                     <li id="album-info">
                         <div class="uk-panel uk-panel-box">
                             <div id="top-album-info">
-                                <div class="album-name"><h4>Transatlanticism</h4></div>
+                                <div class="album-name"><h2>Transatlanticism</h2></div>
                                 <div class="album-date">2003</div>
                                 <div class="album-tags">Rock alternatif, indie pop, indie rock</div>
                                 <div id="album-rating" class="album-star-rating">X X X X X</div>
@@ -83,7 +76,8 @@
                             <div id="album-content">
                                 <table class="uk-table uk-table-hover">
                                     <tr>
-                                        <td>icons</td>
+                                        <!--td vide pour les icones-->
+                                        <td></td>
                                         <td>
                                             <div class="row-song-number">
                                                 1
@@ -94,17 +88,17 @@
                                                 The new year
                                             </div>
                                         </td>
-                                        <td>icons</td>
+                                        <td></td>
                                         <td>
                                             <div class="row-song-length">
                                                 4:06
                                             </div>
                                         </td>
-                                        <td>icons</td>
+                                        <td></td>
                                     </tr>
 
                                     <tr>
-                                        <td>icons</td>
+                                        <td></td>
                                         <td>
                                             <div class="row-song-number">
                                                 2
@@ -115,17 +109,17 @@
                                                 Song 2
                                             </div>
                                         </td>
-                                        <td>icons</td>
+                                        <td></td>
                                         <td>
                                             <div class="row-song-length">
                                                 4:06
                                             </div>
                                         </td>
-                                        <td>icons</td>
+                                        <td></td>
                                     </tr>
 
                                     <tr>
-                                        <td>icons</td>
+                                        <td></td>
                                         <td>
                                             <div class="row-song-number">
                                                 3
@@ -136,13 +130,13 @@
                                                 Song 3
                                             </div>
                                         </td>
-                                        <td>icons</td>
+                                        <td></td>
                                         <td>
                                             <div class="row-song-length">
                                                 4:06
                                             </div>
                                         </td>
-                                        <td>icons</td>
+                                        <td></td>
                                     </tr>
                                 </table>
                             </div>
@@ -151,6 +145,14 @@
                 </div>
 
             </ul>
+        </div>
+        <div id="search-results-container" class="uk-width-medium-1-4 uk-pull-3-4 uk-width-large-1-6">
+            <div class="uk-panel uk-panel-box uk-panel-header uk-height-1-1">
+                <div id="search-title" class="uk-panel-title"><h3>Recherches associées</h3></div>
+                <div class="search-album">ALBUM FOUND 1</div>
+                <div class="search-album">ALBUM FOUND 2</div>
+            </div>
+            <!--<div class="uk-panel uk-panel-box"></div>-->
         </div>
     </div>
 </div>
