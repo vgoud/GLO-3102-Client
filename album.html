@@ -19,101 +19,131 @@
 <body>
 <nav class="uk-navbar">
     <a href="#" class="uk-navbar-brand">brand</a>
-    <div class="uk-navbar-content uk-hidden-small">Item</div>
-    <!--<div class="uk-navbar-content">2</div>-->
-    <!--<div class="uk-navbar-content uk-navbar-center">3</div>-->
-    <!--<a href="" class="uk-navbar-toggle"></a>-->
+    <ul class="uk-navbar-nav">
+        <li class="uk-hidden-small"><a href="">Item 1</a></li>
+        <li class="uk-hidden-small"><a href="">Item 2</a></li>
+        <li class="uk-parent" data-uk-dropdown="">
+            <a href="">Parent</a>
+
+            <div class="uk-dropdown uk-dropdown-navbar">
+                <ul class="uk-nav uk-nav-navbar">
+                    <li><a href="#">Item</a></li>
+                    <li><a href="#">Another item</a></li>
+                    <li class="uk-nav-header">Header</li>
+                    <li><a href="#">Item</a></li>
+                    <li><a href="#">Another item</a></li>
+                    <li class="uk-nav-divider"></li>
+                    <li><a href="#">Separated item</a></li>
+                </ul>
+            </div>
+
+        </li>
+    </ul>
 </nav>
-<div id="album-page" class="uk-container-center uk-grid">
-    <div id="search-results-container" class="uk-width-1-4">
-        <div id="search-title"><h3>Recherches associées</h3></div>
-        <div class="search-album">ALBUM FOUND 1</div>
-        <div class="search-album">ALBUM FOUND 2</div>
-    </div>
-    <div id="artist-img">
-        <img src="">
-    </div>
-    <div id="artist-albums">
-        <!--Carousel? Or simply a scrollable container-->
-        <span>ALBUM 1 IMG</span>
-        <span>ALBUM 2 IMG</span>
-    </div>
-    <div id="album-info" class="uk-width-3-4">
-        <div id="top-album-info">
-            <div class="album-name"><h4>Transatlanticism</h4></div>
-            <div class="album-date">2003</div>
-            <div class="album-tags">Rock alternatif, indie pop, indie rock</div>
-            <div id="album-rating" class="album-star-rating">X X X X X</div>
+<div class="uk-container uk-container-center">
+    <div id="album-page" class="uk-grid uk-grid-divider">
+        <div id="search-results-container" class="uk-width-medium-1-4 uk-width-large-1-6">
+            <div class="uk-panel">
+                <div id="search-title"><h4>Recherches associées</h4></div>
+                <div class="search-album">ALBUM FOUND 1</div>
+                <div class="search-album">ALBUM FOUND 2</div>
+            </div>
         </div>
-        <div id="album-content">
-            <table class="uk-table uk-table-hover">
-                <tr>
-                    <td>icons</td>
-                    <td>
-                        <div class="row-song-number">
-                            1
+        <div class="uk-width-medium-3-4 uk-width-large-5-6">
+            <ul class="uk-grid uk-grid-divider">
+                <li class="uk-width-1-1">
+                    <div class="uk-panel">
+                        <div id="artist-img">
+                            <img src="">
                         </div>
-                    </td>
-                    <td>
-                        <div class="row-song-title">
-                            The new year
+                        <div id="artist-albums">
+                            <!--Carousel? Or simply a scrollable container-->
+                            <span>ALBUM 1 IMG</span>
+                            <span>ALBUM 2 IMG</span>
                         </div>
-                    </td>
-                    <td>icons</td>
-                    <td>
-                        <div class="row-song-length">
-                            4:06
+                    </div>
+                </li>
+                <hr class="uk-width-1-1 uk-grid-divider">
+                <li id="album-info" class="uk-width-1-1">
+                    <div class="uk-panel">
+                        <div id="top-album-info">
+                            <div class="album-name"><h4>Transatlanticism</h4></div>
+                            <div class="album-date">2003</div>
+                            <div class="album-tags">Rock alternatif, indie pop, indie rock</div>
+                            <div id="album-rating" class="album-star-rating">X X X X X</div>
                         </div>
-                    </td>
-                    <td>icons</td>
-                </tr>
+                        <div id="album-content">
+                            <table class="uk-table uk-table-hover">
+                                <tr>
+                                    <td>icons</td>
+                                    <td>
+                                        <div class="row-song-number">
+                                            1
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="row-song-title">
+                                            The new year
+                                        </div>
+                                    </td>
+                                    <td>icons</td>
+                                    <td>
+                                        <div class="row-song-length">
+                                            4:06
+                                        </div>
+                                    </td>
+                                    <td>icons</td>
+                                </tr>
 
-                <tr>
-                    <td>icons</td>
-                    <td>
-                        <div class="row-song-number">
-                            2
-                        </div>
-                    </td>
-                    <td>
-                        <div class="row-song-title">
-                            Song 2
-                        </div>
-                    </td>
-                    <td>icons</td>
-                    <td>
-                        <div class="row-song-length">
-                            4:06
-                        </div>
-                    </td>
-                    <td>icons</td>
-                </tr>
+                                <tr>
+                                    <td>icons</td>
+                                    <td>
+                                        <div class="row-song-number">
+                                            2
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="row-song-title">
+                                            Song 2
+                                        </div>
+                                    </td>
+                                    <td>icons</td>
+                                    <td>
+                                        <div class="row-song-length">
+                                            4:06
+                                        </div>
+                                    </td>
+                                    <td>icons</td>
+                                </tr>
 
-                <tr>
-                    <td>icons</td>
-                    <td>
-                        <div class="row-song-number">
-                            3
+                                <tr>
+                                    <td>icons</td>
+                                    <td>
+                                        <div class="row-song-number">
+                                            3
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="row-song-title">
+                                            Song 3
+                                        </div>
+                                    </td>
+                                    <td>icons</td>
+                                    <td>
+                                        <div class="row-song-length">
+                                            4:06
+                                        </div>
+                                    </td>
+                                    <td>icons</td>
+                                </tr>
+                            </table>
                         </div>
-                    </td>
-                    <td>
-                        <div class="row-song-title">
-                            Song 3
-                        </div>
-                    </td>
-                    <td>icons</td>
-                    <td>
-                        <div class="row-song-length">
-                            4:06
-                        </div>
-                    </td>
-                    <td>icons</td>
-                </tr>
-            </table>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
-
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="js/libs/uikit/uikit.min.js"></script>
 </body>
