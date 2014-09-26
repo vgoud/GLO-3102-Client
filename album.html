@@ -47,62 +47,62 @@
         </div>
     </nav>
 </div>
-
+<div class="uk-container uk-container-center">
+    <div class="uk-panel uk-panel-box">
+        <ul class="uk-breadcrumb">
+            <li><a href="#">Accueil</a></li>
+            <li><a href="#">Albums</a></li>
+            <li><a href="#">Recherche</a></li>
+            <li><span>Transatlanticism</span></li>
+        </ul>
+    </div>
+</div>
 <div class="uk-container uk-container-center">
     <div id="album-page" class="uk-grid uk-grid-small" data-uk-grid-match>
-        <div class="uk-width-medium-3-4 uk-push-1-4 uk-width-large-5-6">
+        <div id="search-results-container" class="uk-width-medium-1-4 uk-width-large-1-6">
+            <div class="uk-panel uk-panel-box">
+                <div id="artist-img2" class="uk-hidden-small">
+                    <img src="_resources/DeathCab_SMALL.jpg">
+                </div>
+                <h2 id="artist-name" class="uk-panel-title uk-text-center">Death Cab for Cutie</h2>
+            </div>
+            <div class="uk-panel uk-panel-box uk-panel-header uk-hidden-small">
+                <div id="search-title" class="uk-panel-title uk-text-center"><h3>Artistes similaires</h3></div>
+                <div class="search-album uk-panel uk-panel-box">
+                    <img src="_resources/PostalService_cover300dpi.jpg">
+                </div>
+                <div class="search-album uk-panel uk-panel-box">
+                    <img src="_resources/IronAndWine_OurEndlessNumberedDays.jpg">
+                </div>
+            </div>
+        </div>
+        <div class="uk-width-medium-3-4 uk-width-large-5-6">
             <ul class="uk-grid" data-uk-grid-margin>
-                <li class="uk-width-1-1 uk-hidden-small">
-                    <div class="uk-grid uk-grid-small">
-                        <div class="uk-width-medium-1-3">
-                            <div uk-panel uk-panel-box>
-                                <div id="artist-img">
-                                    <img src="_resources/DeathCab_SMALL.jpg">
+                <div class="uk-margin uk-width-1-1">
+                    <li id="album-info">
+                        <div class="uk-grid uk-grid-small">
+                            <div class="uk-width-medium-1-3">
+                                <div id="album-cover" class="uk-panel uk-panel-box">
+                                    <img src="_resources/Transatlanticism.jpg">
+                                </div>
+                            </div>
+                            <div class="uk-width-medium-2-3">
+                                <div id="top-album-info" class="uk-panel uk-panel-box uk-panel-header">
+                                    <div class="uk-grid uk-grid-small uk-grid-divider">
+                                        <div class="uk-width-1-1 uk-panel uk-panel-box">
+                                            <h1 class="uk-heading-large">Transatlanticism</h1>
+                                        </div>
+                                        <div class="uk-width-1-1 uk-panel uk-panel-box">
+                                            <h3 class="album-date">2003</h3>
+                                            <div class="album-tags">Rock alternatif, indie pop, indie rock</div>
+                                            <!--<div id="album-rating" class="album-star-rating">X X X X X</div>-->
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="uk-width-medium-2-3">
-                            <ul class="uk-grid uk-grid-small" data-uk-grid-margin>
-                                <li class="uk-width-1-3">
-                                    <div class="uk-panel">
-                                        <img src="_resources/death-cab-for-cutie-codes-and-keys-album-cover.jpg">
-                                    </div>
-                                </li>
-                                <li class="uk-width-1-3">
-                                    <div class="uk-panel">
-                                        <img src="_resources/Death_Cab_For_Cutie-We_Have_the_Facts_and_Were_Voting_Yes.jpg">
-                                    </div>
-                                </li>
-                                <li class="uk-width-1-3">
-                                    <div class="uk-panel">
-                                        <img src="_resources/Transatlanticism.jpg">
-                                    </div>
-                                </li>
-                                <li class="uk-width-1-3">
-                                    <div class="uk-panel">
-                                        <img src="_resources/Plans+Death+Cab+for+Cutie+2005.png">
-                                    </div>
-                                </li>
-                                <li class="uk-width-1-3">
-                                    <div class="uk-panel">
-                                        <img src="_resources/Narrow_stairs.jpg">
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-                <!--<hr class="uk-width-1-1">-->
-                <div class="uk-margin uk-width-1-1">
-                    <li id="album-info">
                         <div class="uk-panel uk-panel-box">
-                            <div id="top-album-info">
-                                <div class="album-name"><h2>Transatlanticism</h2></div>
-                                <div class="album-date">2003</div>
-                                <div class="album-tags">Rock alternatif, indie pop, indie rock</div>
-                                <div id="album-rating" class="album-star-rating">X X X X X</div>
-                            </div>
-                            <div id="album-content">
+                            <div id="album-content" class="uk-panel uk-panel-box">
                                 <table class="uk-table uk-table-hover">
                                     <tr>
                                         <!--td vide pour les icones-->
@@ -173,13 +173,6 @@
                     </li>
                 </div>
             </ul>
-        </div>
-        <div id="search-results-container" class="uk-width-medium-1-4 uk-pull-3-4 uk-width-large-1-6">
-            <div class="uk-panel uk-panel-box uk-panel-header uk-height-1-1">
-                <div id="search-title" class="uk-panel-title"><h3>Recherches associées</h3></div>
-                <div class="search-album">ALBUM FOUND 1</div>
-                <div class="search-album">ALBUM FOUND 2</div>
-            </div>
         </div>
     </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
