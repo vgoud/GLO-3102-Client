@@ -2,7 +2,7 @@
 @import "uikit/uikit.addons.css";
 //@import "artist.css";
 @import "animate.css";
-@import "uikit/variables.less";
+@import "variables";
 
 @skin-dark-background-color: #222222;
 @skin-dark-accent-color: #ff6600;
@@ -37,4 +37,15 @@ h1, h2, h3, h4, h5, h6, .uk-navbar-nav > li > a {
 #artist-name {
 //  color: @skin-dark-accent-color;
 //  font-weight: bold;
+}
+.button-play, .button-share {
+  visibility: hidden;
+}
+// Customization
+.uk-table-hover tbody tr:hover {
+  background: #ffffff;
+  color: @skin-dark-accent-color;
+  & .button-play, & .button-share {
+    visibility: visible;
+  }
 }
