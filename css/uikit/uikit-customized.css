@@ -2218,7 +2218,7 @@ select.uk-form-width-mini {
   width: 35px;
   height: 35px;
   border-radius: 100%;
-  background: #eeeeee;
+  background: #555555;
   line-height: 35px;
   color: #ffffff;
   font-size: 18px;
@@ -2226,14 +2226,14 @@ select.uk-form-width-mini {
 }
 .uk-icon-button:hover,
 .uk-icon-button:focus {
-  background-color: #f5f5f5;
-  color: #ffffff;
+  background-color: #555555;
+  color: #ff6600;
   text-decoration: none;
   outline: none;
 }
 .uk-icon-button:active {
   background-color: #dddddd;
-  color: #ffffff;
+  color: #ff6600;
 }
 .uk-icon-glass:before {
   content: "\f000";
