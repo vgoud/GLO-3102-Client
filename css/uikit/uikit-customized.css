@@ -862,18 +862,18 @@ iframe {
   margin: 0 -15px;
 }
 .uk-panel-box-primary {
-  background-color: #fdfdfd;
+  background-color: #ebf7fd;
   color: #2d7091;
 }
 .uk-panel-box-primary .uk-panel-title {
   color: #2d7091;
 }
 .uk-panel-box-secondary {
-  background-color: #ffffff;
-  color: #222222;
+  background-color: #555555;
+  color: #ffffff;
 }
 .uk-panel-box-secondary .uk-panel-title {
-  color: #222222;
+  color: #ffffff;
 }
 .uk-panel-header .uk-panel-title {
   padding-bottom: 10px;
