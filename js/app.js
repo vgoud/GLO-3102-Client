@@ -3,6 +3,9 @@
  */
 
 $(document).ready(function () {
+    // Inclusion of the navbar html.
+//    $("#navbar").load("menu.html");
+
     // Handlers of toggle-type play buttons in the table.
     $(".ub-button-play").click(function () {
         var $el = $(this);
