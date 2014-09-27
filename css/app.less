@@ -1,4 +1,4 @@
-@import "uikit/uikit-customized.css";
+@import "uikit-customized";
 @import "uikit/uikit.addons.css";
 //@import "artist.css";
 @import "menu.css";
@@ -8,6 +8,11 @@
 @skin-dark-background-color: #222222;
 @skin-dark-accent-color: #ff6600;
 @global-font-family: 'Oxygen', sans-serif;
+@global-font: 300 14px / 20px @global-font-family;
+@table-row-hover: white;
+@table-buttons-active: @navbar-nav-active-background;
+@ub-active-playing-song-icon: "\f028";
+@pulse-animation-scale-up-to: scale(1.3);
 
 html {
   font: 300 14px / 20px @global-font-family;
@@ -21,10 +26,12 @@ h1, h2, h3, h4, h5, h6, .uk-navbar-nav > li > a {
 #global-container {
   background: @skin-dark-background-color;
 }
+
 #logo-container {
   background: @skin-dark-background-color;
   padding: 50px;
 }
+
 #logo {
   margin: 10px;
 }
@@ -35,18 +42,147 @@ h1, h2, h3, h4, h5, h6, .uk-navbar-nav > li > a {
 #album-cover {
   max-width: 324px;
 }
+
 #artist-name {
-//  color: @skin-dark-accent-color;
-//  font-weight: bold;
+  //  color: @skin-dark-accent-color;
+  //  font-weight: bold;
 }
-.button-play, .button-share {
-  visibility: hidden;
+
+// Customization of animation pulse of animate.css.
+.animated {
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  -ms-animation-fill-mode: both;
+  -o-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 1s;
+  -moz-animation-duration: 1s;
+  -ms-animation-duration: 1s;
+  -o-animation-duration: 1s;
+  animation-duration: 1s;
 }
-// Customization
-.uk-table-hover tbody tr:hover {
-  background: #ffffff;
-  color: @skin-dark-accent-color;
-  & .button-play, & .button-share {
-    visibility: visible;
+.animated.hinge {
+  -webkit-animation-duration: 1s;
+  -moz-animation-duration: 1s;
+  -ms-animation-duration: 1s;
+  -o-animation-duration: 1s;
+  animation-duration: 1s;
+}
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-transform: scale(1);
+  }
+  50% {
+    -webkit-transform: @pulse-animation-scale-up-to;
+  }
+  100% {
+    -webkit-transform: scale(1);
+  }
+}
+@-moz-keyframes pulse {
+  0% {
+    -moz-transform: scale(1);
+  }
+  50% {
+    -moz-transform: @pulse-animation-scale-up-to;
+  }
+  100% {
+    -moz-transform: scale(1);
+  }
+}
+@-o-keyframes pulse {
+  0% {
+    -o-transform: scale(1);
+  }
+  50% {
+    -o-transform: @pulse-animation-scale-up-to;
+  }
+  100% {
+    -o-transform: scale(1);
+  }
+}
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: @pulse-animation-scale-up-to;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.pulse {
+  -webkit-animation-name: pulse;
+  -moz-animation-name: pulse;
+  -o-animation-name: pulse;
+  animation-name: pulse;
+}
+
+// Sets playing song's icon.
+#ub-active-icon {
+  // Less mixin that can be included in another block.
+  .ub-button-play.ub-active::before {
+    font-family: FontAwesome;
+//    font-size: 20px;
+    content: @ub-active-playing-song-icon;
+    color: @skin-dark-accent-color;
+  }
+}
+
+// Customization of uikit table
+.uk-table tr {
+  height: 48px;
+  td {
+    vertical-align: middle;
+  }
+}
+
+.uk-table thead {
+  font-size: 18px;
+  tr:first-child {
+    // Line bellow the table header
+    border-bottom: solid 1px @skin-dark-accent-color;
+  }
+}
+
+.uk-table-hover tbody tr {
+  .ub-button {
+    background: transparent;
+    color: #ffffff;
+    &.ub-button-share::before {
+      content: none;
+    }
+  }
+  .ub-button-play {
+    &::before {
+      font: @global-font;
+      content: attr(data-track-number);
+    }
+  }
+  #ub-active-icon();
+  &:hover {
+    background: @table-row-hover;
+    color: @skin-dark-accent-color;
+    .ub-button-play::before {
+      content: "\f04b";
+      font-family: FontAwesome;
+    }
+    #ub-active-icon();
+    .ub-button-share::before {
+      content: "\f064";
+      font-family: FontAwesome;
+    }
+    .ub-button-play, .ub-button-share {
+      border-bottom: solid 2px #ffffff;
+      background-color: #ffffff;
+      color: @skin-dark-accent-color;
+      &:hover {
+        border-bottom: solid 2px @skin-dark-accent-color;
+      }
+      &.ub-active:active {
+        background-color: @table-buttons-active;
+      }
+    }
   }
 }
