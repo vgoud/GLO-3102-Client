@@ -2,14 +2,14 @@
 
 #nav { position:fixed; left:0; top:0; width:100%; height:50px; background-color:#005599; }
 */
-#album-list .album { float:left; width:140px; height:140px; margin:5px; }
-#album-list .album.artist { width:290px; height:290px; }
-
+#album-list .album-thumbnail { float:left; width:140px; height:140px; margin:5px; }
+#album-list .album-thumbnail.artist { width:290px; height:290px; }
+/*
 #top-tracks-section { height: 300px; background-color: #343434; color: white;}
 
 #artist-name { width: 50%; float: left; font-size: 20px;}
 #artist-star-rating { width: 50%; float: right; text-align: right;}
-
+*/
 #top-tracks-title { padding-top: 30px; padding-bottom: 10px;}
 
 #track-list { display: table; width: 100%}

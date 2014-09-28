@@ -7,7 +7,7 @@
 
 @skin-dark-background-color: #222222;
 @skin-dark-accent-color: #ff6600;
-@global-font-family: 'Oxygen', sans-serif;
+@global-font-family: 'ProximaNovaThin', sans-serif;
 @global-font: 300 14px / 20px @global-font-family;
 @table-row-hover: white;
 @table-buttons-active: @navbar-nav-active-background;
@@ -199,4 +199,49 @@ h1, h2, h3, h4, h5, h6, .uk-navbar-nav > li > a {
       }
     }
   }
+}
+
+// Star rating
+.artist-star-rating {
+  color: @skin-dark-accent-color;
+}
+
+// Artist.html -> albums
+#album-list-container .album-thumbnail { min-width:140px; margin:1px; }
+// Thumbnails override
+a.uk-thumbnail {
+  background-color: @skin-dark-background-color;
+  border: none;
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    outline: none;
+    & > .uk-thumbnail-caption {
+      color: @skin-dark-accent-color;
+    }
+  }
+}
+
+
+.album-list {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.artist-picture {
+  min-width: 140px;
+}
+
+.uk-table caption {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: bold;
+  text-align: left;
+  color: #ffffff;
+}
+
+.album-thumbnail-caption {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
