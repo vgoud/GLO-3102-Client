@@ -2,53 +2,260 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='http://fonts.googleapis.com/css?family=Sintony' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Play' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Oxygen:400,300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Oxygen+Mono' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet/less" type="text/css" href="css/app.less"/>
+    <script src="js/libs/less-1.7.5.min.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="css/artist.css" />
     <title>ARTIST PAGE</title>
 </head>
 <body>
-<div id="nav"></div>
-<div style="float:left; width:15%; height:100%; background-color:#333333;"></div>
-<div style="float: left; width:85%; height: 100%;">
-    <div id="artist-top-bar">
-        <div id="artist"></div>
-        <div id="album-list">
-            <img class="album artist" src="_resources/DeathCab_SMALL.jpg" />
-            <img class="album" src="_resources/Transatlanticism.jpg" />
-            <img class="album" src="_resources/PostalService_cover300dpi.jpg" />
-            <img class="album" src="_resources/Plans+Death+Cab+for+Cutie+2005.png" />
-            <img class="album" src="_resources/Narrow_stairs.jpg" />
-            <div style="clear:both;"></div>
+<div id="navbar" class="uk-margin" data-uk-sticky>
+    <nav class="uk-navbar">
+        <div class="uk-container uk-container-center">
+            <a href="#" class="uk-navbar-brand">
+                <img src="_resources/ubeat_logo.svg" width="62px">
+            </a>
+            <ul class="uk-navbar-nav">
+                <li class="uk-hidden-small"><a href="">Item 1</a></li>
+                <li class="uk-hidden-small"><a href="">Item 2</a></li>
+                <li class="uk-parent" data-uk-dropdown="">
+                    <a href="">Parent</a>
+
+                    <div class="uk-dropdown uk-dropdown-navbar">
+                        <ul class="uk-nav uk-nav-navbar">
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Another item</a></li>
+                            <li class="uk-nav-header">Header</li>
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Another item</a></li>
+                            <li class="uk-nav-divider"></li>
+                            <li><a href="#">Separated item</a></li>
+                        </ul>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="uk-container uk-container-center">
+    <div class="uk-panel uk-panel-box">
+        <ul class="uk-breadcrumb">
+            <li><a href="#">Accueil</a></li>
+            <li><a href="#">Artists</a></li>
+            <li><span>Death Cab For Cutie</span></li>
+        </ul>
+    </div>
+</div>
+
+<div class="uk-container uk-container-center">
+    <div id="artist-page" class="uk-grid uk-grid-small" data-uk-grid-match>
+        <div id="search-results-container" class="uk-width-medium-1-4 uk-width-large-1-6">
+            <div class="uk-panel uk-panel-box uk-panel-header uk-hidden-small">
+                <div id="search-title" class="uk-panel-title uk-text-center"><h3>Artistes similaires</h3></div>
+                <div class="search-album uk-panel uk-panel-box">
+                    <img src="_resources/PostalService_cover300dpi.jpg">
+                </div>
+                <div class="search-album uk-panel uk-panel-box">
+                    <img src="_resources/IronAndWine_OurEndlessNumberedDays.jpg">
+                </div>
+            </div>
+        </div>
+        <div class="uk-width-medium-3-4 uk-width-large-5-6">
+            <div id="artist-top-bar">
+                <div id="artist"></div>
+                <div id="album-list">
+                    <img class="album artist" src="_resources/DeathCab_SMALL.jpg" />
+                    <img class="album" src="_resources/Transatlanticism.jpg" />
+                    <img class="album" src="_resources/PostalService_cover300dpi.jpg" />
+                    <img class="album" src="_resources/Plans+Death+Cab+for+Cutie+2005.png" />
+                    <img class="album" src="_resources/Narrow_stairs.jpg" />
+                    <div style="clear:both;"></div>
+                </div>
+            </div>
+            <div id="top-tracks-section">
+                <div id="album-info">
+                    <div id="artist-name">Death Cab for Cutie</div>
+                    <div id="artist-star-rating">X X X X X</div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="uk-panel uk-panel-box">
+                    <div id="album-content" class="uk-panel uk-panel-box">
+                        <table class="uk-table uk-table-hover">
+                            <thead>
+                            <tr>
+                                <!--<th></th>-->
+                                <th>#</th>
+                                <th>Titre</th>
+                                <th></th>
+                                <th><i class="uk-icon-clock-o"></i></th>
+                                <!--<th></th>-->
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="uk-width-1-6">
+                                    <button
+                                            class="ub-button ub-button-play uk-button uk-button-small"
+                                            type="button"
+                                            data-track-number="1"
+                                            data-icon="uk-icon-play">
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="row-song-title">
+                                        The new year
+                                    </div>
+                                </td>
+                                <td class="uk-width-1-6">
+                                    <button
+                                            class="ub-button ub-button-share uk-button uk-button-small"
+                                            type="button"
+                                            data-icon="uk-icon-share">
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="row-song-length">
+                                        4:06
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="uk-width-1-6">
+                                    <button
+                                            class="ub-button ub-button-play uk-button uk-button-small"
+                                            type="button"
+                                            data-track-number="2"
+                                            data-icon="uk-icon-play">
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="row-song-title">
+                                        Lightness
+                                    </div>
+                                </td>
+                                <td class="uk-width-1-6">
+                                    <button
+                                            class="ub-button ub-button-share uk-button uk-button-small"
+                                            type="button"
+                                            data-icon="uk-icon-share">
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="row-song-length">
+                                        3:30
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="uk-width-1-6">
+                                    <button
+                                            class="ub-button ub-button-play uk-button uk-button-small"
+                                            type="button"
+                                            data-track-number="3"
+                                            data-icon="uk-icon-play">
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="row-song-title">
+                                        Title and Registration
+                                    </div>
+                                </td>
+                                <td class="uk-width-1-6">
+                                    <button
+                                            class="ub-button ub-button-share uk-button uk-button-small"
+                                            type="button"
+                                            data-icon="uk-icon-share">
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="row-song-length">
+                                        3:39
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="uk-width-1-6">
+                                    <button
+                                            class="ub-button ub-button-play uk-button uk-button-small"
+                                            type="button"
+                                            data-track-number="4"
+                                            data-icon="uk-icon-play">
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="row-song-title">
+                                        Expo '86
+                                    </div>
+                                </td>
+                                <td class="uk-width-1-6">
+                                    <button
+                                            class="ub-button ub-button-share uk-button uk-button-small"
+                                            type="button"
+                                            data-icon="uk-icon-share">
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="row-song-length">
+                                        4:11
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="uk-width-1-6">
+                                    <button
+                                            class="ub-button ub-button-play uk-button uk-button-small"
+                                            type="button"
+                                            data-track-number="5"
+                                            data-icon="uk-icon-play">
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="row-song-title">
+                                        The Sound of Settling
+                                    </div>
+                                </td>
+                                <td class="uk-width-1-6">
+                                    <button
+                                            class="ub-button ub-button-share uk-button uk-button-small"
+                                            type="button"
+                                            data-icon="uk-icon-share">
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="row-song-length">
+                                        2:12
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="artist-description">
+                    <p>Death Cab for Cutie is an American alternative rock band formed in Bellingham, Washington, in 1997.[6] The band comprises Ben Gibbard (vocals, guitar, piano), Nick Harmer (bass) and Jason McGerr (drums). Death Cab for Cutie's music has been labeled as indie rock, indie pop, emo, and alternative rock, and is noted for its use of unconventional instruments as well as Gibbard's unique lyrical style. The band has released seven studio albums, five EPs, and one demo to date. The group takes its name from a song by the Bonzo Dog Doo-Dah Band featured in the Beatles' 1967 film, Magical Mystery Tour. <br><br>
+                        Gibbard's first album, You Can Play These Songs with Chords, was released as a demo, leading to a record deal with Barsuk Records.[7] It was at this time that Gibbard decided to expand the project into a complete band, and recruited band members to join. In 1998 the band released its debut album, Something About Airplanes, followed by We Have the Facts and We're Voting Yes in 2000; both records were positively received in the indie community. Lineup changes ensued both before and after the release of the The Photo Album (2001), and the group's album Transatlanticism (2003) gained the band commercial success. After signing with Atlantic Records, Death Cab For Cutie released Plans in 2005, which contained the singles "Soul Meets Body" and "Crooked Teeth". The 2008 record Narrow Stairs served as a stylistic departure for the group. The band released their seventh album, Codes and Keys, on May 31, 2011.<br><br>
+                        In 2014, founding guitarist and producer Chris Walla announced that he would be departing from the band after recording their forthcoming eighth studio album.
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
-    <div id="top-tracks-section">
-        <div id="album-info">
-            <div id="artist-name">Death Cab for Cutie</div>
-            <div id="artist-star-rating">X X X X X</div>
-            <div style="clear:both;"></div>
-        </div>
-        <div id="top-tracks-title">Top tracks</div>
-        <div id="track-list">
-            <div class="track-list-row">
-                <div class="track-icon">|||</div>
-                <div class="track-number">1</div>
-                <div class="track-name">The New Year</div>
-                <div class="track-time">4:06</div>
-            </div>
-            <div class="track-list-row">
-                <div class="track-icon">|||</div>
-                <div class="track-number">2</div>
-                <div class="track-name">Lightness</div>
-                <div class="track-time">3:30</div>
-            </div>
-        </div>
-        <div id="artist-description">
-            <p>Death Cab for Cutie is an American alternative rock band formed in Bellingham, Washington, in 1997.[6] The band comprises Ben Gibbard (vocals, guitar, piano), Nick Harmer (bass) and Jason McGerr (drums). Death Cab for Cutie's music has been labeled as indie rock, indie pop, emo, and alternative rock, and is noted for its use of unconventional instruments as well as Gibbard's unique lyrical style. The band has released seven studio albums, five EPs, and one demo to date. The group takes its name from a song by the Bonzo Dog Doo-Dah Band featured in the Beatles' 1967 film, Magical Mystery Tour. <br><br>
-                Gibbard's first album, You Can Play These Songs with Chords, was released as a demo, leading to a record deal with Barsuk Records.[7] It was at this time that Gibbard decided to expand the project into a complete band, and recruited band members to join. In 1998 the band released its debut album, Something About Airplanes, followed by We Have the Facts and We're Voting Yes in 2000; both records were positively received in the indie community. Lineup changes ensued both before and after the release of the The Photo Album (2001), and the group's album Transatlanticism (2003) gained the band commercial success. After signing with Atlantic Records, Death Cab For Cutie released Plans in 2005, which contained the singles "Soul Meets Body" and "Crooked Teeth". The 2008 record Narrow Stairs served as a stylistic departure for the group. The band released their seventh album, Codes and Keys, on May 31, 2011.<br><br>
-                In 2014, founding guitarist and producer Chris Walla announced that he would be departing from the band after recording their forthcoming eighth studio album.
-            </p>
-        </div>
-    </div>
-    <div style="clear:both;"></div>
 </div>
 </body>
 </html>
