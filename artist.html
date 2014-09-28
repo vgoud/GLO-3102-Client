@@ -6,39 +6,38 @@
     <title>ARTIST PAGE</title>
 </head>
 <body>
-<div id="nav">
-    <div id="search-results-container">
-        <div id="search-title">Recherches associées</div>
-        <div class="search-album">ALBUM FOUND 1<br><br><br><br><br><br></div>
-        <div class="search-album">ALBUM FOUND 2<br><br><br><br><br><br></div>
-    </div>
-    <div id="nav-right">
-        <div id="top-bar">
-            <div id="artist-picture"><img src="_resources/DeathCab_SMALL.jpg"></div>
-            <div id="artist-albums">
-                <span style='background-image:url("_resources/Transatlanticism.jpg")'></span>
-                <span style='background-image:url("_resources/PostalService_cover300dpi.jpg")'></span>
-                <span style='background-image:url("_resources/Plans+Death+Cab+for+Cutie+2005.png")'></span>
-                <span style='background-image:url("_resources/Narrow_stairs.jpg")'></span>
-            </div>
+<div id="nav"></div>
+<div style="float:left; width:20%; height:100%; background-color:#333333;"></div>
+<div style="float: left; width:80%; height: 100%;">
+    <div id="artist-top-bar">
+        <div id="artist"></div>
+        <div id="album-list">
+            <img class="album artist" src="_resources/DeathCab_SMALL.jpg" />
+            <img class="album" src="_resources/Transatlanticism.jpg" />
+            <img class="album" src="_resources/PostalService_cover300dpi.jpg" />
+            <img class="album" src="_resources/Plans+Death+Cab+for+Cutie+2005.png" />
+            <img class="album" src="_resources/Narrow_stairs.jpg" />
+            <div style="clear:both;"></div>
         </div>
-        <div id="top-tracks-section">
+    </div>
+    <div id="top-tracks-section">
+        <div id="album-info">
             <div id="artist-name">Death Cab for Cutie</div>
             <div id="artist-star-rating">X X X X X</div>
-            <ul id="track-list">
-                <li class="track-1">
-                    <span id="track-icon">|||</span>
-                    <span id="track-number">1</span>
-                    <span id="track-name">The New Year</span>
-                    <span id="track-time">4:06</span>
-                </li>
-                <li class="track-2">
-                    <span id="track-icon">|||</span>
-                    <span id="track-number">2</span>
-                    <span id="track-name">Lightness</span>
-                    <span id="track-time">3:30</span>
-                </li>
-            </ul>
+        </div>
+        <div id="track-list">
+            <div class="track-list-row">
+                <div class="track-icon">|||</div>
+                <div class="track-number">1</div>
+                <div class="track-name">The New Year</div>
+                <div class="track-time">4:06</div>
+            </div>
+            <div class="track-list-row">
+                <div class="track-icon">|||</div>
+                <div class="track-number">2</div>
+                <div class="track-name">Lightness</div>
+                <div class="track-time">3:30</div>
+            </div>
         </div>
         <div id="artist-description">
             <p>Death Cab for Cutie is an American alternative rock band formed in Bellingham, Washington, in 1997.[6] The band comprises Ben Gibbard (vocals, guitar, piano), Nick Harmer (bass) and Jason McGerr (drums). Death Cab for Cutie's music has been labeled as indie rock, indie pop, emo, and alternative rock, and is noted for its use of unconventional instruments as well as Gibbard's unique lyrical style. The band has released seven studio albums, five EPs, and one demo to date. The group takes its name from a song by the Bonzo Dog Doo-Dah Band featured in the Beatles' 1967 film, Magical Mystery Tour. <br><br>
@@ -47,6 +46,7 @@
             </p>
         </div>
     </div>
+    <div style="clear:both;"></div>
 </div>
 </body>
 </html>

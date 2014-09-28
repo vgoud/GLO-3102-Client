@@ -1,72 +1,19 @@
-html, body { padding:0; margin:0; background-color:#000; color: white; font-family: Helvetica, Arial, sans-serif; font-size:15px; font-weight:normal; }
+html, body { height:100%; padding:0; margin:0; background-color: white;}
 
-body { padding-top:10px; }
+body { padding:50px 0 0 0; }
 
-#nav { position:fixed; top:0; left:0; width:100%; display: inline-block;}
+#nav { position:fixed; left:0; top:0; width:100%; height:50px; background-color:#005599; }
 
-#search-results-container {
-    background: white;
-    position: relative;
-    float: left;
-    top: 10px;
-    left: 10px;
-    width: 15%;
-    height: 100%;
-}
+#album-list .album { float:left; width:200px; height:200px; margin:5px; }
+#album-list .album.artist { width:410px; height:410px; }
 
-#nav-right {
-    position: relative;
-    display: block;
-}
+#artist-name { width: 50%; float: left; font-size: 16px;}
+#artist-star-rating { width: 50%; float: right; text-align: right;}
 
-#search-title {
-    position: relative;
-    color: black;
-    padding: 4px;
-}
+#track-list { display: table;}
+.track-list-row { display: table-row; }
+.track-list-row div { display: table-cell; padding: 5px 10px;}
 
-#search-results-container .search-album {
-    background: #b7d84b;
-    position: relative;
-    display: block;
-    padding: 4px;
-    min-height: 200px;
-    width: 90%;
-    height: 30%;
-}
+#top-tracks-section { height: 300px; background-color: #343434; color: white;}
 
-#top-bar {
-    display:inline-block;
-    padding-left:20px;
-}
-
-#artist-picture {
-    float:left;
-    position: relative;
-    padding: 10px;
-}
-
-#artist-albums {
-    background: black;
-    float: left;
-    padding: 10px;
-}
-
-#artist-albums span {
-    background: darkorange;
-    display: inline-block;
-    width: 200px;
-    height: 200px;
-    position: relative;
-    padding: 4px;
-    top: 0;
-    background-size: 200px;
-
-}
-
-#top-tracks-section {
-}
-
-#artist-description {
-    display: block;
-}
+#artist-description { }
