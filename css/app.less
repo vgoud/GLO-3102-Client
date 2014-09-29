@@ -242,6 +242,19 @@ a.uk-thumbnail {
 }
 
 // Search field customization.
+/* Placeholder */
+#placeholder-color {
+  color: rgba(256, 256, 256, 0.6);
+}
+.uk-search-field:-ms-input-placeholder {
+  #placeholder-color() !important;
+}
+.uk-search-field::-moz-placeholder {
+  #placeholder-color;
+}
+.uk-search-field::-webkit-input-placeholder {
+  #placeholder-color;
+}
 .uk-search:before {
   color: fade(@skin-dark-accent-color, 80%);
 //  color: @skin-dark-accent-color;
