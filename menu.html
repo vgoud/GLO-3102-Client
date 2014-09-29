@@ -26,13 +26,10 @@
 	    <ul class="uk-navbar-nav uk-visible-medium">
 	        <li class="uk-parent" data-uk-dropdown>
 	        	<a href>Menu</a>
-		        	<div class="uk-dropdown uk-dropdown-navbar"> 
-		        		<ul class="uk-nav uk-nav-navbar">
+		        	<div class="uk-dropdown uk-dropdown-navbar">
+		        		<ul class="uk-nav uk-nav-side">
 		        			<li>
 		        				<a href="#">Home</a>
-		        			</li>
-		        			<li>
-		        				<a href="#">My playlists</a>
 		        			</li>
 		        			<li class="uk-nav-divider"></li>
 		        			<li>
@@ -49,6 +46,29 @@
 	    <ul class="uk-navbar-nav uk-visible-small">
 	        <li class="uk-parent" data-uk-dropdown>
 	        	<a href>Menu</a>
+                <div class="uk-dropdown uk-dropdown-navbar">
+                    <ul class="uk-nav uk-nav-navbar">
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li>
+                            <a href="#">My playlists</a>
+                        </li>
+                        <li class="uk-nav-divider"></li>
+                        <li>
+                            <a href="#">Preferences</a>
+                        </li>
+                        <li>
+                            <a href="#">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+	        </li>
+	    </ul>
+	    <div class="uk-navbar-content uk-vertical-align">
+            <form class="uk-search">
+                <input id="mobile_searchfieldnavbar" class="uk-search-field" type="search"  placeholder="Search...">
+            </form>
 		        	<div class="uk-dropdown uk-dropdown-navbar"> 
 		        		<ul class="uk-nav uk-nav-navbar">
 		        			<li>
@@ -75,14 +95,9 @@
 		        	</div>
 	        </li>
 	    </ul>
-
-
-	    <div class="uk-navbar-content uk-vertical-align uk-hidden-small">
-			<form class="uk-form uk-margin-remove uk-display-inline-block uk-vertical-align-middle">
-				<input id="search_field" type="text" placeholder="Search...">
-				<button class="uk-button uk-button-primary">Search</button>
-			</form>
 	    </div>
+
+        <a href="#playlist" class="uk-navbar-toggle uk-hidden-large" data-uk-offcanvas></a>
 
         <div class="uk-navbar-flip uk-visible-large">
             <ul class="uk-navbar-nav">
@@ -107,6 +122,7 @@
         </div>
 	</nav>
 
+
     <!-- This is the off-canvas sidebar -->
     <div id="playlist" class="uk-offcanvas">
         <div class="uk-offcanvas-bar">
@@ -116,30 +132,58 @@
                     <li>
                         <a href="#">Playlist 1</a>
                     </li>
-                    <li>Playlist 2</li>
-                    <li>Playlist 3</li>
-                    <li>Playlist 4</li>
-                    <li>Playlist 5</li>
+                    <li>
+                        <a href="#">Playlist 2</a>
+                    </li>
+                    <li>
+                        <a href="#">Playlist 3</a>
+                    </li>
+                    <li>
+                        <a href="#">Playlist 4</a>
+                    </li>
+                    <li>
+                        <a href="#">Playlist 5</a>
+                    </li>
                 </ul>
             </div>
             <div class="uk-panel">
                 <span>Your playlists</span>
                 <ul class="uk-list-striped">
-                    <li>Playlist 1</li>
-                    <li>Playlist 2</li>
-                    <li>Playlist 3</li>
-                    <li>Playlist 4</li>
-                    <li>Playlist 5</li>
+                    <li>
+                        <a href="#">Playlist 1</a>
+                    </li>
+                    <li>
+                        <a href="#">Playlist 2</a>
+                    </li>
+                    <li>
+                        <a href="#">Playlist 3</a>
+                    </li>
+                    <li>
+                        <a href="#">Playlist 4</a>
+                    </li>
+                    <li>
+                        <a href="#">Playlist 5</a>
+                    </li>
                 </ul>
             </div>
             <div class="uk-panel">
                 <span>Your friend's playlists</span>
                 <ul class="uk-list-striped">
-                    <li>Playlist 1</li>
-                    <li>Playlist 2</li>
-                    <li>Playlist 3</li>
-                    <li>Playlist 4</li>
-                    <li>Playlist 5</li>
+                    <li>
+                        <a href="#">Playlist 1</a>
+                    </li>
+                    <li>
+                        <a href="#">Playlist 2</a>
+                    </li>
+                    <li>
+                        <a href="#">Playlist 3</a>
+                    </li>
+                    <li>
+                        <a href="#">Playlist 4</a>
+                    </li>
+                    <li>
+                        <a href="#">Playlist 5</a>
+                    </li>
                 </ul>
             </div>
         </div>
