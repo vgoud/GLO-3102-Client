@@ -1,6 +1,5 @@
 @import "uikit-customized";
 @import "uikit/uikit.addons.css";
-//@import "artist.css";
 @import "menu.css";
 @import "animate.css";
 @import "variables";
@@ -12,7 +11,7 @@
 @table-row-hover: white;
 @table-buttons-active: @navbar-nav-active-background;
 @ub-active-playing-song-icon: "\f028";
-@pulse-animation-scale-up-to: scale(1.3);
+@pulse-animation-scale-up-to: scale(1.5);
 
 html {
   font: 300 14px / 20px @global-font-family;
@@ -188,12 +187,8 @@ h1, h2, h3, h4, h5, h6, .uk-navbar-nav > li > a {
       font-family: FontAwesome;
     }
     .ub-button-play, .ub-button-share {
-      border-bottom: solid 2px #ffffff;
       background-color: #ffffff;
       color: @skin-dark-accent-color;
-      &:hover {
-        border-bottom: solid 2px @skin-dark-accent-color;
-      }
       &.ub-active:active {
         background-color: @table-buttons-active;
       }
@@ -244,4 +239,10 @@ a.uk-thumbnail {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+// Search field customization.
+.uk-search:before {
+  color: fade(@skin-dark-accent-color, 80%);
+//  color: @skin-dark-accent-color;
 }
