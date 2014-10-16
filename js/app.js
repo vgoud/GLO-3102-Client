@@ -4,18 +4,20 @@
 
 $(document).ready(function () {
 
-    var token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI1NDNiZmJhNWQ1MDEyZmQ0MGRjMzlhMGMiLCJleHAiOjE0MTM0OTEyMzY0NDR9.w2msrDhI90_pmGO-_DfugqZNOP0en7EqADFhmIfVtZA";
+//    var token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI1NDNiZmJhNWQ1MDEyZmQ0MGRjMzlhMGMiLCJleHAiOjE0MTM0OTEyMzY0NDR9.w2msrDhI90_pmGO-_DfugqZNOP0en7EqADFhmIfVtZA";
 
-    $.ajaxSetup({
-        headers: { "Authorization": token }
-    });
+//    $.ajaxSetup({
+//        headers: { "Authorization": token }
+//    });
+
+    UBeat.albumUrl = "http://localhost:3000/unsecure/albums/718938040/tracks";
 
     UBeat.Utils.templateLoader.load(["TrackView", "TrackCollectionView"], function () {
 
         // Will become a member of the router eventually.
         UBeat.Collections.trackCollection = new UBeat.Collections.TrackCollection();
         // Hardcoded url to Transatlanticism album.
-        UBeat.Collections.trackCollection.url = "http://localhost:3000/albums/718938040/tracks";
+        UBeat.Collections.trackCollection.url = UBeat.albumUrl;
 
         UBeat.Collections.trackCollection.fetch({
             success: function (coll) {
