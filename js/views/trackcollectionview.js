@@ -2,7 +2,7 @@
  * Created by Vincent on 2014-10-15.
  */
 
-window.UBeat.Views.TrackCollectionView = Backbone.View.extend({
+window.UB.Views.TrackCollectionView = Backbone.View.extend({
 
     tagName: "table",
 
@@ -20,7 +20,7 @@ window.UBeat.Views.TrackCollectionView = Backbone.View.extend({
         this.$el.html(this.template());
         _.each(this.collection.models, function(track) {
             this.$("tbody").append(
-                new UBeat.Views.TrackView({model: track}).render().el);
+                new UB.Views.TrackView({model: track}).render().el);
         });
 
         return this;

@@ -10,22 +10,22 @@ $(document).ready(function () {
 //        headers: { "Authorization": token }
 //    });
 
-    UBeat.albumUrl = "http://localhost:3000/unsecure/albums/718938040/tracks";
+    UB.albumUrl = "http://localhost:3000/unsecure/albums/718938040/tracks";
 
-    UBeat.Utils.templateLoader.load(["TrackView", "TrackCollectionView"], function () {
+    UB.Utils.templateLoader.load(["TrackView", "TrackCollectionView"], function () {
 
         // Will become a member of the router eventually.
-        UBeat.Collections.trackCollection = new UBeat.Collections.TrackCollection();
+        UB.Collections.trackCollection = new UB.Collections.TrackCollection();
         // Hardcoded url to Transatlanticism album.
-        UBeat.Collections.trackCollection.url = UBeat.albumUrl;
+        UB.Collections.trackCollection.url = UB.albumUrl;
 
-        UBeat.Collections.trackCollection.fetch({
+        UB.Collections.trackCollection.fetch({
             success: function (coll) {
                 console.log("Track collection fetched sucessfully.");
-                UBeat.Views.trackCollectionView = new UBeat.Views.TrackCollectionView({
-                    collection: UBeat.Collections.trackCollection
+                UB.Views.trackCollectionView = new UB.Views.TrackCollectionView({
+                    collection: UB.Collections.trackCollection
                 });
-                $("#album-content").html(UBeat.Views.trackCollectionView.render().el);
+                $("#album-content").html(UB.Views.trackCollectionView.render().el);
             },
             error: function(coll) {
                 console.log("Track collection cannot fetch data.");

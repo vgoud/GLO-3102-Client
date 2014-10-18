@@ -5,9 +5,9 @@
 // Namespace declaration. Probably not the best way around.
 // TODO : refactor this.
 
-window.UBeat = window.UBeat || {};
-window.UBeat.Views = window.UBeat.Views || {};
-window.UBeat.Models = window.UBeat.Models || {};
-window.UBeat.Collections = window.UBeat.Collections || {};
-window.UBeat.Routers = window.UBeat.Routers || {};
-window.UBeat.Utils = window.UBeat.Utils || {};
+window.UB = window.UB || {};
+window.UB.Views = window.UB.Views || {};
+window.UB.Models = window.UB.Models || {};
+window.UB.Collections = window.UB.Collections || {};
+window.UB.Routers = window.UB.Routers || {};
+window.UB.Utils = window.UB.Utils || {};

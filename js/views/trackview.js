@@ -2,7 +2,7 @@
  * Created by Vincent on 2014-10-15.
  */
 
-window.UBeat.Views.TrackView = Backbone.View.extend({
+window.UB.Views.TrackView = Backbone.View.extend({
 
     tagName: "tr",
 
@@ -11,7 +11,7 @@ window.UBeat.Views.TrackView = Backbone.View.extend({
 
         // Format time in milliseconds to be human readable,
         // in a new attribute trackDuration.
-        var duration = UBeat.Utils.convertMsToTime(this.model.get("trackTimeMillis"));
+        var duration = UB.Utils.convertMsToTime(this.model.get("trackTimeMillis"));
         this.model.set("trackDuration", duration.minutes + ":" + duration.seconds);
     },
 

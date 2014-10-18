@@ -3,7 +3,7 @@
  * Source : https://coderwall.com/p/wkdefg
  */
 
-window.UBeat.Utils.convertMsToTime = function(duration) {
+window.UB.Utils.convertMsToTime = function(duration) {
     var milliseconds = parseInt((duration%1000)/100)
         , seconds = parseInt((duration/1000)%60)
         , minutes = parseInt((duration/(1000*60))%60)

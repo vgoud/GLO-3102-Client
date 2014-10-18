@@ -2,7 +2,7 @@
  * Created by Vincent on 2014-10-15.
  */
 
-window.UBeat.Models.TrackModel = Backbone.Model.extend({
+window.UB.Models.TrackModel = Backbone.Model.extend({
     defaults: {
         trackNumber: "n/d",
         trackTimeMillis: "n/d",

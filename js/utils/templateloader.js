@@ -7,18 +7,18 @@
  * Simple template loader.
  * @type {{load: load}}
  */
-window.UBeat.Utils.templateLoader = {
+window.UB.Utils.templateLoader = {
 
     load: function(templates, callback) {
         var deferredTemplates = [];
 
         $.each(templates, function(index, tpl) {
-            if (window.UBeat.Views[tpl]) {
+            if (window.UB.Views[tpl]) {
                 // Get the html from the template .html file.
                 deferredTemplates.push($.get('tpl/' + tpl + '.html', function(data) {
                     // Compile template on successful load
                     // and add the template function to the view object.
-                    window.UBeat.Views[tpl].prototype.template = _.template(data);
+                    window.UB.Views[tpl].prototype.template = _.template(data);
                 }, 'html'));
             } else {
                 console.log(tpl + " not found.");
