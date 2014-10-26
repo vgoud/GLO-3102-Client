@@ -5,6 +5,9 @@
 
 /**
  * Simple template loader.
+ *
+ * Template file MUST have the same name as the corresponding view file.
+ *
  * @type {{load: load}}
  */
 window.UB.Utils.templateLoader = {
