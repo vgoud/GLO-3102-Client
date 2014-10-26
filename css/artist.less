@@ -1,0 +1,37 @@
+@import "variables";
+
+// Star rating
+.artist-star-rating {
+  color: @skin-dark-accent-color;
+}
+
+// Artist.html -> albums
+#album-list-container .album-thumbnail { min-width:140px; margin:1px; }
+// Thumbnails override
+a.uk-thumbnail {
+  background-color: @skin-dark-background-color;
+  border: none;
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    outline: none;
+    & > .uk-thumbnail-caption {
+      color: @skin-dark-accent-color;
+    }
+  }
+}
+
+.album-list {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.artist-picture {
+  min-width: 140px;
+}
+
+.album-thumbnail-caption {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

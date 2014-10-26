@@ -1,18 +1,21 @@
-@import "uikit-customized";
+@import "uikit/uikit-customized";
 @import "uikit/uikit.addons.css";
-@import "menu.css";
-@import "animate.css";
+@import "animate-custom";
 @import "variables";
+@import "menu.css";
+@import "album";
+@import "artist";
 
-@skin-dark-background-color: #222222;
-@skin-dark-accent-color: #ff6600;
-@global-font-family: 'Play', sans-serif;
-@global-font: 300 14px / 20px @global-font-family;
-@table-row-hover: white;
-@table-buttons-active: @navbar-nav-active-background;
-@ub-active-playing-song-icon: "\f028";
-@pulse-animation-scale-up-to: scale(1.5);
-@place-holder-color: rgba(256, 256, 256, 0.6);
+// Override for font location.
+// Because we have a uikit directory, the page was unable to load the FontAwesome font.
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url("fonts/fontawesome-webfont.eot");
+  src: url("fonts/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("fonts/fontawesome-webfont.woff") format("woff"), url("fonts/fontawesome-webfont.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
 html {
   font: 300 14px / 20px @global-font-family;
@@ -34,212 +37,6 @@ h1, h2, h3, h4, h5, h6, .uk-navbar-nav > li > a {
 
 #logo {
   margin: 10px;
-}
-
-//#artist-img2 {
-//  min-width: 200px;
-//}
-#album-cover {
-  max-width: 324px;
-}
-
-#artist-name {
-  //  color: @skin-dark-accent-color;
-  //  font-weight: bold;
-}
-
-// Customization of pulse animation from animate.css.
-.animated {
-  -webkit-animation-fill-mode: both;
-  -moz-animation-fill-mode: both;
-  -ms-animation-fill-mode: both;
-  -o-animation-fill-mode: both;
-  animation-fill-mode: both;
-  -webkit-animation-duration: 1s;
-  -moz-animation-duration: 1s;
-  -ms-animation-duration: 1s;
-  -o-animation-duration: 1s;
-  animation-duration: 1s;
-}
-
-.animated.hinge {
-  -webkit-animation-duration: 1s;
-  -moz-animation-duration: 1s;
-  -ms-animation-duration: 1s;
-  -o-animation-duration: 1s;
-  animation-duration: 1s;
-}
-
-@-webkit-keyframes pulse {
-  0% {
-    -webkit-transform: scale(1);
-  }
-  50% {
-    -webkit-transform: @pulse-animation-scale-up-to;
-  }
-  100% {
-    -webkit-transform: scale(1);
-  }
-}
-
-@-moz-keyframes pulse {
-  0% {
-    -moz-transform: scale(1);
-  }
-  50% {
-    -moz-transform: @pulse-animation-scale-up-to;
-  }
-  100% {
-    -moz-transform: scale(1);
-  }
-}
-
-@-o-keyframes pulse {
-  0% {
-    -o-transform: scale(1);
-  }
-  50% {
-    -o-transform: @pulse-animation-scale-up-to;
-  }
-  100% {
-    -o-transform: scale(1);
-  }
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: @pulse-animation-scale-up-to;
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.pulse {
-  -webkit-animation-name: pulse;
-  -moz-animation-name: pulse;
-  -o-animation-name: pulse;
-  animation-name: pulse;
-}
-
-// Style for album's release date.
-.album-release-date {
-//  font-size: 175%;
-}
-.album-price {
-  color: @skin-dark-accent-color;
-}
-
-// Sets playing song's icon.
-#ub-active-icon {
-  // Less mixin that can be included in another block.
-  .ub-button-play.ub-active::before {
-    font-family: FontAwesome;
-    //    font-size: 20px;
-    content: @ub-active-playing-song-icon;
-    color: @skin-dark-accent-color;
-  }
-}
-
-// Customization of uikit table
-.uk-table tr {
-//  height: 48px;
-  td {
-    vertical-align: middle;
-  }
-}
-
-.uk-table thead {
-  font-size: 18px;
-  tr:first-child {
-    // Line bellow the table header
-    border-bottom: solid 1px @skin-dark-accent-color;
-  }
-}
-
-.uk-table-hover tbody tr {
-  .ub-button {
-    background: transparent; // Button is not visible when not hovering.
-    color: #ffffff;
-    &.ub-button-share::before {
-      content: none;
-    }
-  }
-  .ub-button-play {
-    &::before {
-      font: @global-font;
-      content: attr(data-track-number);
-    }
-  }
-  #ub-active-icon();
-  &:hover {
-    background: @table-row-hover;
-    color: @skin-dark-accent-color;
-    .ub-button-play::before {
-      content: "\f04b";
-      font-family: FontAwesome;
-    }
-    #ub-active-icon();
-    .ub-button-share::before {
-      content: "\f064";
-      font-family: FontAwesome;
-    }
-    .ub-button-play, .ub-button-share {
-      background-color: #ffffff;
-      color: @skin-dark-accent-color;
-      &.ub-active:active {
-        background-color: @table-buttons-active;
-      }
-    }
-  }
-}
-
-// Star rating
-.artist-star-rating {
-  color: @skin-dark-accent-color;
-}
-
-// Artist.html -> albums
-#album-list-container .album-thumbnail { min-width:140px; margin:1px; }
-// Thumbnails override
-a.uk-thumbnail {
-  background-color: @skin-dark-background-color;
-  border: none;
-  &:hover,
-  &:focus {
-    text-decoration: none;
-    outline: none;
-    & > .uk-thumbnail-caption {
-      color: @skin-dark-accent-color;
-    }
-  }
-}
-
-
-.album-list {
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.artist-picture {
-  min-width: 140px;
-}
-
-.uk-table caption {
-  font-size: 20px;
-  font-style: normal;
-  font-weight: bold;
-  text-align: left;
-  color: #ffffff;
-}
-
-.album-thumbnail-caption {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 //Search field customization.
