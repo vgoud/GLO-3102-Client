@@ -9,9 +9,8 @@ window.UB.Collections.TrackCollection = Backbone.Collection.extend({
     parse: function (data) {
         console.log("Parsing track collection data from server, data received :");
         console.log(data);
-        // Remove the first item, which is the album.
+
         var tracks = data.results;
-        tracks.shift();
         return tracks;
     }
 

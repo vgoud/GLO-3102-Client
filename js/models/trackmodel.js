@@ -4,15 +4,15 @@
 
 window.UB.Models.TrackModel = Backbone.Model.extend({
     defaults: {
-        trackNumber: "n/d",
-        trackTimeMillis: "n/d",
-        previewUrl: "n/d"
+        artistName: "n/d",
+        primaryGenreName: "n/d",
+        artistLinkUrl: "n/d"
     },
 
     initialize: function() {
         this.on("sync", function(model) {
-            // Sets the id to be the trackId after a fetch.
-            model.set("id", model.get("trackId"));
+            // Sets the id to be the artistId after a fetch.
+            model.set("id", model.get("artistId"));
         })
     }
 });
