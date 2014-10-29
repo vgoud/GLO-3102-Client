@@ -4,9 +4,11 @@
 
 window.UB.Views.TrackCollectionView = Backbone.View.extend({
 
-    tagName: "table",
+    tagName: "div",
 
-    className: "uk-table uk-table-hover",
+    id: "album-tracks",
+
+    className: "uk-panel uk-panel-box",
 
     events: {
         "click .ub-button-play" : "togglePlayVolumeIcons"
