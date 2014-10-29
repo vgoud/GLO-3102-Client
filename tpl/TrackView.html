@@ -16,11 +16,19 @@
     </div>
 </td>
 <td class="uk-width-1-6">
-    <button
-            class="ub-button ub-button-share uk-button uk-button-small"
-            type="button"
-            data-icon="uk-icon-share">
-    </button>
+    <div id="track-share-button" data-uk-dropdown="{mode: 'click'}">
+        <button
+                class="ub-button ub-button-share uk-button uk-button-small"
+                type="button"
+                data-icon="uk-icon-share">
+        </button>
+        <div class="uk-dropdown uk-dropdown-flip">
+            <ul class="uk-nav uk-nav-dropdown">
+                <li><a href="#">Play</a></li>
+                <li><a href="#">Add to playlist...</a></li>
+            </ul>
+        </div>
+    </div>
 </td>
 <td>
     <div class="row-song-length">
