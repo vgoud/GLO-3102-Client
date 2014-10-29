@@ -1,0 +1,18 @@
+
+
+<div id="artist" class="uk-width-medium-1-3 uk-width-small-1-1 uk-margin-bottom">
+        <img class="artist-picture" src="<%= albums[0].artworkUrl400 %>">
+        <div class="album-thumbnail-caption uk-thumbnail-caption"><%= albums[0].artistName %></div>
+</div>
+<div id="album-list-container" class="uk-width-medium-2-3 uk-width-small-1-1">
+    <div class="album-list uk-flex uk-flex-middle uk-height-1-1">
+        <% _.each(albums, function(album) {%>
+        <a href="#<%= album.collectionId %>" class="album-thumbnail uk-thumbnail uk-thumbnail-mini">
+            <img src="<%= album.artworkUrl200 %>">
+            <div class="album-thumbnail-caption uk-thumbnail-caption"><%= album.collectionName %></div>
+        </a>
+        <% }); %>
+    </div>
+</div>
+
+
