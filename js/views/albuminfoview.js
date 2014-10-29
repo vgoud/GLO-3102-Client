@@ -11,12 +11,7 @@ window.UB.Views.AlbumInfoView = Backbone.View.extend({
     className: "uk-grid uk-grid-small",
 
     initialize: function () {
-        this.listenTo(this.model, "change", this.render);
-
-        // Extract and format release date.
-        var pattern = /^\d\d\d\d-\d\d-\d\d/i;
-        var dateExtracted = pattern.exec(this.model.get("releaseDate"));
-        this.model.set("releaseDateFormatted", dateExtracted);
+        this.listenTo(this.model, "all", this.render);
     },
 
     render: function() {

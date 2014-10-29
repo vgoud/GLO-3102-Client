@@ -21,3 +21,14 @@ window.UB.Utils.convertMsToTime = function(duration) {
         milliseconds: milliseconds
     };
 };
+
+window.UB.Utils.formatDate = function(date) {
+    var d = new Date(date);
+    // day, dd mmm yyyy, ...
+    var pattern = /^\w+,\s(\d{2}\s\w{3}\s\d{4}).*/i;
+    // Keep the group in parentheses.
+    var dateExtracted = d.toUTCString().replace(pattern, "$1");
+    // Trim the leading zero in any.
+    var leadingZeroTrimmed = dateExtracted.replace(/0(.*)/i, "$1");
+    return leadingZeroTrimmed;
+}

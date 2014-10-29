@@ -104,8 +104,8 @@ $(document).ready(function () {
                     console.log(UB.Models.albumInfoModel.toJSON());
                     $("#album-info-top-container").html(UB.Views.albumInfoView.render().el);
                 },
-                error: function(coll) {
-                    console.log("Track collection cannot fetch data.");
+                error: function(model) {
+                    console.log("Album info model cannot fetch data.");
                 }
             });
 
