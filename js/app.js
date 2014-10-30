@@ -4,15 +4,16 @@
 
 $(document).ready(function () {
 
+
 //    var token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI1NDNiZmJhNWQ1MDEyZmQ0MGRjMzlhMGMiLCJleHAiOjE0MTM0OTEyMzY0NDR9.w2msrDhI90_pmGO-_DfugqZNOP0en7EqADFhmIfVtZA";
 
 //    $.ajaxSetup({
 //        headers: { "Authorization": token }
 //    });
 
-    if (!pageName) {
-        return;
-    }
+//    if (!pageName) {
+//        return;
+//    }
 
     UB.albumUrl = "http://localhost:3000/unsecure/albums/718938040/tracks";
     UB.artistAlbumUrlBefore = "http://localhost:3000/unsecure/albums/";
@@ -29,7 +30,8 @@ $(document).ready(function () {
         "AlbumInfoView",
         "RandomTrackCollectionView",
         "ArtistView",
-        "AlbumsView"
+        "AlbumsView",
+        "HomeView"
     ], function () {
         if (pageName == "Artist") {
             var setTopAlbum = function(albumId) {
@@ -126,6 +128,12 @@ $(document).ready(function () {
                     console.log("Track collection cannot fetch data.");
                 }
             });
+
+
+        }
+        else {
+            UB.Routers.router = new UB.Routers.Router();
+            Backbone.history.start();
         }
     });
 
