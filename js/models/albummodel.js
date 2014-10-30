@@ -11,7 +11,7 @@ window.UB.Models.AlbumModel = Backbone.Model.extend({
 
     initialize: function() {
         this.on("sync", function(model) {
-            // Sets the id to be the trackId after a fetch.
+            // Sets the id to be the collectionId after a fetch.
             model.set("id", model.get("collectionId"));
         })
     }
