@@ -13,6 +13,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     initialize: function () {
         this.$routerContainer = $("#content"); // container principal ds Index.Html
+        this.$player = $("#player-container");
+        this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
     },
 
     home: function () {
@@ -28,8 +30,10 @@ window.UB.Routers.Router = Backbone.Router.extend({
 //        UB.shellView.selectMenuItem('home-menu');
 
         this.$routerContainer.html(new UB.Views.HomeView().render().el);
+        this.$player.html(this.playerView.render().el);
     },
 
+    // Display the album's page.
     album: function (id) {
         var album = new UB.Models.AlbumInfoModel({id: id});
         var tracks = new UB.Collections.TrackCollection({id: id});
@@ -37,18 +41,35 @@ window.UB.Routers.Router = Backbone.Router.extend({
         tracks.url = "http://localhost:3000/unsecure/albums/"+id+"/tracks";
         album.urlRoot = "http://localhost:3000/unsecure/albums";
 
+        // TODO Handle errors.
         album.fetch({
             success: function (data) {
                 tracks.fetch({
                     success: function (dataTrack) {
-
                         self.$routerContainer.html(new UB.Views.AlbumInfoView({model: data}).render().el);
-                        self.$routerContainer.append(new UB.Views.TrackCollectionView({collection: dataTrack}).render().el);
+                        var trackCollectionView = new UB.Views.TrackCollectionView({collection: dataTrack});
+                        self.$routerContainer.append(trackCollectionView.render().el);
+
+                        // Attach handlers to the tracks' events.
+                        self.playerView.listenTo(trackCollectionView, "loadSong", self.loadSong);
+                        self.playerView.listenTo(trackCollectionView, "stopSong", self.stopSong);
                     }
                 });
             }
         });
+    },
 
+    // Load and play the song.
+    loadSong: function (e) {
+        // By setting the url of the audio in the model,
+        // the <audio> element is automatically re-rendered.
+        this.model.set("previewUrl", e.songPreviewUrl);
+        this.play();
+    },
+
+    // Stop the actually playing song.
+    stopSong: function (e) {
+        this.stop();
     },
 
     artist: function (id) {

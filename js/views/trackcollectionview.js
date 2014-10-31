@@ -34,7 +34,7 @@ window.UB.Views.TrackCollectionView = Backbone.View.extend({
         var target = $( e.target );
         if (target.hasClass("ub-active")) {
             target.removeClass("ub-active " + this.animationPlayButtonClasses);
-    //            stopSong();
+            this.stopSong(e);
         }
         else {
             // We can only have one song playing at once.
@@ -44,16 +44,20 @@ window.UB.Views.TrackCollectionView = Backbone.View.extend({
             }
             // We remove the track number and replace it by an icon of volume.
             target.addClass("ub-active " + this.animationPlayButtonClasses);
-    //            playSong();
+            this.loadSong(e);
         }
     },
 
-    playSong: function() {
-        return;
+    loadSong: function(e) {
+        this.trigger("loadSong", {
+            songPreviewUrl: $(e.target).data("track-preview-url")
+        });
     },
 
-    stopSong: function() {
-        return;
+    stopSong: function(e) {
+        this.trigger("stopSong", {
+            songPreviewUrl: $(e.target).data("track-preview-url")
+        });
     }
 
 });

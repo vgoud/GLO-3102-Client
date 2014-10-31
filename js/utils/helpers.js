@@ -29,6 +29,6 @@ window.UB.Utils.formatDate = function(date) {
     // Keep the group in parentheses.
     var dateExtracted = d.toUTCString().replace(pattern, "$1");
     // Trim the leading zero in any.
-    var leadingZeroTrimmed = dateExtracted.replace(/0(.*)/i, "$1");
+    var leadingZeroTrimmed = dateExtracted.replace(/^0(.*)/i, "$1");
     return leadingZeroTrimmed;
 }

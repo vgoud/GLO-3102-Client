@@ -31,7 +31,8 @@ $(document).ready(function () {
         "RandomTrackCollectionView",
         "ArtistView",
         "AlbumsView",
-        "HomeView"
+        "HomeView",
+        "PlayerView"
     ], function () {
         if (pageName == "Artist") {
             var setTopAlbum = function(albumId) {
