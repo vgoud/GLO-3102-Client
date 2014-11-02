@@ -55,6 +55,10 @@ window.UB.Views.TrackCollectionView = Backbone.View.extend({
                 this.publishLoadSong(e);
             }
         }
+
+        // Remove focus from the button, otherwise the keypress
+        // events are not catched by the global view.
+        document.activeElement.blur();
     },
 
     publishLoadSong: function (e) {
