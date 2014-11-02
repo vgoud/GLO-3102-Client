@@ -32,7 +32,9 @@ $(document).ready(function () {
         "ArtistView",
         "AlbumsView",
         "HomeView",
-        "PlayerView"
+        "PlayerView",
+        "GlobalView",
+        "HeaderView"
     ], function () {
         if (pageName == "Artist") {
             var setTopAlbum = function(albumId) {
@@ -139,6 +141,6 @@ $(document).ready(function () {
     });
 
     // Inclusion of the navbar html.
-    $("#navbar").load("menu.html");
+//    $("#navbar").load("menu.html");
 
 });

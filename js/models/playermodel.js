@@ -4,6 +4,7 @@
 
 window.UB.Models.PlayerModel = Backbone.Model.extend({
     defaults: {
-        previewUrl: ""
+        previewUrl: "",
+        trackId: ""
     }
 });

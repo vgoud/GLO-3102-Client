@@ -11,16 +11,16 @@ window.UB.Views.TrackCollectionView = Backbone.View.extend({
     className: "uk-panel uk-panel-box",
 
     events: {
-        "click .ub-button-play" : "togglePlayVolumeIcons"
+        "click .ub-button-play": "togglePlayVolumeIcons"
     },
 
-    initialize: function() {
+    initialize: function () {
         this.listenTo(this.collection, "change add sync", this.render);
     },
 
     render: function () {
         this.$el.html(this.template());
-        _.each(this.collection.models, function(track) {
+        _.each(this.collection.models, function (track) {
             this.$("tbody").append(
                 new UB.Views.TrackView({model: track}).render().el);
         });
@@ -30,34 +30,71 @@ window.UB.Views.TrackCollectionView = Backbone.View.extend({
 
     animationPlayButtonClasses: "animated infinite pulse",
 
-    togglePlayVolumeIcons: function(e) {
-        var target = $( e.target );
+    togglePlayVolumeIcons: function (e) {
+        console.log("trackcollview: togglePlayVolumeIcons.");
+        var target = $(e.target);
+
         if (target.hasClass("ub-active")) {
             target.removeClass("ub-active " + this.animationPlayButtonClasses);
-            this.stopSong(e);
+            this.publishStopSong(e);
         }
         else {
-            // We can only have one song playing at once.
-            var $playingSongButton = $(".ub-button-play.ub-active");
-            if ($playingSongButton) {
-                $playingSongButton.removeClass("ub-active " + this.animationPlayButtonClasses);
+            if (this._$currentTrack && this._$currentTrack.is(target)) {
+                // We remove the track number and replace it by an icon of volume.
+                target.addClass("ub-active " + this.animationPlayButtonClasses);
+                this.publishPlaySong(e);
+            } else {
+                this._$currentTrack = target;
+                // We can only have one song playing at once.
+                var $playingSongButton = $(".ub-button-play.ub-active");
+                if ($playingSongButton) {
+                    $playingSongButton.removeClass("ub-active " + this.animationPlayButtonClasses);
+                }
+                // We remove the track number and replace it by an icon of volume.
+                target.addClass("ub-active " + this.animationPlayButtonClasses);
+                this.publishLoadSong(e);
             }
-            // We remove the track number and replace it by an icon of volume.
-            target.addClass("ub-active " + this.animationPlayButtonClasses);
-            this.loadSong(e);
         }
     },
 
-    loadSong: function(e) {
+    publishLoadSong: function (e) {
+        console.log("trackcollview: trigger loadSong.");
         this.trigger("loadSong", {
-            songPreviewUrl: $(e.target).data("track-preview-url")
+            event: e,
+            trackPreviewUrl: $(e.target).data("track-preview-url"),
+            trackId: $(e.target).data("track-id")
         });
     },
 
-    stopSong: function(e) {
-        this.trigger("stopSong", {
-            songPreviewUrl: $(e.target).data("track-preview-url")
+    publishPlaySong: function (e) {
+        console.log("trackcollview: trigger playSong.");
+        this.trigger("playSong", {
+            event: e,
+            trackPreviewUrl: $(e.target).data("track-preview-url"),
+            trackId: $(e.target).data("track-id")
         });
+    },
+
+    publishStopSong: function (e) {
+        console.log("trackcollview: trigger stopSong.");
+        this.trigger("stopSong", {
+            event: e,
+            trackPreviewUrl: $(e.target).data("track-preview-url"),
+            trackId: $(e.target).data("track-id")
+        });
+    },
+
+    togglePlayState: function () {
+        console.log("trackcollview: togglePlayState.");
+        if (!this._$currentTrack.hasClass("ub-active")) {
+            // We remove the track number and replace it by an icon of volume.
+            this._$currentTrack.addClass("ub-active " + this.animationPlayButtonClasses);
+        }
+    },
+
+    toggleStopState: function () {
+        console.log("trackcollview: toggleStopState.");
+        this._$currentTrack.removeClass("ub-active " + this.animationPlayButtonClasses);
     }
 
 });
