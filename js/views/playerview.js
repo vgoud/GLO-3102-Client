@@ -11,7 +11,7 @@ window.UB.Views.PlayerView = Backbone.View.extend({
     className: "uk-container uk-container-center uk-width-1-1 uk-vertical-align-middle uk-vertical-align",
 
     initialize: function (options) {
-        _.bindAll(this, "render");
+        _.bindAll(this, "render", "onEnded");
 
         this.listenTo(this.model, "change", this.render);
 
@@ -22,12 +22,14 @@ window.UB.Views.PlayerView = Backbone.View.extend({
         this._analyser = this._audioCtx.createAnalyser();
     },
 
-    render: function() {
+    render: function () {
         console.log("playerview: render.");
+
         this.$el.html(this.template(this.model.toJSON()));
         // Get the DOM element. It's the <audio> element
         // that has an API.
         this.audio = this.$("audio").get(0);
+        this.$("audio").on("ended", this.onEnded);
 
         // Create audio source from the <audio> element in the template.
         this._source = this._audioCtx.createMediaElementSource(this.audio);
@@ -52,17 +54,20 @@ window.UB.Views.PlayerView = Backbone.View.extend({
         this.audio.pause();
     },
 
-    togglePlayPause: function (e) {
-        if (e && e.keyCode == 32) {
-            if (this._isPlaying) {
-                this.stop();
-                console.log("playerview: trigger toggleStopState.");
-                this.trigger("toggleStopState", this.model.toJSON());
-            } else {
-                this.play();
-                console.log("playerview: trigger togglePlayState.");
-                this.trigger("togglePlayState", this.model.toJSON());
-            }
+    togglePlayPause: function () {
+        if (this._isPlaying) {
+            this.stop();
+            console.log("playerview: trigger toggleStopState.");
+            this.trigger("toggleStopState", this.model.toJSON());
+        } else {
+            this.play();
+            console.log("playerview: trigger togglePlayState.");
+            this.trigger("togglePlayState", this.model.toJSON());
         }
+    },
+
+    onEnded: function () {
+        this._isPlaying = false;
+        this.trigger("toggleStopState", this.model.toJSON());
     }
 });
