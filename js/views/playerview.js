@@ -8,7 +8,7 @@ window.UB.Views.PlayerView = Backbone.View.extend({
 
     id: "player",
 
-    className: "uk-flex-right",
+    className: "uk-container uk-container-center uk-width-1-1 uk-vertical-align-middle uk-vertical-align",
 
     initialize: function (options) {
         _.bindAll(this, "render");
