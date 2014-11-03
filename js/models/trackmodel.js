@@ -7,15 +7,10 @@ window.UB.Models.TrackModel = Backbone.Model.extend({
         trackNumber: "n/d",
         trackTimeMillis: "n/d",
         previewUrl: "",
-        trackId: ""
+        trackId: "",
+        trackName: ""
     },
 
     idAttribute: "trackId"
 
-//    initialize: function() {
-//        this.on("sync", function(model) {
-//            // Sets the id to be the trackId after a fetch.
-//            model.set("id", model.get("trackId"));
-//        })
-//    }
 });
