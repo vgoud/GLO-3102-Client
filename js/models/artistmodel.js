@@ -14,6 +14,12 @@ window.UB.Models.ArtistModel = Backbone.Model.extend({
             // Sets the id to be the artistId after a fetch.
             model.set("id", model.get("artistId"));
         })
+    },
+
+    parse: function(data) {
+        var artistInfo = data.results[0];
+
+        return artistInfo;
     }
 
 });

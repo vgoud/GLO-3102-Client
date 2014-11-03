@@ -19,9 +19,10 @@ window.UB.Routers.Router = Backbone.Router.extend({
             "playSong",
             "togglePlayPause",
             "stopSong",
-            "setArtist",
-            "setAlbums",
-            "setTopAlbum"
+            "artist",
+            "artistAlbums"
+            //"artistTopAlbum",
+            //"setArtist"
         );
 
         this.globalView = new UB.Views.GlobalView();
@@ -102,8 +103,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
         console.log("router: Call playerView.stop().");
         this.playerView.stop();
     },
-
-   setTopAlbum: function(albumId) {
+/*
+   artistTopAlbum: function(albumId) {
         UB.Collections.trackCollection = new UB.Collections.TrackCollection();
         UB.Collections.trackCollection.url = UB.artistAlbumUrlBefore + albumId + UB.artistAlbumUrlAfter;
         UB.Collections.trackCollection.fetch({
@@ -116,31 +117,6 @@ window.UB.Routers.Router = Backbone.Router.extend({
             },
             error: function (coll) {
                 console.log("Random track collection cannot fetch data.");
-            }
-        });
-    },
-
-    setAlbums: function() {
-        UB.Collections.albumsCollection = new UB.Collections.AlbumsCollection();
-        UB.Collections.albumsCollection.url = UB.artistAlbumsUrl;
-
-        var self = this;
-        UB.Collections.albumsCollection.fetch({
-            success: function (coll) {
-                console.log("Album collection fetched sucessfully.");
-                UB.Views.albumsView = new UB.Views.AlbumsView({
-                    collection: UB.Collections.albumsCollection
-                });
-                $("#artist-top-bar").html(UB.Views.albumsView.render().el);
-
-                var albums = UB.Collections.albumsCollection;
-                if (albums.models.length > 0) {
-                    var randomAlbum = albums.models[Math.floor(Math.random() * albums.models.length)];
-                    self.setTopAlbum(randomAlbum.attributes.collectionId);
-                }
-            },
-            error: function (coll) {
-                console.log("Album collection cannot fetch data.");
             }
         });
     },
@@ -165,18 +141,64 @@ window.UB.Routers.Router = Backbone.Router.extend({
         });
     },
 
-    artist: function (id) {
-        /*var artist = new UB.Models.ArtistModel({id: id});
+    artistAlbums: function() {
+        UB.Collections.albumsCollection = new UB.Collections.AlbumsCollection();
+        UB.Collections.albumsCollection.url = UB.artistAlbumsUrl;
+
         var self = this;
-        artist.urlRoot = "http://localhost:3000/unsecure/artists";
+        UB.Collections.albumsCollection.fetch({
+            success: function (coll) {
+                console.log("Album collection fetched sucessfully.");
+                UB.Views.albumsView = new UB.Views.AlbumsView({
+                    collection: UB.Collections.albumsCollection
+                });
+
+                $("#artist-top-bar").html(UB.Views.albumsView.render().el);
+
+                var albums = UB.Collections.albumsCollection;
+                if (albums.models.length > 0) {
+                    var randomAlbum = albums.models[Math.floor(Math.random() * albums.models.length)];
+                    self.setTopAlbum(randomAlbum.attributes.collectionId);
+                }
+            },
+            error: function (coll) {
+                console.log("Album collection cannot fetch data.");
+            }
+        });
+    },
+ */
+    // Display the artist's page
+    artist: function (id) {
+        var artist = new UB.Models.ArtistModel({id: id});
+        var self = this;
+
+        artist.url = function () {
+            return self.urlBase + "artists/" + id;
+        };
+
         artist.fetch({
             success: function (data) {
+                console.log("Artist fetched successfully.");
                 self.$content.html((new UB.Views.ArtistView({model: data})).render().el);
             }
-        });*/
+        });
+    },
 
-        this.setArtist(id);
+    // Display the artist's albums
+    artistAlbums: function(id) {
+        var artistAlbums = new UB.Collections.AlbumsCollection();
+        var self = this;
 
+        artistAlbums.url = function () {
+            return self.urlBase + "artists/" + id + "/albums";
+        };
+
+        artistAlbums.fetch({
+            success: function (data) {
+                console.log("Artist's albums fetched successfully.");
+                self.$content.html((new UB.Views.ArtistView({model: data})).render().el);
+            }
+        });
     },
 
 //TODO
