@@ -14,7 +14,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
     urlBase: "http://localhost:3000/unsecure/",
 
     initialize: function () {
-        _.bindAll(this, "loadSong", "playSong", "togglePlayPause", "stopSong");
+        _.bindAll(this, "playSong", "togglePlayPause", "stopSong");
 
         this.globalView = new UB.Views.GlobalView();
         this.globalView.render();
@@ -24,6 +24,9 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.$player = $("#player-container");
         this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
         this.$player.html(this.playerView.render().el);
+
+        // This handler needs to be attached only once.
+        this.playerView.listenTo(this.globalView, "togglePlayPause", this.togglePlayPause);
     },
 
     home: function () {
@@ -53,45 +56,27 @@ window.UB.Routers.Router = Backbone.Router.extend({
                         var trackCollectionView = new UB.Views.TrackCollectionView({collection: dataTrack});
                         self.$content.append(trackCollectionView.render().el);
 
-                        // Attach handlers to the tracks' events.
-                        self.playerView.listenTo(trackCollectionView, "loadSong", self.loadSong);
-                        self.playerView.listenTo(trackCollectionView, "playSong", self.playSong);
-                        self.playerView.listenTo(trackCollectionView, "stopSong", self.stopSong);
-                        self.playerView.listenTo(self.globalView, "togglePlayPause", self.togglePlayPause);
-                        trackCollectionView.listenTo(self.playerView, "togglePlayState", trackCollectionView.togglePlayState);
-                        trackCollectionView.listenTo(self.playerView, "toggleStopState", trackCollectionView.toggleStopState);
+                        // Attach handlers to the tracks' and player's events.
+                        self.playerView.listenTo(trackCollectionView, "playbackButtonClicked", self.togglePlayPause);
+                        trackCollectionView.listenTo(self.playerView, "playbackResumed", trackCollectionView.setPlayState);
+                        trackCollectionView.listenTo(self.playerView, "playbackStopped", trackCollectionView.setStopState);
+                        trackCollectionView.listenTo(self.playerView, "playbackEnded", trackCollectionView.setStopState);
                     }
                 });
             }
         });
     },
 
-    // Load and play the song.
-    loadSong: function (e) {
-        // By setting the url of the audio in the model,
-        // the <audio> element is automatically re-rendered.
-        this._currentTrack = e.trackId;
-        this.playerView.model.set({
-            previewUrl: e.trackPreviewUrl,
-            trackId: e.trackId
-        });
-        console.log("router: Call playerView.play().");
-        this.playerView.play();
-    },
-
     playSong: function () {
-        console.log("router: Call playerView.play().");
         this.playerView.play();
     },
 
     togglePlayPause: function (e) {
-        console.log("router: Call playerView.togglePlayPause().");
         this.playerView.togglePlayPause(e);
     },
 
     // Stop the actually playing song.
-    stopSong: function (e) {
-        console.log("router: Call playerView.stop().");
+    stopSong: function () {
         this.playerView.stop();
     },
 

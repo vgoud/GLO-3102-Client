@@ -44,30 +44,45 @@ window.UB.Views.PlayerView = Backbone.View.extend({
 
     play: function () {
         this._isPlaying = true;
-        console.log("playerview: play.");
         this.audio.play();
+        this.trigger("playbackResumed", {model: this.model});
     },
 
     stop: function () {
         this._isPlaying = false;
-        console.log("playerview: stop.");
         this.audio.pause();
+        this.trigger("playbackStopped", {model: this.model});
     },
 
-    togglePlayPause: function () {
+    togglePlayPause: function (e) {
         if (this._isPlaying) {
-            this.stop();
-            console.log("playerview: trigger toggleStopState.");
-            this.trigger("toggleStopState", this.model.toJSON());
+            if (e && e.model && this.model.id === e.model.id) {
+                // It's the same track. Playback is stopped.
+                this.stop();
+            } else {
+                if (e && e.model) {
+                    // It's a new track. New track is played.
+                    this.model.set(e.model.toJSON());
+                    this.play();
+                } else {
+                    // No model is passed with the event,
+                    // probably spacebar have been pressed.
+                    // Playback is stopped.
+                    this.stop();
+                }
+            }
         } else {
+            if (e && e.model) {
+                this.model.set(e.model.toJSON());
+            }
             this.play();
-            console.log("playerview: trigger togglePlayState.");
-            this.trigger("togglePlayState", this.model.toJSON());
         }
     },
 
     onEnded: function () {
         this._isPlaying = false;
-        this.trigger("toggleStopState", this.model.toJSON());
+        this.trigger("playbackEnded", {
+            model: this.model.toJSON()
+        });
     }
 });

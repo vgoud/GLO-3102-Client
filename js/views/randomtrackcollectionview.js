@@ -9,7 +9,7 @@ window.UB.Views.RandomTrackCollectionView = Backbone.View.extend({
     className: "uk-table uk-table-hover",
 
     events: {
-        "click .ub-button-play" : "togglePlayVolumeIcons"
+        "click .ub-button-play" : "onPlaybackButtonClicked"
     },
 
     initialize: function() {

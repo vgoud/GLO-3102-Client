@@ -16,8 +16,8 @@ window.UB.Views.GlobalView = Backbone.View.extend({
     },
 
     togglePlayPause: function (e) {
-        console.log("globalview: keyup catched, trigger togglePlayPause.");
         if(e && e.keyCode == 32) {
+            e.preventDefault();
             this.trigger("togglePlayPause", e);
         }
     }

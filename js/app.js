@@ -140,7 +140,9 @@ $(document).ready(function () {
         }
     });
 
-    // Inclusion of the navbar html.
-//    $("#navbar").load("menu.html");
+    // Prevent page from scrolling down when pressing spacebar.
+    window.onkeydown = function(e) {
+        return !(e.keyCode == 32);
+    };
 
 });
