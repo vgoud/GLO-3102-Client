@@ -14,7 +14,15 @@ window.UB.Routers.Router = Backbone.Router.extend({
     urlBase: "http://localhost:3000/unsecure/",
 
     initialize: function () {
-        _.bindAll(this, "loadSong", "playSong", "togglePlayPause", "stopSong");
+        _.bindAll(this,
+            "loadSong",
+            "playSong",
+            "togglePlayPause",
+            "stopSong",
+            "setArtist",
+            "setAlbums",
+            "setTopAlbum"
+        );
 
         this.globalView = new UB.Views.GlobalView();
         this.globalView.render();
@@ -95,19 +103,83 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.playerView.stop();
     },
 
+   setTopAlbum: function(albumId) {
+        UB.Collections.trackCollection = new UB.Collections.TrackCollection();
+        UB.Collections.trackCollection.url = UB.artistAlbumUrlBefore + albumId + UB.artistAlbumUrlAfter;
+        UB.Collections.trackCollection.fetch({
+            success: function (coll) {
+                console.log("Random track collection fetched sucessfully.");
+                UB.Views.randomTrackCollectionView = new UB.Views.RandomTrackCollectionView({
+                    collection: UB.Collections.trackCollection
+                });
+                $("#album-content").html(UB.Views.randomTrackCollectionView.render().el);
+            },
+            error: function (coll) {
+                console.log("Random track collection cannot fetch data.");
+            }
+        });
+    },
+
+    setAlbums: function() {
+        UB.Collections.albumsCollection = new UB.Collections.AlbumsCollection();
+        UB.Collections.albumsCollection.url = UB.artistAlbumsUrl;
+
+        var self = this;
+        UB.Collections.albumsCollection.fetch({
+            success: function (coll) {
+                console.log("Album collection fetched sucessfully.");
+                UB.Views.albumsView = new UB.Views.AlbumsView({
+                    collection: UB.Collections.albumsCollection
+                });
+                $("#artist-top-bar").html(UB.Views.albumsView.render().el);
+
+                var albums = UB.Collections.albumsCollection;
+                if (albums.models.length > 0) {
+                    var randomAlbum = albums.models[Math.floor(Math.random() * albums.models.length)];
+                    self.setTopAlbum(randomAlbum.attributes.collectionId);
+                }
+            },
+            error: function (coll) {
+                console.log("Album collection cannot fetch data.");
+            }
+        });
+    },
+
+    setArtist: function(id) {
+        UB.Collections.artistCollection = new UB.Collections.ArtistCollection();
+        UB.Collections.artistCollection.url = this.urlBase + "artists/" + id;
+
+        var self = this;
+        UB.Collections.artistCollection.fetch({
+            success: function (coll) {
+                console.log("Artist collection fetched sucessfully.");
+                UB.Views.artistView = new UB.Views.ArtistView({
+                    collection: UB.Collections.artistCollection
+                });
+                $("#content").html(UB.Views.artistView.render().el);
+                self.setAlbums();
+            },
+            error: function (coll) {
+                console.log("Artist collection cannot fetch data.");
+            }
+        });
+    },
+
     artist: function (id) {
-        var artist = new UB.Models.ArtistModel({id: id});
+        /*var artist = new UB.Models.ArtistModel({id: id});
         var self = this;
         artist.urlRoot = "http://localhost:3000/unsecure/artists";
         artist.fetch({
             success: function (data) {
                 self.$content.html((new UB.Views.ArtistView({model: data})).render().el);
             }
-        });
+        });*/
+
+        this.setArtist(id);
 
     },
 
-    //TODO
+//TODO
     playlist: function (id) {
         var employee = new UB.Employee({id: id});
         var self = this;
