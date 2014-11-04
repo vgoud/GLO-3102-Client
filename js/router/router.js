@@ -36,7 +36,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
     // Display the album's page.
     album: function (id) {
         var album = new UB.Models.AlbumInfoModel({id: id});
-        var tracks = new UB.Collections.TrackCollection({id: id});
+        var tracks = new UB.Collections.TrackCollection();
 
         var self = this;
 
