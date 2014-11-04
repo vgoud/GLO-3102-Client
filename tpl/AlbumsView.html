@@ -8,12 +8,12 @@
 </div>
 <div id="album-list-container">
     <div class="album-list uk-flex uk-flex-middle uk-height-1-1">
-        <% _.each(albums, function(album) {%>
-        <a href="#<%= album.collectionId %>" class="album-thumbnail uk-thumbnail uk-thumbnail-mini">
+        <% _.each(albums, function(album) { %>
+        <a href="#albums/<%= album.collectionId %>" class="album-thumbnail uk-thumbnail uk-thumbnail-mini">
             <img src="<%= album.artworkUrl200 %>">
             <div class="album-thumbnail-caption uk-thumbnail-caption"><%= album.collectionName %></div>
         </a>
-        <% }); %>
+        <% } ); %>
     </div>
 </div>
 

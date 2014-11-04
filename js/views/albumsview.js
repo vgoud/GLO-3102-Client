@@ -8,11 +8,13 @@ window.UB.Views.AlbumsView = Backbone.View.extend({
     className: "uk-grid uk-grid-small",
 
     initialize: function () {
+        _.bindAll(this, "render");
+
         this.listenTo(this.collection, "change add sync", this.render);
     },
 
     render: function() {
-        $(this.el).html(this.template({
+        this.$el.html(this.template({
             albums: this.collection.toJSON()
         }));
         return this;

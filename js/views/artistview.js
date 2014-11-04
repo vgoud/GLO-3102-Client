@@ -7,11 +7,11 @@ window.UB.Views.ArtistView = Backbone.View.extend({
     tagName: "span",
 
     initialize: function () {
-        this.listenTo(this.collection, "change add sync", this.render);
+        this.listenTo(this.model, "change add sync", this.render);
     },
 
     render: function() {
-        $(this.el).html(this.template(this.collection.models[0].toJSON()));
+        $(this.el).html(this.template(this.model.toJSON()));
         return this;
     }
 });
