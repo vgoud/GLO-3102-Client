@@ -8,7 +8,9 @@ window.UB.Models.TrackModel = Backbone.Model.extend({
         trackTimeMillis: "n/d",
         previewUrl: "",
         trackId: "",
-        trackName: ""
+        trackName: "",
+        artistName: "",
+        trackNumber: ""
     },
 
     idAttribute: "trackId"

@@ -8,10 +8,20 @@ window.UB.Views.PlayerView = Backbone.View.extend({
 
     id: "player",
 
-    className: "uk-container uk-container-center uk-width-1-1 uk-vertical-align-middle uk-vertical-align",
+    className: "uk-container uk-container-center uk-width-1-1 uk-height-1-1",
+
+    events: {
+        "click #audio-player-progress" : "onProgressBarClick"
+    },
 
     initialize: function (options) {
-        _.bindAll(this, "render", "onEnded");
+        _.bindAll(this,
+            "render",
+            "onEnded",
+            "onTimeUpdate",
+            "setCurrentTime",
+            "seek"
+        );
 
         this.listenTo(this.model, "change", this.render);
 
@@ -20,16 +30,28 @@ window.UB.Views.PlayerView = Backbone.View.extend({
             new (window.AudioContext || window.webkitAudioContext)();
         // Analyser node. Helpful to extract spectrum information.
         this._analyser = this._audioCtx.createAnalyser();
+
+        this.progressBarMinWidth = 3;
     },
 
     render: function () {
-        console.log("playerview: render.");
 
+        // Render template.
         this.$el.html(this.template(this.model.toJSON()));
-        // Get the DOM element. It's the <audio> element
+
+        // Progress bar jQuery variables.
+        this.$progress = this.$("#audio-player-progress");
+        this.$progressBar = this.$("#audio-player-progress-bar");
+        this.$progressBar.width(this.progressBarMinWidth + "%");
+
+        // Get the DOM audio element. It's the <audio> element
         // that has an API.
         this.audio = this.$("audio").get(0);
-        this.$("audio").on("ended", this.onEnded);
+        // jQuery object.
+        this.$audio = $( this.audio );
+        // Events binding.
+        this.$audio.on("ended", this.onEnded);
+        this.$audio.on("timeupdate", this.onTimeUpdate);
 
         // Create audio source from the <audio> element in the template.
         this._source = this._audioCtx.createMediaElementSource(this.audio);
@@ -40,6 +62,33 @@ window.UB.Views.PlayerView = Backbone.View.extend({
         this._analyser.connect(this._audioCtx.destination);
 
         return this;
+    },
+
+    // Current time is rounded down so time progress second by second.
+    getCurrentTimeInPercentage: function() {
+        return ~~((Math.floor(this.audio.currentTime) / this.audio.duration) * 100);
+    },
+
+    setCurrentTime: function (time) {
+        if (this.audio.readyState !== HTMLMediaElement.HAVE_NOTHING) {
+            this.audio.currentTime = time;
+        }
+    },
+
+    seek: function (percent) {
+        var time = ~~((percent) * this.audio.duration);
+        this.setCurrentTime(time);
+    },
+
+    onProgressBarClick: function (e) {
+        var x = e.pageX - this.$progress.offset().left;
+        this.seek(x / this.$progress.width());
+    },
+
+    onTimeUpdate: function () {
+        var percent = this.getCurrentTimeInPercentage();
+        var newWidth = percent + this.progressBarMinWidth;
+        this.$progressBar.width(newWidth + "%");
     },
 
     play: function () {
@@ -81,6 +130,7 @@ window.UB.Views.PlayerView = Backbone.View.extend({
 
     onEnded: function () {
         this._isPlaying = false;
+        this.$progressBar.width(this.progressBarMinWidth + "%");
         this.trigger("playbackEnded", {
             model: this.model.toJSON()
         });
