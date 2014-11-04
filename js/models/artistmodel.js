@@ -11,15 +11,13 @@ window.UB.Models.ArtistModel = Backbone.Model.extend({
 
     initialize: function() {
         this.on("sync", function(model) {
-            // Sets the id to be the artistId after a fetch.
-            model.set("id", model.get("artistId"));
+            // Sets the id to be the collection Id after a fetch.
+            model.set("id", model.get("collectionId"));
         })
     },
 
     parse: function(data) {
-        var artistInfo = data.results[0];
-
-        return artistInfo;
+        return data.results[0];
     }
 
 });

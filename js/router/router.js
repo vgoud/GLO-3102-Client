@@ -5,10 +5,10 @@
 window.UB.Routers.Router = Backbone.Router.extend({
 
     routes: {
-        "":                 "home",
-        "albums/:id":        "album",
-        "artists/:id":       "artist",
-        "playlists/:id":     "playlist"
+        "": "home",
+        "albums/:id": "album",
+        "artists/:id": "artist",
+        "playlists/:id": "playlist"
     },
 
     urlBase: "http://localhost:3000/unsecure/",
@@ -19,10 +19,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
             "playSong",
             "togglePlayPause",
             "stopSong",
-            "artist",
-            "artistAlbums"
-            //"artistTopAlbum",
-            //"setArtist"
+            "artist"
         );
 
         this.globalView = new UB.Views.GlobalView();
@@ -75,6 +72,41 @@ window.UB.Routers.Router = Backbone.Router.extend({
         });
     },
 
+    // Display the artist's page
+    artist: function (id) {
+        var artist = new UB.Models.ArtistModel({id: id});
+        var artistAlbums = new UB.Collections.ArtistAlbumCollection();
+        var self = this;
+
+        artist.urlRoot = function () {
+            return self.urlBase + "artists";
+        };
+
+        artistAlbums.url = function () {
+            return self.urlBase + "artists/" + id + "/albums";
+        };
+
+        artist.fetch({
+            success: function (data) {
+                artistAlbums.fetch({
+                    success: function (dataAlbums) {
+                        console.log("Artist fetched successfully.");
+                        self.$content.html((new UB.Views.ArtistView({model: data})).render().el);
+                        var artistAlbumsView = new UB.Views.AlbumsView({collection: dataAlbums});
+                        self.$content.append(artistAlbumsView.render().el);
+                    },
+                    error: function (callback) {
+                        console.log("ARTIST ALBUMS could not be fetched.");
+                    }
+                });
+            },
+            error: function (callback) {
+                console.log("ARTIST could not be fetched.");
+            }
+        });
+    },
+
+
     // Load and play the song.
     loadSong: function (e) {
         // By setting the url of the audio in the model,
@@ -103,8 +135,24 @@ window.UB.Routers.Router = Backbone.Router.extend({
         console.log("router: Call playerView.stop().");
         this.playerView.stop();
     },
+
+//TODO
+    playlist: function (id) {
+        var employee = new UB.Employee({id: id});
+        var self = this;
+        employee.fetch({
+            success: function (data) {
+                console.log(data);
+                // Note that we could also 'recycle' the same instance of EmployeeFullView
+                // instead of creating new instances
+                self.$content.html(new UB.EmployeeView({model: data}).render().el);
+            }
+        });
+
+    }
+
 /*
-   artistTopAlbum: function(albumId) {
+    artistTopAlbum: function(albumId) {
         UB.Collections.trackCollection = new UB.Collections.TrackCollection();
         UB.Collections.trackCollection.url = UB.artistAlbumUrlBefore + albumId + UB.artistAlbumUrlAfter;
         UB.Collections.trackCollection.fetch({
@@ -165,56 +213,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
                 console.log("Album collection cannot fetch data.");
             }
         });
-    },
- */
-    // Display the artist's page
-    artist: function (id) {
-        var artist = new UB.Models.ArtistModel({id: id});
-        var self = this;
-
-        artist.url = function () {
-            return self.urlBase + "artists/" + id;
-        };
-
-        artist.fetch({
-            success: function (data) {
-                console.log("Artist fetched successfully.");
-                self.$content.html((new UB.Views.ArtistView({model: data})).render().el);
-            }
-        });
-    },
-
-    // Display the artist's albums
-    artistAlbums: function(id) {
-        var artistAlbums = new UB.Collections.AlbumsCollection();
-        var self = this;
-
-        artistAlbums.url = function () {
-            return self.urlBase + "artists/" + id + "/albums";
-        };
-
-        artistAlbums.fetch({
-            success: function (data) {
-                console.log("Artist's albums fetched successfully.");
-                self.$content.html((new UB.Views.ArtistView({model: data})).render().el);
-            }
-        });
-    },
-
-//TODO
-    playlist: function (id) {
-        var employee = new UB.Employee({id: id});
-        var self = this;
-        employee.fetch({
-            success: function (data) {
-                console.log(data);
-                // Note that we could also 'recycle' the same instance of EmployeeFullView
-                // instead of creating new instances
-                self.$content.html(new UB.EmployeeView({model: data}).render().el);
-            }
-        });
-
     }
+*/
 
 });
 
