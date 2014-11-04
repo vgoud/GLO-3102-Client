@@ -11,10 +11,6 @@ $(document).ready(function () {
 //        headers: { "Authorization": token }
 //    });
 
-//    if (!pageName) {
-//        return;
-//    }
-
     UB.albumUrl = "http://localhost:3000/unsecure/albums/718938040/tracks";
     UB.artistAlbumUrlBefore = "http://localhost:3000/unsecure/albums/";
     UB.artistAlbumUrlAfter = "/tracks";
