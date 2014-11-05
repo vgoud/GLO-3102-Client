@@ -17,9 +17,9 @@ window.UB.Views.AlbumsView = Backbone.View.extend({
         this.$el.html(this.template({
             albums: this.collection.toJSON()
         }));
-        this.$('.text_here').ThreeDots({
-            max_rows:1
-        });
+//        this.$('.text_here').ThreeDots({
+//            max_rows:2
+//        });
         return this;
     }
 });

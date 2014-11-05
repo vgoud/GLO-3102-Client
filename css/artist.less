@@ -2,7 +2,19 @@
 
 #artist-name {
   font-size: 35px;
-  margin: 15px auto;
+  line-height: 1em;
+  white-space: normal;
+}
+
+// When in mobile format, add a margin to the bottom of the artist's name.
+@media screen and (max-width: 480px) {
+  #artist-name {
+    margin-bottom: 15px;
+  }
+
+  #artist-url-container > div {
+    padding-left: 0;
+  }
 }
 
 #artist-tags {
@@ -13,31 +25,52 @@
   margin: 15px inherit;
 }
 
-#artist-url-container {
-  margin-bottom: -10px;
+#artist-info-divider {
+  margin: 5px auto 30px auto;
 }
 
-#artist-info-divider {
-  margin: 5px auto 20px auto;
+#album-list {
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 // Artist.html -> albums
 #album-list-container .album-thumbnail {
-  min-width:140px;
-  margin:1px;
+  min-width: 140px;
+  min-height: 190px;
+  //  margin:1px 5px 1px 1px;
 }
 
 // Thumbnails override
 a.uk-thumbnail {
   background-color: @skin-dark-background-color;
   border: none;
-  margin-right: 5px;
+  padding-right: 8px;
+  //  text-align: left;
+  & #album-release-date {
+    display: none;
+  }
+  & > .cover-img-container {
+    min-height: 142px;
+  }
   &:hover,
   &:focus {
     text-decoration: none;
     outline: none;
-    & > .uk-thumbnail-caption {
+    min-height: 180px;
+    transition: 200ms linear;
+    & #album-release-date {
+      display: block;
+      text-align: left;
+    }
+    & .uk-thumbnail-caption {
       color: @skin-dark-accent-color;
+    }
+    #album-name {
+      //        font-weight: bold;
+      overflow: hidden;
+      white-space: normal;
+      text-align: left;
     }
   }
 }
@@ -45,17 +78,16 @@ a.uk-thumbnail {
 .album-list {
   flex-direction: row;
   flex-wrap: wrap;
+  margin-top: 15px;
 }
 
-.artist-picture {
-  min-width: 140px;
-}
-
-.album-thumbnail-caption {
+.album-thumbnail-caption #album-name {
   width: 140px;
-//  line-height: 1.5em;
-//  height: 3em;
-//  overflow: hidden;
-//  white-space: nowrap;
-//  text-overflow: ellipsis;
+  line-height: 1.5em;
+  //  height: 3em;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
 }

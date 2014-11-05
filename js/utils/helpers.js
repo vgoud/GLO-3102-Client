@@ -31,4 +31,15 @@ window.UB.Utils.formatDate = function(date) {
     // Trim the leading zero in any.
     var leadingZeroTrimmed = dateExtracted.replace(/^0(.*)/i, "$1");
     return leadingZeroTrimmed;
+};
+
+window.UB.Utils.getYearFromDate = function (date) {
+    var d = new Date(date);
+    return d.getUTCFullYear();
+};
+
+window.UB.Utils.formatCollectionPrice = function (price) {
+    var pattern = /(.*\.)(\d{1})$/i;
+    var addZeroToEnd = price.toString().replace(pattern, "$1$20");
+    return addZeroToEnd;
 }
