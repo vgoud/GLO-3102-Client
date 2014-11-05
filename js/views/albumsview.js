@@ -17,6 +17,7 @@ window.UB.Views.AlbumsView = Backbone.View.extend({
         this.$el.html(this.template({
             albums: this.collection.toJSON()
         }));
+        //this.$('.album-thumbnail-caption').jTruncate();
         return this;
     }
 });
