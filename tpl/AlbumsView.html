@@ -7,7 +7,11 @@
         <a href="#albums/<%= album.collectionId %>" class="album-thumbnail uk-thumbnail uk-thumbnail-mini">
             <img src="<%= album.artworkUrl200 %>">
 
-            <div class="album-thumbnail-caption uk-thumbnail-caption"><%= album.collectionName %></div>
+            <div class="text_here">
+                <span class="album-thumbnail-caption uk-thumbnail-caption ellipsis_text">
+                    <%= album.collectionName %>
+                </span>
+            </div>
         </a>
         <% } ); %>
     </div>
