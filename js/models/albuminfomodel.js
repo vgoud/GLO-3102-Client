@@ -15,7 +15,9 @@ window.UB.Models.AlbumInfoModel = Backbone.Model.extend({
         artistViewUrl: "",
         collectionViewUrl: "",
         collectionPrice: "n/d",
-        primaryGenreName: "n/d"
+        primaryGenreName: "n/d",
+        artistId: "",
+        artistName:""
     },
 
     initialize: function() {
