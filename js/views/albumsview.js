@@ -5,7 +5,7 @@
 window.UB.Views.AlbumsView = Backbone.View.extend({
 
     tagName: "div",
-    className: "uk-grid uk-grid-small",
+    className: "uk-container uk-container-center",
 
     initialize: function () {
         _.bindAll(this, "render");

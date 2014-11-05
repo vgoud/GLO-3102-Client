@@ -5,22 +5,19 @@
 window.UB.Routers.Router = Backbone.Router.extend({
 
     routes: {
-        "": "home",
-        "albums/:id": "album",
-        "artists/:id": "artist",
-        "playlists/:id": "playlist"
+        ""              : "home",
+        "albums/:id"    : "album",
+        "artists/:id"   : "artist",
+        "playlists/:id" : "playlist"
     },
 
     urlBase: "http://localhost:3000/unsecure/",
 
     initialize: function () {
         _.bindAll(this,
-            "loadSong",
             "playSong",
             "togglePlayPause",
-            "stopSong",
-            "artist"
-        );
+            "stopSong");
 
         this.globalView = new UB.Views.GlobalView();
         this.globalView.render();
@@ -30,6 +27,9 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.$player = $("#player-container");
         this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
         this.$player.html(this.playerView.render().el);
+
+        // This handler needs to be attached only once.
+        this.playerView.listenTo(this.globalView, "togglePlayPause", this.togglePlayPause);
     },
 
     home: function () {
@@ -59,13 +59,11 @@ window.UB.Routers.Router = Backbone.Router.extend({
                         var trackCollectionView = new UB.Views.TrackCollectionView({collection: dataTrack});
                         self.$content.append(trackCollectionView.render().el);
 
-                        // Attach handlers to the tracks' events.
-                        self.playerView.listenTo(trackCollectionView, "loadSong", self.loadSong);
-                        self.playerView.listenTo(trackCollectionView, "playSong", self.playSong);
-                        self.playerView.listenTo(trackCollectionView, "stopSong", self.stopSong);
-                        self.playerView.listenTo(self.globalView, "togglePlayPause", self.togglePlayPause);
-                        trackCollectionView.listenTo(self.playerView, "togglePlayState", trackCollectionView.togglePlayState);
-                        trackCollectionView.listenTo(self.playerView, "toggleStopState", trackCollectionView.toggleStopState);
+                        // Attach handlers to the tracks' and player's events.
+                        self.playerView.listenTo(trackCollectionView, "playbackButtonClicked", self.togglePlayPause);
+                        trackCollectionView.listenTo(self.playerView, "playbackResumed", trackCollectionView.setPlayState);
+                        trackCollectionView.listenTo(self.playerView, "playbackStopped", trackCollectionView.setStopState);
+                        trackCollectionView.listenTo(self.playerView, "playbackEnded", trackCollectionView.setStopState);
                     }
                 });
             }
@@ -106,33 +104,16 @@ window.UB.Routers.Router = Backbone.Router.extend({
         });
     },
 
-
-    // Load and play the song.
-    loadSong: function (e) {
-        // By setting the url of the audio in the model,
-        // the <audio> element is automatically re-rendered.
-        this._currentTrack = e.trackId;
-        this.playerView.model.set({
-            previewUrl: e.trackPreviewUrl,
-            trackId: e.trackId
-        });
-        console.log("router: Call playerView.play().");
-        this.playerView.play();
-    },
-
     playSong: function () {
-        console.log("router: Call playerView.play().");
         this.playerView.play();
     },
 
     togglePlayPause: function (e) {
-        console.log("router: Call playerView.togglePlayPause().");
         this.playerView.togglePlayPause(e);
     },
 
     // Stop the actually playing song.
-    stopSong: function (e) {
-        console.log("router: Call playerView.stop().");
+    stopSong: function () {
         this.playerView.stop();
     },
 
@@ -150,71 +131,6 @@ window.UB.Routers.Router = Backbone.Router.extend({
         });
 
     }
-
-/*
-    artistTopAlbum: function(albumId) {
-        UB.Collections.trackCollection = new UB.Collections.TrackCollection();
-        UB.Collections.trackCollection.url = UB.artistAlbumUrlBefore + albumId + UB.artistAlbumUrlAfter;
-        UB.Collections.trackCollection.fetch({
-            success: function (coll) {
-                console.log("Random track collection fetched sucessfully.");
-                UB.Views.randomTrackCollectionView = new UB.Views.RandomTrackCollectionView({
-                    collection: UB.Collections.trackCollection
-                });
-                $("#album-content").html(UB.Views.randomTrackCollectionView.render().el);
-            },
-            error: function (coll) {
-                console.log("Random track collection cannot fetch data.");
-            }
-        });
-    },
-
-    setArtist: function(id) {
-        UB.Collections.artistCollection = new UB.Collections.ArtistCollection();
-        UB.Collections.artistCollection.url = this.urlBase + "artists/" + id;
-
-        var self = this;
-        UB.Collections.artistCollection.fetch({
-            success: function (coll) {
-                console.log("Artist collection fetched sucessfully.");
-                UB.Views.artistView = new UB.Views.ArtistView({
-                    collection: UB.Collections.artistCollection
-                });
-                $("#content").html(UB.Views.artistView.render().el);
-                self.setAlbums();
-            },
-            error: function (coll) {
-                console.log("Artist collection cannot fetch data.");
-            }
-        });
-    },
-
-    artistAlbums: function() {
-        UB.Collections.albumsCollection = new UB.Collections.AlbumsCollection();
-        UB.Collections.albumsCollection.url = UB.artistAlbumsUrl;
-
-        var self = this;
-        UB.Collections.albumsCollection.fetch({
-            success: function (coll) {
-                console.log("Album collection fetched sucessfully.");
-                UB.Views.albumsView = new UB.Views.AlbumsView({
-                    collection: UB.Collections.albumsCollection
-                });
-
-                $("#artist-top-bar").html(UB.Views.albumsView.render().el);
-
-                var albums = UB.Collections.albumsCollection;
-                if (albums.models.length > 0) {
-                    var randomAlbum = albums.models[Math.floor(Math.random() * albums.models.length)];
-                    self.setTopAlbum(randomAlbum.attributes.collectionId);
-                }
-            },
-            error: function (coll) {
-                console.log("Album collection cannot fetch data.");
-            }
-        });
-    }
-*/
 
 });
 
