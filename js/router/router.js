@@ -8,12 +8,14 @@ window.UB.Routers.Router = Backbone.Router.extend({
         "":                 "home",
         "albums/:id":        "album",
         "artists/:id":       "artist",
-        "playlists/:id":     "playlist"
+        "playlists/:id":     "playlist",
+        "playlists":         "playlists"
     },
 
     initialize: function () {
         this.$routerContainer = $("#content"); // container principal ds Index.Html
         this.$player = $("#player-container");
+        this.$playlists = $("#playlists_container");
         this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
     },
 
@@ -86,17 +88,28 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     //TODO
     playlist: function (id) {
-        var employee = new UB.Employee({id: id});
+        var playlist = new UB.Models.PlaylistModel({id: id});
         var self = this;
-        employee.fetch({
+        playlist.url = "http://localhost:3000/unsecure/playlists/"+id;
+
+        playlist.fetch({
             success: function (data) {
-                console.log(data);
-                // Note that we could also 'recycle' the same instance of EmployeeFullView
-                // instead of creating new instances
-                self.$content.html(new UB.EmployeeView({model: data}).render().el);
+
+                self.$routerContainer.html((new UB.Views.PlaylistView({model: data})).render().el);
             }
         });
+    },
 
+    playlists: function () {
+        var playlistCollection = new UB.Collections.PlaylistCollection();
+        var self = this;
+        playlistCollection.url = "http://localhost:3000/unsecure/playlists";
+
+        playlistCollection.fetch({
+            success: function (data) {
+                self.$playlists.html((new UB.Views.PlaylistCollectionView({collection: data})).render().el);
+            }
+        });
     }
 
 });

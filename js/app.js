@@ -32,7 +32,9 @@ $(document).ready(function () {
         "ArtistView",
         "AlbumsView",
         "HomeView",
-        "PlayerView"
+        "PlayerView",
+        "PlaylistView",
+        "PlaylistCollectionView"
     ], function () {
         if (pageName == "Artist") {
             var setTopAlbum = function(albumId) {
