@@ -1,16 +1,18 @@
 window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
 
+/*
     initialize: function() {
-        this.listenTo(this.collection, "change add sync", this.render);
+        this.listenTo(this.collection.models, "change add sync", this.render);
     },
 
-    render: function () {
-        this.$el.html(this.template());
-        _.each(this.collection.models, function(playlist) {
-            this.$("ul".append(
-                new UB.Views.TrackView({collection: playlist}).render().el))
-        });
+*/
 
+    render: function() {
+/*
+        _.each(this.collection.models, function(playlist) {
+            this.$("ul").append(
+                new UB.Views.PlaylistCollectionView({model: playlist}).render().el)
+        });*/
         return this;
     }
 

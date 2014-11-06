@@ -101,12 +101,14 @@ window.UB.Routers.Router = Backbone.Router.extend({
     },
 
     playlists: function () {
+
         var playlistCollection = new UB.Collections.PlaylistCollection();
         var self = this;
         playlistCollection.url = "http://localhost:3000/unsecure/playlists";
 
         playlistCollection.fetch({
             success: function (data) {
+
                 self.$playlists.html((new UB.Views.PlaylistCollectionView({collection: data})).render().el);
             }
         });
