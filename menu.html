@@ -21,7 +21,7 @@
 	        	</a>
 	        </li>
 	        <li>
-	        	<a href="#playlist" data-uk-offcanvas>My Playlists</a>
+	        	<a href="#playlists-offcanvas" data-uk-offcanvas>My Playlists</a>
 	        </li>
 	    </ul>
         <!--Tablet view-->
@@ -54,7 +54,7 @@
                             <a href="#">Home</a>
                         </li>
                         <li>
-                            <a href="#">My playlists</a>
+                            <a href="#playlists-offcanvas">My playlists</a>
                         </li>
                         <li class="uk-nav-divider"></li>
                         <li>
@@ -74,7 +74,7 @@
 	        </li>
 	    </ul>
 
-        <a href="#playlist" class="uk-navbar-toggle uk-hidden-large" data-uk-offcanvas></a>
+        <a href="#playlists-offcanvas" class="uk-navbar-toggle uk-hidden-large" data-uk-offcanvas></a>
 
         <div class="uk-navbar-flip uk-visible-large">
             <ul class="uk-navbar-nav">
@@ -106,7 +106,7 @@
                 </li>
                 <li>
                     <a href="#" class="uk-navbar-nav-subtitle">Logout
-                        <div>Michel Couture</div>
+                        <div>Username</div>
                     </a>
                 </li>
             </ul>
@@ -115,70 +115,17 @@
 
 
     <!-- This is the off-canvas sidebar -->
-    <div id="playlist" class="uk-offcanvas">
+    <div id="playlists-offcanvas" class="uk-offcanvas">
         <div class="uk-offcanvas-bar">
-            <div class="uk-panel">
-                <span>Favorites</span>
-                <ul class="uk-list uk-list-line">
-                    <li>
-                        <a href="#">Playlist 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Playlist 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Playlist 3</a>
-                    </li>
-                    <li>
-                        <a href="#">Playlist 4</a>
-                    </li>
-                    <li>
-                        <a href="#">Playlist 5</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="uk-panel">
-                <span>Your playlists</span>
-                <ul class="uk-list uk-list-line">
-                    <li>
-                        <a href="#">Playlist 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Playlist 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Playlist 3</a>
-                    </li>
-                    <li>
-                        <a href="#">Playlist 4</a>
-                    </li>
-                    <li>
-                        <a href="#">Playlist 5</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="uk-panel">
-                <span>Your friend's playlists</span>
-                <ul class="uk-list uk-list-line">
-                    <li>
-                        <a href="#">Playlist 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Playlist 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Playlist 3</a>
-                    </li>
-                    <li>
-                        <a href="#">Playlist 4</a>
-                    </li>
-                    <li>
-                        <a href="#">Playlist 5</a>
-                    </li>
-                </ul>
+            <div id="playlists-container" class="uk-panel">
             </div>
         </div>
     </div>
+
+
+    <script>
+        var pageName = "Menu";
+    </script>
     <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>-->
     <!--<script src="js/libs/uikit/uikit.min.js"></script>-->
     <!--<script src="js/libs/uikit/sticky.min.js"></script>-->

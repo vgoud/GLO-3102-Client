@@ -29,17 +29,17 @@ $(document).ready(function () {
         "AlbumsView",
         "HomeView",
         "PlayerView",
+        "PlaylistView",
+        "PlaylistCollectionView",
         "GlobalView",
         "HeaderView"
-
     ], function () {
-            UB.Routers.router = new UB.Routers.Router();
-            Backbone.history.start();
+        UB.Routers.router = new UB.Routers.Router();
+        Backbone.history.start();
     });
 
     // Prevent page from scrolling down when pressing spacebar.
-    window.onkeydown = function(e) {
+    window.onkeydown = function (e) {
         return !(e.keyCode == 32);
     };
-
 });
