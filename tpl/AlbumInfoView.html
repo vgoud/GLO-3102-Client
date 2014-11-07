@@ -1,13 +1,27 @@
 <div class="uk-width-medium-1-2 uk-width-large-1-3">
-    <div id="album-cover" class="uk-panel uk-margin-top">
+    <div id="album-cover" class="uk-panel uk-margin-left uk-margin-top uk-overlay">
         <img src="<%= artworkUrl400 %>">
+        <div id="album-cover-overlay" class="uk-overlay-area">
+            <div id="album-cover-overlay-area-content" class="uk-overlay-area-content">
+                <a role="button" id="album-cover-button-plus" class="uk-icon-plus"></a>
+                <div id="album-cover-add-all-tracks-text">Add all tracks to playlist...</div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="uk-width-medium-1-2 uk-width-large-2-3">
     <div id="top-album-info" class="uk-panel uk-panel-box uk-panel-header">
         <div class="uk-grid uk-grid-small uk-grid-divider">
+
+
+
+
             <div class="uk-width-1-1 uk-margin-remove">
-                <div id="album-name" class="uk-panel uk-panel-box">
+                <div id="artistUrl" class="uk-panel uk-panel-box uk-margin-bottom-remove">
+                <a  href="#artists/<%= artistId %>" >
+                <h2><%= artistName %></h2></a>
+            </div>
+                <div id="album-name" class="uk-panel uk-panel-box uk-margin-top-remove">
                     <h1><%= collectionName %></h1>
                 </div>
             </div>
@@ -39,7 +53,9 @@
                 </div>
 
                 <div class="uk-panel uk-margin-left">
-                    <h3 class="album-price">$<%= collectionPrice %></h3>
+                    <h3 class="album-price">
+                        $<%- UB.Utils.formatCollectionPrice(collectionPrice) %>
+                    </h3>
                 </div>
 
                 <div class="uk-panel uk-margin-left">

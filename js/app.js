@@ -11,10 +11,6 @@ $(document).ready(function () {
 //        headers: { "Authorization": token }
 //    });
 
-//    if (!pageName) {
-//        return;
-//    }
-
     UB.albumUrl = "http://localhost:3000/unsecure/albums/718938040/tracks";
     UB.artistAlbumUrlBefore = "http://localhost:3000/unsecure/albums/";
     UB.artistAlbumUrlAfter = "/tracks";
@@ -34,10 +30,12 @@ $(document).ready(function () {
         "HomeView",
         "PlayerView",
         "PlaylistView",
-        "PlaylistCollectionView"
+        "PlaylistCollectionView",
+        "GlobalView",
+        "HeaderView"
     ], function () {
         if (pageName == "Artist") {
-            var setTopAlbum = function(albumId) {
+            var setTopAlbum = function (albumId) {
                 UB.Collections.trackCollection = new UB.Collections.TrackCollection();
                 UB.Collections.trackCollection.url = UB.artistAlbumUrlBefore + albumId + UB.artistAlbumUrlAfter;
                 UB.Collections.trackCollection.fetch({
@@ -54,7 +52,7 @@ $(document).ready(function () {
                 });
             };
 
-            var setAlbums = function() {
+            var setAlbums = function () {
                 UB.Collections.albumsCollection = new UB.Collections.AlbumsCollection();
                 UB.Collections.albumsCollection.url = UB.artistAlbumsUrl;
                 UB.Collections.albumsCollection.fetch({
@@ -77,7 +75,7 @@ $(document).ready(function () {
                 });
             };
 
-            var setArtist = function() {
+            var setArtist = function () {
                 UB.Collections.artistCollection = new UB.Collections.ArtistCollection();
                 UB.Collections.artistCollection.url = UB.artistUrl;
                 UB.Collections.artistCollection.fetch({
@@ -109,7 +107,7 @@ $(document).ready(function () {
                     console.log(UB.Models.albumInfoModel.toJSON());
                     $("#album-info-top-container").html(UB.Views.albumInfoView.render().el);
                 },
-                error: function(model) {
+                error: function (model) {
                     console.log("Album info model cannot fetch data.");
                 }
             });
@@ -127,7 +125,7 @@ $(document).ready(function () {
                     console.log("Track collection fetched sucessfully.");
                     $("#album-tracks-container").html(UB.Views.trackCollectionView.render().el);
                 },
-                error: function(coll) {
+                error: function (coll) {
                     console.log("Track collection cannot fetch data.");
                 }
             });
@@ -140,7 +138,7 @@ $(document).ready(function () {
             });
 
             UB.Collections.PlaylistCollection.fetch({
-                success: function(coll) {
+                success: function (coll) {
                     console.log("Playlist collection fetched successfully.");
                     $("#playlist-container").html(UB.Views.PlaylistCollectionView.render().el);
                 },
@@ -153,9 +151,11 @@ $(document).ready(function () {
             UB.Routers.router = new UB.Routers.Router();
             Backbone.history.start();
         }
+
+        // Prevent page from scrolling down when pressing spacebar.
+        window.onkeydown = function (e) {
+            return !(e.keyCode == 32);
+        };
+
     });
-
-    // Inclusion of the navbar html.
-    $("#navbar").load("menu.html");
-
 });

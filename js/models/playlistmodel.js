@@ -13,4 +13,5 @@ window.UB.Models.PlaylistModel = Backbone.Model.extend({
         },
         id: "n/d"
     }
+
 });
