@@ -32,6 +32,7 @@
 </td>
 <td>
     <div class="row-song-length">
-        <%= trackDuration %>
+        <% var duration = UB.Utils.convertMsToTime(trackTimeMillis); %>
+        <%- duration.minutes + ":" + duration.seconds %>
     </div>
 </td>
