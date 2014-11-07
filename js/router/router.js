@@ -48,6 +48,20 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.$content.append(this.createPlaylistTestView.render().el);
     },
 
+    //Pas certain de comment communiquer l'id de la playlist à renommer.
+    renamePlaylist: function (id) {
+
+        var self = this;
+        // For test purposes. Can be integrated elsewhere.
+        var renamePlaylistModel = new UB.Models.RenamePlaylistModel({id: id});
+        renamePlaylistModel.urlRoot = function () {
+            return self.urlBase + "playlists/" + id;
+        };
+        this.renamePlaylistTestView = new UB.Views.RenamePlaylistView({
+            model: renamePlaylistModel});
+        this.$content.append(this.renamePlaylistTestView.render().el);
+    },
+
     initializePlaylist: function () {
         var self = this;
         var playlists = new UB.Collections.PlaylistCollection();
