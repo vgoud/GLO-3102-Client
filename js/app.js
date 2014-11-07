@@ -20,6 +20,7 @@ $(document).ready(function () {
     UB.albumInfoUrl = "http://localhost:3000/unsecure/albums/718938040";
     UB.albumTracksUrl = "http://localhost:3000/unsecure/albums/718938040/tracks";
 
+    // Load and compile all templates at once.
     UB.Utils.templateLoader.load([
         "TrackView",
         "TrackCollectionView",
@@ -32,7 +33,8 @@ $(document).ready(function () {
         "PlaylistView",
         "PlaylistCollectionView",
         "GlobalView",
-        "HeaderView"
+        "HeaderView",
+        "CreatePlaylistView"
     ], function () {
         UB.Routers.router = new UB.Routers.Router();
         Backbone.history.start();

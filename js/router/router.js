@@ -36,6 +36,15 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     home: function () {
         this.$content.html(new UB.Views.HomeView().render().el);
+        var self = this;
+        // For test purposes. Can be integrated elsewhere.
+        var newPlaylistModel = new UB.Models.CreatePlaylistModel();
+        newPlaylistModel.urlRoot = function () {
+            return self.urlBase + "playlists";
+        };
+        this.createPlaylistTestView = new UB.Views.CreatePlaylistView({
+            model: newPlaylistModel});
+        this.$content.append(this.createPlaylistTestView.render().el);
     },
 
     // Display the album's page.
