@@ -95,12 +95,16 @@ window.UB.Views.PlayerView = Backbone.View.extend({
         this._isPlaying = true;
         this.audio.play();
         this.trigger("playbackResumed", {model: this.model});
+        $("#playButton")[0].style.display = "none";
+        $("#pauseButton")[0].style.display = "inline";
     },
 
     stop: function () {
         this._isPlaying = false;
         this.audio.pause();
         this.trigger("playbackStopped", {model: this.model});
+        $("#playButton")[0].style.display = "inline";
+        $("#pauseButton")[0].style.display = "none";
     },
 
     togglePlayPause: function (e) {
@@ -108,23 +112,16 @@ window.UB.Views.PlayerView = Backbone.View.extend({
             if (e && e.model && this.model.id === e.model.id) {
                 // It's the same track. Playback is stopped.
                 this.stop();
-                $("#playButton")[0].style.display = "inline";
-                $("#pauseButton")[0].style.display = "none";
-
             } else {
                 if (e && e.model) {
                     // It's a new track. New track is played.
                     this.model.set(e.model.toJSON());
                     this.play();
-                    $("#playButton")[0].style.display = "none";
-                    $("#pauseButton")[0].style.display = "inline";
                 } else {
                     // No model is passed with the event,
                     // probably spacebar have been pressed.
                     // Playback is stopped.
                     this.stop();
-                    $("#playButton")[0].style.display = "inline";
-                    $("#pauseButton")[0].style.display = "none";
                 }
             }
         } else {
@@ -132,9 +129,6 @@ window.UB.Views.PlayerView = Backbone.View.extend({
                 this.model.set(e.model.toJSON());
             }
             this.play();
-            $("#playButton")[0].style.display = "none";
-            $("#pauseButton")[0].style.display = "inline";
-
         }
     },
 
