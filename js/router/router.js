@@ -9,7 +9,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         "albums/:id"     : "album",
         "artists/:id"    : "artist",
         "playlists/:id"  : "playlist",
-        "playlists"      : "playlists" //ver la methode
+        "playlists"      : "playlists"
     },
 
     urlBase: "http://localhost:3000/unsecure/",
@@ -30,6 +30,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
         this.$player.html(this.playerView.render().el);
         this.initializePlaylist();
+        //this.createPlaylistView = $("#create-playlist-modal");
+        //this.createPlaylistView.html(newPlaylist());
 
         // This handler needs to be attached only once.
         this.playerView.listenTo(this.globalView, "togglePlayPause", this.togglePlayPause);
@@ -38,28 +40,35 @@ window.UB.Routers.Router = Backbone.Router.extend({
     home: function () {
         this.$content.html(new UB.Views.HomeView().render().el);
         var self = this;
-        // For test purposes. Can be integrated elsewhere.
         var newPlaylistModel = new UB.Models.CreatePlaylistModel();
         newPlaylistModel.urlRoot = function () {
             return self.urlBase + "playlists";
         };
-        this.createPlaylistTestView = new UB.Views.CreatePlaylistView({
+        this.createPlaylistView = new UB.Views.CreatePlaylistView({
             model: newPlaylistModel});
-        this.$content.append(this.createPlaylistTestView.render().el);
+        this.$content.append(this.createPlaylistView.render().el);
     },
 
-    //Pas certain de comment communiquer l'id de la playlist à renommer.
-    renamePlaylist: function (id) {
-
+    newPlaylist: function () {
         var self = this;
-        // For test purposes. Can be integrated elsewhere.
+        var newPlaylistModel = new UB.Models.CreatePlaylistModel();
+        newPlaylistModel.urlRoot = function () {
+            return self.urlBase + "playlists";
+        };
+        this.createPlaylistModalView = new UB.Views.CreatePlaylistView({
+            model: newPlaylistModel});
+        this.$content.append(this.createPlaylistModalView.render().el);
+    },
+
+    renamePlaylist: function (id) {
+        var self = this;
         var renamePlaylistModel = new UB.Models.RenamePlaylistModel({id: id});
         renamePlaylistModel.urlRoot = function () {
             return self.urlBase + "playlists/" + id;
         };
-        this.renamePlaylistTestView = new UB.Views.RenamePlaylistView({
+        this.renamePlaylistViewModal = new UB.Views.RenamePlaylistView({
             model: renamePlaylistModel});
-        this.$content.append(this.renamePlaylistTestView.render().el);
+        this.$content.append(this.renamePlaylistViewModal.render().el);
     },
 
     initializePlaylist: function () {
