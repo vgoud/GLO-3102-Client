@@ -5,11 +5,11 @@
 window.UB.Routers.Router = Backbone.Router.extend({
 
     routes: {
-        ""               : "home",
-        "albums/:id"     : "album",
-        "artists/:id"    : "artist",
-        "playlists/:id"  : "playlist",
-        "playlists"      : "playlists" //ver la methode
+        "": "home",
+        "albums/:id": "album",
+        "artists/:id": "artist",
+        "playlists/:id": "playlist",
+        "playlists": "playlists" //ver la methode
     },
 
     urlBase: "http://localhost:3000/unsecure/",
@@ -68,9 +68,9 @@ window.UB.Routers.Router = Backbone.Router.extend({
         playlists.url = "http://localhost:3000/unsecure/playlists";
 
         playlists.fetch({
-           success: function (data) {
-               self.playlistcollectionView = new UB.Views.PlaylistCollectionView({collection: data});
-           }
+            success: function (data) {
+                self.playlistcollectionView = new UB.Views.PlaylistCollectionView({collection: data});
+            }
         });
     },
 
@@ -94,14 +94,18 @@ window.UB.Routers.Router = Backbone.Router.extend({
                 tracks.fetch({
                     success: function (dataTrack) {
                         self.$content.html(new UB.Views.AlbumInfoView({model: data}).render().el);
-                        var trackCollectionView = new UB.Views.TrackCollectionView({collection: dataTrack});
-                        self.$content.append(trackCollectionView.render().el);
+
+                        if (self.trackCollectionView) {
+                            self.playerView.stopListening(self.trackCollectionView, "playbackButtonClicked");
+                        }
+                        self.trackCollectionView = new UB.Views.TrackCollectionView({collection: dataTrack});
+                        self.$content.append(self.trackCollectionView.render().el);
 
                         // Attach handlers to the tracks' and player's events.
-                        self.playerView.listenTo(trackCollectionView, "playbackButtonClicked", self.togglePlayPause);
-                        trackCollectionView.listenTo(self.playerView, "playbackResumed", trackCollectionView.setPlayState);
-                        trackCollectionView.listenTo(self.playerView, "playbackStopped", trackCollectionView.setStopState);
-                        trackCollectionView.listenTo(self.playerView, "playbackEnded", trackCollectionView.setStopState);
+                        self.playerView.listenTo(self.trackCollectionView, "playbackButtonClicked", self.togglePlayPause);
+                        self.trackCollectionView.listenTo(self.playerView, "playbackResumed", self.trackCollectionView.setPlayState);
+                        self.trackCollectionView.listenTo(self.playerView, "playbackStopped", self.trackCollectionView.setStopState);
+                        self.trackCollectionView.listenTo(self.playerView, "playbackEnded", self.trackCollectionView.setStopState);
                     }
                 });
             }
@@ -159,12 +163,33 @@ window.UB.Routers.Router = Backbone.Router.extend({
     playlist: function (id) {
         var playlist = new UB.Models.PlaylistModel({id: id});
         var self = this;
-        playlist.url = "http://localhost:3000/unsecure/playlists/"+id;
+        playlist.urlRoot = this.urlBase + "playlists";
 
         playlist.fetch({
-            success: function (data) {
+            success: function (playlistModel) {
+                // Map track data to a new model.
+                var models =
+                    _.map(playlistModel.get("tracks"), function (trackData) {
+                        return new UB.Models.TrackModel(trackData);
+                    });
 
-                self.$content.html((new UB.Views.PlaylistView({model: data})).render().el);
+                // Stop listening to old object before instantiating a new one.
+                if (self.playlistView) {
+                    self.playerView.stopListening(self.playlistView, "playbackButtonClicked");
+                }
+
+                var playlistTrackCollection = new UB.Collections.PlaylistTrackCollection(models);
+                self.playlistView =
+                    new UB.Views.PlaylistView({
+                        model: playlistModel,
+                        collection: playlistTrackCollection
+                    });
+                self.playerView.listenTo(self.playlistView, "playbackButtonClicked", self.togglePlayPause);
+                self.playlistView.listenTo(self.playerView, "playbackResumed", self.playlistView.setPlayState);
+                self.playlistView.listenTo(self.playerView, "playbackStopped", self.playlistView.setStopState);
+                self.playlistView.listenTo(self.playerView, "playbackEnded", self.playlistView.setStopState);
+
+                self.$content.html(self.playlistView.render().el);
             }
         });
     },
@@ -177,8 +202,10 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
         playlistCollection.fetch({
             success: function (data) {
-
-                self.$playlists.html((new UB.Views.PlaylistCollectionView({collection: data})).render().el);
+                self.$playlists.html((
+                    new UB.Views.PlaylistCollectionView({
+                        collection: data
+                    })).render().el);
             }
         });
     }
