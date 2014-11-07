@@ -166,7 +166,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
         playlist.fetch({
             success: function (playlistModel) {
-                // Map track data to a new model.
+                // Map tracks data to a new array of models.
                 var models =
                     _.map(playlistModel.get("tracks"), function (trackData) {
                         return new UB.Models.TrackModel(trackData);
