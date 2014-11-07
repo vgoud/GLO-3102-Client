@@ -1,4 +1,4 @@
-<td class="uk-width-1-6">
+<td class="uk-width-1-5">
     <button
             class="ub-button ub-button-play uk-button uk-button-small"
             type="button"
@@ -11,11 +11,11 @@
     </button>
 </td>
 <td>
-    <div class="row-song-title">
+    <div class="row-song-title uk-width-3-5">
         <%= trackName %>
     </div>
 </td>
-<td class="uk-width-1-6">
+<td class="uk-width-1-10">
     <div id="track-share-button" data-uk-dropdown="{mode: 'click'}">
         <button
                 class="ub-button ub-button-share uk-button uk-button-small"
@@ -28,6 +28,11 @@
                 <li><a id="dropdown-add-to-playlist" href="#">Add to playlist...</a></li>
             </ul>
         </div>
+    </div>
+</td>
+<td>
+    <div class="row-song-artist">
+        <a href="#artists/<%= artistId %>"><%= artistName %></a>
     </div>
 </td>
 <td>
