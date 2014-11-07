@@ -3,6 +3,6 @@
 <ul id = "playlists-menu" class="uk-list uk-list-line">
     <p>Your playlists</p>
     <% _.each(playlists, function(playlist) { %>
-    <li><a href="#playlists/<%= playlist.id %>"><%= playlist.name %></a></li>
+    <li><a href="#playlists/<%= playlist.id %>" onclick="jQuery.UIkit.offcanvas.hide();"><%= playlist.name %></a></li>
     <%}); %>
 </ul>
