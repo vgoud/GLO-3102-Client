@@ -159,7 +159,6 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.playerView.stop();
     },
 
-//TODO
     playlist: function (id) {
         var playlist = new UB.Models.PlaylistModel({id: id});
         var self = this;
