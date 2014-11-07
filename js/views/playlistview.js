@@ -17,12 +17,12 @@ window.UB.Views.PlaylistView = Backbone.View.extend({
     },
 
     render: function () {
-        console.log(this.model);
 
-        this.$el.html(this.template({
-            trackList : this.model.toJSON().tracks
-        }));
-
+        this.$el.html(this.template());
+        _.each(this.collection.models, function (track) {
+            this.$("tbody").append(
+                new UB.Views.PlaylistTrackView({model: track}).render().el);
+        });
 
         return this;
     },

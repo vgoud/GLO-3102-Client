@@ -1,58 +1,15 @@
-
 <table class="uk-table uk-table-hover">
-
     <thead>
     <tr>
         <th>#</th>
         <th>Titre</th>
         <th>Artiste</th>
         <th>Album</th>
-        <th></th>
         <th><i class="uk-icon-clock-o"></i></th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
-
-    <% _.each(trackList, function(track){%>
-    <tr>
-    <td class="uk-width-1-6">
-        <button
-                class="ub-button ub-button-play uk-button uk-button-small"
-                type="button"
-                data-track-id="<%= track.trackId %>"
-                data-track-collection-id="<%= track.collectionId %>"
-                data-track-number="<%= track.trackNumber %>"
-                data-track-preview-url="<%= track.previewUrl %>"
-                data-track-artist-id="<%= track.artistId %>"
-                data-icon="uk-icon-play">
-        </button>
-    </td>
-    <td>
-        <div class="row-song-title">
-            <%- track.trackName %>
-        </div>
-    </td>
-    <td>
-        <div class="row-song-artist">
-            <%- track.artistName %>
-        </div>
-    </td>
-    <td>
-        <div class="row-song-album">
-            <%- track.collectionName %>
-        </div>
-    </td>
-    <td>
-
-    </td>
-        <td>
-            <div class="row-song-length">
-                <% var duration = UB.Utils.convertMsToTime(track.trackTimeMillis); %>
-                <%- duration.minutes + ":" + duration.seconds %>
-            </div>
-        </td>
-    </tr>
-    <% }); %>
 
     </tbody>
 </table>

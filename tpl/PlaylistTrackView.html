@@ -1,3 +1,4 @@
+<tr>
 <td class="uk-width-1-6">
     <button
             class="ub-button ub-button-play uk-button uk-button-small"
@@ -25,23 +26,13 @@
         <%= collectionName %>
     </div>
 </td>
-<td class="uk-width-1-6">
-    <div id="track-share-button" data-uk-dropdown="{mode: 'click'}">
-        <button
-                class="ub-button ub-button-share uk-button uk-button-small"
-                type="button"
-                data-icon="uk-icon-share">
-        </button>
-        <div class="uk-dropdown uk-dropdown-flip">
-            <ul class="uk-nav uk-nav-dropdown">
-                <li><a id="dropdown-play" data-track-id="<%= trackId %>">Play</a></li>
-                <li><a id="dropdown-add-to-playlist" href="#">Add to playlist...</a></li>
-            </ul>
-        </div>
+<td>
+    <div class="row-song-length">
+        <% var duration = UB.Utils.convertMsToTime(trackTimeMillis); %>
+        <%- duration.minutes + ":" + duration.seconds %>
     </div>
 </td>
 <td>
-    <div class="row-song-length">
-        <%= trackDuration %>
-    </div>
+
 </td>
+</tr>
