@@ -11,16 +11,17 @@ window.UB.Views.TrackCollectionView = Backbone.View.extend({
     className: "uk-panel uk-panel-box",
 
     events: {
-        "click .ub-button-play" : "togglePlayVolumeIcons"
+        "click .ub-button-play" : "onPlaybackButtonClicked",
+        "click #dropdown-play"  : "onDropdownPlaybackButtonClicked"
     },
 
-    initialize: function() {
+    initialize: function () {
         this.listenTo(this.collection, "change add sync", this.render);
     },
 
     render: function () {
         this.$el.html(this.template());
-        _.each(this.collection.models, function(track) {
+        _.each(this.collection.models, function (track) {
             this.$("tbody").append(
                 new UB.Views.TrackView({model: track}).render().el);
         });
@@ -30,34 +31,64 @@ window.UB.Views.TrackCollectionView = Backbone.View.extend({
 
     animationPlayButtonClasses: "animated infinite pulse",
 
-    togglePlayVolumeIcons: function(e) {
-        var target = $( e.target );
-        if (target.hasClass("ub-active")) {
-            target.removeClass("ub-active " + this.animationPlayButtonClasses);
-            this.stopSong(e);
-        }
-        else {
-            // We can only have one song playing at once.
-            var $playingSongButton = $(".ub-button-play.ub-active");
-            if ($playingSongButton) {
-                $playingSongButton.removeClass("ub-active " + this.animationPlayButtonClasses);
-            }
-            // We remove the track number and replace it by an icon of volume.
-            target.addClass("ub-active " + this.animationPlayButtonClasses);
-            this.loadSong(e);
-        }
+    onPlaybackButtonClicked: function (e) {
+        this.triggerPlaybackButtonClicked(e);
+
+        // Remove focus from the button, otherwise the keypress
+        // events are not catched by the global view.
+        this.blurActiveElement();
     },
 
-    loadSong: function(e) {
-        this.trigger("loadSong", {
-            songPreviewUrl: $(e.target).data("track-preview-url")
+    findPlaybackButtonFromTrackId: function (trackId) {
+        return this.$(".ub-button-play[data-track-id='" + trackId + "']");
+    },
+
+    onDropdownPlaybackButtonClicked: function (e) {
+        // Route click to playback button by triggering a click.
+        this.findPlaybackButtonFromTrackId($( e.target).data("track-id")).click();
+    },
+
+    blurActiveElement: function () {
+        // Remove focus from the active element, for example when
+        // playback button is clicked.
+        document.activeElement.blur();
+    },
+
+    toggleActiveState: function ($target) {
+        if (this._$currentTrack && (! this._$currentTrack.is($target))) {
+            this._$currentTrack.removeClass("ub-active " + this.animationPlayButtonClasses);
+        }
+        $target.toggleClass("ub-active " + this.animationPlayButtonClasses);
+        this._$currentTrack = $target;
+    },
+
+    getTrackModelFromClickEvent: function (e) {
+        var $target = $(e.target);
+        var trackId = $target.data("track-id");
+        // The model's id is set to the track id when fetched.
+        return this.collection.get(trackId);
+    },
+
+    triggerPlaybackButtonClicked: function (e) {
+        var trackModel = this.getTrackModelFromClickEvent(e);
+        this.trigger("playbackButtonClicked", {
+            model: trackModel
         });
     },
 
-    stopSong: function(e) {
-        this.trigger("stopSong", {
-            songPreviewUrl: $(e.target).data("track-preview-url")
-        });
+    setPlayState: function (e) {
+        if (e && e.model) {
+            var $target = this.$(".ub-button-play[data-track-id='" + e.model.id + "']");
+            this.toggleActiveState($target);
+        } else {
+            this.toggleActiveState(this._$currentTrack);
+        }
+    },
+
+    setStopState: function (e) {
+        if (this._$currentTrack) {
+            this._$currentTrack.removeClass("ub-active " + this.animationPlayButtonClasses);
+        }
     }
 
 });

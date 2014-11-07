@@ -3,14 +3,58 @@
 #player-container {
   position: fixed;
   bottom: 0;
-  flex-direction: row;
 }
 
-#player-container, #push {
-  height: 40px;
+#player-container {
   background-color: @button-background;
 }
 
-#wrapper {
-  padding-bottom: -40px;
+// Audio player customization.
+
+#audio-player-progress {
+  display: block;
+  width: 100%;
+  height: 5px;
+//  border-radius: 25px;
+  background-color: #ffffff;
+  overflow: hidden;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+#audio-player-progress-bar {
+  -webkit-transition: width 100ms linear;
+  -moz-transition: width 100ms linear;
+  -o-transition: width 100ms linear;
+  transition: width 100ms linear;
+  display: block;
+  height: 100%;
+  max-width: 100%;
+  background-color: @skin-dark-accent-color;
+}
+
+.audio-player-button {
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.audio-player-button:hover {
+  opacity: 1;
+}
+
+.audio-player-button::before {
+  font-size: 20px;
+  color: @skin-dark-accent-color;
+}
+
+#audio-player-button-wrapper {
+  margin: 5px auto 0 auto;
+  & > * {
+    padding-left: 0;
+  }
+}
+
+#audio-player-song-name-artist-name {
+  min-height: 20px;
+  margin-bottom: 2px;
 }

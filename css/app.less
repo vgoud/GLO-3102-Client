@@ -52,3 +52,21 @@ h1, h2, h3, h4, h5, h6, .uk-navbar-nav > li > a {
 #navbar {
   min-height: 50px;
 }
+
+#wrapper {
+  min-height: 100%;
+  margin-bottom: -@player-container-height;
+
+  &::after {
+    content: "";
+    display: block;
+
+    &, #player-container {
+      height: @player-container-height;
+    }
+  }
+}
+
+#push {
+  display: none;
+}
