@@ -133,6 +133,21 @@ $(document).ready(function () {
             });
 
 
+        } else if (pageName == "Menu") {
+            UB.Collections.PlaylistCollection = new UB.Collections.PlaylistCollection();
+            UB.Views.PlaylistCollectionView = new UB.Views.PlaylistCollectionView()({
+                collection: UB.Collections.PlaylistCollection
+            });
+
+            UB.Collections.PlaylistCollection.fetch({
+                success: function(coll) {
+                    console.log("Playlist collection fetched successfully.");
+                    $("#playlist-container").html(UB.Views.PlaylistCollectionView.render().el);
+                },
+                error: function (call) {
+                    console.log("Playlist collection cannot fetch data.");
+                }
+            });
         }
         else {
             UB.Routers.router = new UB.Routers.Router();

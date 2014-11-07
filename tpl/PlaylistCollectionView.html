@@ -1,3 +1,25 @@
-<li>
-    <a href="#">Nouvelle Playlist</a>
-</li>
+<button class="uk-button" data-uk-modal="{target: '#new-playlist-modal'}">Create new playlist</button>
+
+<ul id = "playlists" class="uk-list uk-list-line">
+    <p>Your playlists</p>
+    <li>
+        <a href="#playlists/5456b513dcbb62c41e07bd78">Playlist 1</a>
+    </li>
+    <li>
+        <a href="#playlists">Playlist 2</a>
+    </li>
+</ul>
+
+<div id="new-playlist-modal" class="uk-modal">
+    <div class="uk-modal-dialog">
+        <a class="uk-modal-close uk-close"></a>
+        <h1 id="#new-playlist-title">Create a new playlist</h1>
+        <form class="uk-form">
+            <fieldset data-uk-margin>
+                <input id="new-playlist-name" type="text" placeholder="New playlist name...">
+                <button id="btn-create-playlist" class="uk-button">Create playlist</button>
+                <button id="btn-cancel-new-playlist" class="uk-button">Cancel</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
