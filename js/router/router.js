@@ -8,8 +8,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
         ""               : "home",
         "albums/:id"     : "album",
         "artists/:id"    : "artist",
-        "playlists/:id"  : "playlist",
-        "playlists"      : "playlists"
+        //"playlists/:id"  : "playlist",
+        "playlists"      : "playlists" //ver la methode
     },
 
     urlBase: "http://localhost:3000/unsecure/",
@@ -26,9 +26,10 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.header.render();
         this.$content = $("#content"); // container principal ds Index.Html
         this.$player = $("#player-container");
-        this.$playlists = $("#playlists_container");
+        this.$playlists = $("#playlists-container");
         this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
         this.$player.html(this.playerView.render().el);
+        this.initializePlaylist();
 
         // This handler needs to be attached only once.
         this.playerView.listenTo(this.globalView, "togglePlayPause", this.togglePlayPause);
@@ -45,6 +46,18 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.createPlaylistTestView = new UB.Views.CreatePlaylistView({
             model: newPlaylistModel});
         this.$content.append(this.createPlaylistTestView.render().el);
+    },
+
+    initializePlaylist: function () {
+        var self = this;
+        var playlists = new UB.Collections.PlaylistCollection();
+        playlists.url = "http://localhost:3000/unsecure/playlists";
+
+        playlists.fetch({
+           success: function (data) {
+               self.playlistcollectionView = new UB.Views.PlaylistCollectionView({collection: data});
+           }
+        });
     },
 
     // Display the album's page.
