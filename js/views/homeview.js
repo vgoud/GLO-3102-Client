@@ -5,6 +5,7 @@
 
 window.UB.Views.HomeView = Backbone.View.extend({
 
+
     initialize: function () {
     },
 
