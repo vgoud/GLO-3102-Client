@@ -9,27 +9,18 @@ window.UB.Views.PlaylistView = Backbone.View.extend({
 
     initialize: function () {
         this.listenTo(this.model, "change add sync", this.render);
+
     },
 
-    //Il va y avoir du traitement à faire pour aller chercher uniquement les playlists de l'utilisateur courant.
-    render: function() {
-/*
-        $(this.el).html(this.template({
-            playlist: this.model.toJSON()
-        }));
-*/
-        var tracklist = this.model.attributes.tracks;
-
+    render: function () {
+        var tracks = this.model.attributes.tracks;
 
         this.$el.html(this.template());
-        _.each(tracklist, function(track) {
-            console.log(track.trackName);
-            /*
+        _.each(tracks, function (track) {
             this.$("tbody").append(
-                new UB.Views.TrackView({model: track}).render().el);*/
+                new UB.Views.PlaylistTrackView({model: track}).render().el);
         });
 
         return this;
-
     }
 });

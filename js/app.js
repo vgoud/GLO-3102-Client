@@ -34,7 +34,8 @@ $(document).ready(function () {
         "PlaylistCollectionView",
         "GlobalView",
         "HeaderView",
-        "CreatePlaylistView"
+        "CreatePlaylistView",
+        "PlaylistTrackView"
     ], function () {
         UB.Routers.router = new UB.Routers.Router();
         Backbone.history.start();

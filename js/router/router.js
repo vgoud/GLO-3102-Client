@@ -137,7 +137,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         playlist.fetch({
             success: function (data) {
 
-                self.$routerContainer.html((new UB.Views.PlaylistView({model: data})).render().el);
+                self.$content.html((new UB.Views.PlaylistView({model: data})).render().el);
             }
         });
     },
