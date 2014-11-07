@@ -138,5 +138,7 @@ window.UB.Views.PlayerView = Backbone.View.extend({
         this.trigger("playbackEnded", {
             model: this.model.toJSON()
         });
+        $("#playButton")[0].style.display = "inline";
+        $("#pauseButton")[0].style.display = "none";
     }
 });
