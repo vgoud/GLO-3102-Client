@@ -29,9 +29,9 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.$playlists = $("#playlists-container");
         this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
         this.$player.html(this.playerView.render().el);
-        this.initializePlaylist();
-        //this.createPlaylistView = $("#create-playlist-modal");
-        //this.createPlaylistView.html(newPlaylist());
+        this.initializeUserPlaylist();
+        this.initializeNewPlaylistModal();
+        //this.initializeRenamePlaylistModal();
 
         // This handler needs to be attached only once.
         this.playerView.listenTo(this.globalView, "togglePlayPause", this.togglePlayPause);
@@ -39,17 +39,9 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     home: function () {
         this.$content.html(new UB.Views.HomeView().render().el);
-        var self = this;
-        var newPlaylistModel = new UB.Models.CreatePlaylistModel();
-        newPlaylistModel.urlRoot = function () {
-            return self.urlBase + "playlists";
-        };
-        this.createPlaylistView = new UB.Views.CreatePlaylistView({
-            model: newPlaylistModel});
-        this.$content.append(this.createPlaylistView.render().el);
     },
 
-    newPlaylist: function () {
+    initializeNewPlaylistModal: function () {
         var self = this;
         var newPlaylistModel = new UB.Models.CreatePlaylistModel();
         newPlaylistModel.urlRoot = function () {
@@ -57,21 +49,21 @@ window.UB.Routers.Router = Backbone.Router.extend({
         };
         this.createPlaylistModalView = new UB.Views.CreatePlaylistView({
             model: newPlaylistModel});
-        this.$content.append(this.createPlaylistModalView.render().el);
+        $("#global-container").append(this.createPlaylistModalView.render().el);
     },
 
-    renamePlaylist: function (id) {
+    initializeRenamePlaylistModal: function (id) {
         var self = this;
         var renamePlaylistModel = new UB.Models.RenamePlaylistModel({id: id});
         renamePlaylistModel.urlRoot = function () {
             return self.urlBase + "playlists/" + id;
         };
-        this.renamePlaylistViewModal = new UB.Views.RenamePlaylistView({
+        this.renamePlaylistModalView = new UB.Views.RenamePlaylistView({
             model: renamePlaylistModel});
-        this.$content.append(this.renamePlaylistViewModal.render().el);
+        $("#playlists-container").append(this.renamePlaylistModalView.render().el);
     },
 
-    initializePlaylist: function () {
+    initializeUserPlaylist: function () {
         var self = this;
         var playlists = new UB.Collections.PlaylistCollection();
         playlists.url = "http://localhost:3000/unsecure/playlists";
@@ -89,6 +81,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         var tracks = new UB.Collections.TrackCollection();
 
         var self = this;
+        self.newPlaylistModal();
 
         tracks.url = function () {
             return self.urlBase + "albums/" + id + "/tracks";
@@ -103,6 +96,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
                 tracks.fetch({
                     success: function (dataTrack) {
                         self.$content.html(new UB.Views.AlbumInfoView({model: data}).render().el);
+
 
                         if (self.trackCollectionView) {
                             self.playerView.stopListening(self.trackCollectionView, "playbackButtonClicked");
@@ -126,6 +120,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         var artist = new UB.Models.ArtistModel({id: id});
         var artistAlbums = new UB.Collections.ArtistAlbumCollection();
         var self = this;
+        self.newPlaylistModal();
 
         artist.urlRoot = function () {
             return self.urlBase + "artists";

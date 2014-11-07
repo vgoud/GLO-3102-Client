@@ -8,9 +8,9 @@ window.UB.Models.RenamePlaylistModel = Backbone.Model.extend({
         owner: "bidon@bidon.com"
     },
 
-    initialize: function() {
+    initialize: function(id) {
         this.on("sync", function(model) {
-            model.set("id", model.get("id"));
+            model.set("id", id);
         })
     },
 
