@@ -8,7 +8,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         ""               : "home",
         "albums/:id"     : "album",
         "artists/:id"    : "artist",
-        //"playlists/:id"  : "playlist",
+        "playlists/:id"  : "playlist",
         "playlists"      : "playlists" //ver la methode
     },
 
@@ -145,7 +145,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
     playlist: function (id) {
         var playlist = new UB.Models.PlaylistModel({id: id});
         var self = this;
-        playlist.url = "http://ubeat.herokuapp.com/unsecure/playlists/"+id;
+        playlist.url = "http://localhost:3000/unsecure/playlists/"+id;
 
         playlist.fetch({
             success: function (data) {
@@ -159,7 +159,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
         var playlistCollection = new UB.Collections.PlaylistCollection();
         var self = this;
-        playlistCollection.url = "http://ubeat.herokuapp.com/unsecure/playlists";
+        playlistCollection.url = "http://localhost:3000/unsecure/playlists";
 
         playlistCollection.fetch({
             success: function (data) {
