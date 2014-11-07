@@ -9,7 +9,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         "albums/:id": "album",
         "artists/:id": "artist",
         "playlists/:id": "playlist",
-        "playlists": "playlists" //ver la methode
+        "playlists": "playlists"
     },
 
     urlBase: "http://localhost:3000/unsecure/",
@@ -56,7 +56,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         var self = this;
         var renamePlaylistModel = new UB.Models.RenamePlaylistModel({id: id});
         renamePlaylistModel.urlRoot = function () {
-            return self.urlBase + "playlists/" + id;
+            return self.urlBase + "playlists";
         };
         this.renamePlaylistModalView = new UB.Views.RenamePlaylistView({
             model: renamePlaylistModel});
@@ -66,7 +66,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
     initializeUserPlaylist: function () {
         var self = this;
         var playlists = new UB.Collections.PlaylistCollection();
-        playlists.url = "http://localhost:3000/unsecure/playlists";
+        playlists.url = this.urlBase + "playlists";
 
         playlists.fetch({
             success: function (data) {
@@ -81,7 +81,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         var tracks = new UB.Collections.TrackCollection();
 
         var self = this;
-        self.newPlaylistModal();
+//        self.newPlaylistModal();
 
         tracks.url = function () {
             return self.urlBase + "albums/" + id + "/tracks";
@@ -120,7 +120,6 @@ window.UB.Routers.Router = Backbone.Router.extend({
         var artist = new UB.Models.ArtistModel({id: id});
         var artistAlbums = new UB.Collections.ArtistAlbumCollection();
         var self = this;
-        self.newPlaylistModal();
 
         artist.urlRoot = function () {
             return self.urlBase + "artists";
