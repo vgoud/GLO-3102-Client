@@ -2,12 +2,16 @@
  * Created by Michel on 2014-11-06.
  */
 
-
-//Besoin de l'id de la playlist à enregistrer quelque part ici ou ailleurs..
 window.UB.Models.RenamePlaylistModel = Backbone.Model.extend({
     defaults: {
         name: "",
         owner: "bidon@bidon.com"
+    },
+
+    initialize: function(id) {
+        this.on("sync", function(model) {
+            model.set("id", id);
+        })
     },
 
     parse: function (data) {

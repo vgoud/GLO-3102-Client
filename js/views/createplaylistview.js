@@ -21,6 +21,7 @@ window.UB.Views.CreatePlaylistView = Backbone.View.extend({
 
     createPlaylist: function (e) {
         if (this.model.save({name: this.$("#new-playlist-name").val()})) {
+
             this.close();
         };
     },
