@@ -11,7 +11,9 @@ window.UB.Views.PlayerView = Backbone.View.extend({
     className: "uk-container uk-container-center uk-width-1-1 uk-height-1-1",
 
     events: {
-        "click #audio-player-progress" : "onProgressBarClick"
+        "click #audio-player-progress" : "onProgressBarClick",
+        "click #playButton" : "onPlayClicked",
+        "click #pauseButton" : "onPauseClicked"
     },
 
     initialize: function (options) {
@@ -92,11 +94,13 @@ window.UB.Views.PlayerView = Backbone.View.extend({
     },
 
     play: function () {
+        if(this.audio.src != this.audio.baseURI){
         this._isPlaying = true;
         this.audio.play();
         this.trigger("playbackResumed", {model: this.model});
         $("#playButton")[0].style.display = "none";
         $("#pauseButton")[0].style.display = "inline";
+        }
     },
 
     stop: function () {
@@ -140,5 +144,17 @@ window.UB.Views.PlayerView = Backbone.View.extend({
         });
         $("#playButton")[0].style.display = "inline";
         $("#pauseButton")[0].style.display = "none";
+    },
+
+    onPlayClicked: function() {
+        this.play();
+    },
+
+    onPauseClicked: function() {
+        if(this._isPlaying){
+        this.stop();
+        }
     }
+
+
 });
