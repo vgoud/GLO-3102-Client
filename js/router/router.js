@@ -197,7 +197,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
         var playlistCollection = new UB.Collections.PlaylistCollection();
         var self = this;
-        playlistCollection.url = "http://localhost:3000/unsecure/playlists";
+        playlistCollection.url = this.urlBase + "playlists";
 
         playlistCollection.fetch({
             success: function (data) {
