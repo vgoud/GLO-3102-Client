@@ -5,7 +5,11 @@
 window.UB.Models.CreatePlaylistModel = Backbone.Model.extend({
     defaults: {
         name: "",
-        owner: "bidon@bidon.com"
+        owner: {
+            id: "vince82",
+            email: "vince@bidon.com",
+            name: "owner"
+        }
     },
 
     parse: function (data) {
