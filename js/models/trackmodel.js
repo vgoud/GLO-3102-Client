@@ -4,7 +4,6 @@
 
 window.UB.Models.TrackModel = Backbone.Model.extend({
     defaults: {
-        trackNumber: "n/d",
         trackTimeMillis: "n/d",
         previewUrl: "",
         trackId: "",
