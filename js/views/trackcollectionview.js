@@ -11,8 +11,9 @@ window.UB.Views.TrackCollectionView = Backbone.View.extend({
     className: "uk-panel uk-panel-box",
 
     events: {
-        "click .ub-button-play" : "onPlaybackButtonClicked",
-        "click #dropdown-play"  : "onDropdownPlaybackButtonClicked"
+        "click .ub-button-play"            : "onPlaybackButtonClick",
+        "click #dropdown-play"             : "onDropdownPlaybackButtonClick",
+        "click #dropdown-add-to-playlist"  : "onDropdownAddToPlaylistClick"
     },
 
     initialize: function () {
@@ -31,7 +32,7 @@ window.UB.Views.TrackCollectionView = Backbone.View.extend({
 
     animationPlayButtonClasses: "animated infinite pulse",
 
-    onPlaybackButtonClicked: function (e) {
+    onPlaybackButtonClick: function (e) {
         this.triggerPlaybackButtonClicked(e);
 
         // Remove focus from the button, otherwise the keypress
@@ -43,9 +44,31 @@ window.UB.Views.TrackCollectionView = Backbone.View.extend({
         return this.$(".ub-button-play[data-track-id='" + trackId + "']");
     },
 
-    onDropdownPlaybackButtonClicked: function (e) {
+    onDropdownPlaybackButtonClick: function (e) {
         // Route click to playback button by triggering a click.
         this.findPlaybackButtonFromTrackId($( e.target).data("track-id")).click();
+    },
+
+    onDropdownAddToPlaylistClick: function (e) {
+        e.preventDefault();
+        var $target = $( e.target );
+
+        var playlists = new UB.Collections.PlaylistCollection();
+        playlists.url = UB.urlBase + "playlists";
+        var self = this;
+        playlists.fetch({
+            success: function (data) {
+                console.log("User playlists received.");
+                console.log(data);
+                var addToPlaylistView =
+                    new UB.Views.AddToPlaylistView({
+                        collection: data
+                    });
+
+                addToPlaylistView.el = $target.siblings().get(0);
+                addToPlaylistView.render();
+            }
+        });
     },
 
     blurActiveElement: function () {
