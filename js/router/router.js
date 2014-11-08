@@ -22,8 +22,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
         this.globalView = new UB.Views.GlobalView();
         this.globalView.render();
-        this.header = new UB.Views.HeaderView();
-        this.header.render();
+        this.initializeHeaderViews();
+        this.initializeSearchFieldView();
         this.$content = $("#content"); // container principal ds Index.Html
         this.$player = $("#player-container");
         this.$playlists = $("#playlists-container");
@@ -43,6 +43,22 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     home: function () {
         this.$content.html(new UB.Views.HomeView().render().el);
+    },
+
+    initializeHeaderViews: function() {
+        this.headercommonview = new UB.Views.HeaderCommonView();
+        this.headercommonview.render();
+        this.headerstandardview = new UB.Views.HeaderStandardView();
+        this.headerstandardview.render();
+        this.headertabletview = new UB.Views.HeaderTabletView();
+        this.headertabletview.render();
+        this.headermobileview = new UB.Views.HeaderMobileView();
+        this.headermobileview.render();
+    },
+
+    initializeSearchFieldView: function() {
+        this.searchfieldview = new UB.Views.SearchFieldView();
+        this.searchfieldview.render();
     },
 
     initializeNewPlaylistModal: function () {

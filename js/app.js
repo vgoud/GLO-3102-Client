@@ -33,11 +33,15 @@ $(document).ready(function () {
         "PlaylistView",
         "PlaylistCollectionView",
         "GlobalView",
-        "HeaderView",
+        "HeaderCommonView",
         "CreatePlaylistView",
         "PlaylistTrackView",
         "RenamePlaylistView",
-        "AddToPlaylistView"
+        "AddToPlaylistView",
+        "HeaderStandardView",
+        "HeaderTabletView",
+        "HeaderMobileView",
+        "SearchFieldView"
     ], function () {
         UB.Routers.router = new UB.Routers.Router();
         Backbone.history.start();
