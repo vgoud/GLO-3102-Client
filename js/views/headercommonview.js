@@ -2,7 +2,7 @@
  * Created by Vincent on 2014-11-01.
  */
 
-window.UB.Views.HeaderView = Backbone.View.extend({
+window.UB.Views.HeaderCommonView = Backbone.View.extend({
 
     el: "#header-container",
 
