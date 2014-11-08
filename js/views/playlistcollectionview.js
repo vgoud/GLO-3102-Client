@@ -12,21 +12,8 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
 
         this.$renamePlaylistModal = $("#rename-playlist-modal");
         this.$modal = $.UIkit.modal("#rename-playlist-modal");
-        this.initializeRenamePlaylistModal();
 
         this.listenTo(this.collection, "change add sync remove", this.render);
-    },
-
-    initializeRenamePlaylistModal: function () {
-        var self = this;
-        var renamePlaylistModel = new UB.Models.RenamePlaylistModel();
-        renamePlaylistModel.urlRoot = function () {
-            return UB.urlBase + "playlists";
-        };
-        this.renamePlaylistModalView = new UB.Views.RenamePlaylistView({
-            model: renamePlaylistModel
-        });
-        $("#global-container").append(this.renamePlaylistModalView.render().el);
     },
 
     render: function () {
@@ -74,7 +61,6 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
             $target = $( e.currentTarget );
             var playlistId = $target.data("playlist-id");
             var model = this.collection.get(playlistId);
-//            this.renamePlaylistModalView.model.set(model.toJSON());
             this.setRenamePlaylistModal(model);
 //            this.$modal.show();
             this.$("#btn-hidden-open-modal").click();
