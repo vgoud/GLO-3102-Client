@@ -26,11 +26,9 @@
     </div>
 </td>
 <td>
-    <div class="row-song-length">
-        <% var duration = UB.Utils.convertMsToTime(trackTimeMillis); %>
-        <%- duration.minutes + ":" + duration.seconds %>
-    </div>
+    <% var duration = UB.Utils.convertMsToTime(trackTimeMillis); %>
+    <%- duration.minutes + ":" + duration.seconds %>
 </td>
 <td>
-
+    <a href="" class="uk-icon-minus ub-icon-minus"></a>
 </td>
