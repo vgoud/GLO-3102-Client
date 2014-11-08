@@ -41,7 +41,10 @@ $(document).ready(function () {
         "HeaderStandardView",
         "HeaderTabletView",
         "HeaderMobileView",
-        "SearchFieldView"
+        "SearchFieldView",
+        "HomeButtonView",
+        "LogoutButtonView",
+        "ParametersButtonView"
     ], function () {
         UB.Routers.router = new UB.Routers.Router();
         Backbone.history.start();

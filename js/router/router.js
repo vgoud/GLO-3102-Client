@@ -24,6 +24,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.globalView.render();
         this.initializeHeaderViews();
         this.initializeSearchFieldView();
+        this.initializeButtons();
         this.$content = $("#content"); // container principal ds Index.Html
         this.$player = $("#player-container");
         this.$playlists = $("#playlists-container");
@@ -59,6 +60,15 @@ window.UB.Routers.Router = Backbone.Router.extend({
     initializeSearchFieldView: function() {
         this.searchfieldview = new UB.Views.SearchFieldView();
         this.searchfieldview.render();
+    },
+
+    initializeButtons: function () {
+        this.homebuttonview = new UB.Views.HomeButtonView();
+        this.homebuttonview.render();
+        this.parameterbuttonview = new UB.Views.ParametersButtonView();
+        this.parameterbuttonview.render();
+        this.logoutbuttonview = new UB.Views.LogoutButtonView();
+        this.logoutbuttonview.render();
     },
 
     initializeNewPlaylistModal: function () {
