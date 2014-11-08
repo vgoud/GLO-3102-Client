@@ -12,6 +12,8 @@ window.UB.Models.PlaylistModel = Backbone.Model.extend({
             id: "n/d"
         },
         id: "n/d"
-    }
+    },
+
+    urlRoot: UB.urlBase + "playlists"
 
 });

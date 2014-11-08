@@ -1,8 +1,32 @@
-<button id="add-playlist" class="uk-button" data-uk-modal="{target: '#new-playlist-modal', bgclose:false}">Create new playlist</button>
+<button id="add-playlist" class="uk-button" data-uk-modal="{target: '#new-playlist-modal', bgclose:false}">Create new
+    playlist
+</button>
 
-<ul id = "playlists-menu" class="uk-list uk-list-line">
+<ul id="playlists-menu" class="uk-list uk-list-line">
     <p>Your playlists</p>
     <% _.each(playlists, function(playlist) { %>
-    <li><a href="#playlists/<%= playlist.id %>" onclick="jQuery.UIkit.offcanvas.hide();"><%= playlist.name %></a></li>
+    <li>
+        <div class="uk-grid uk-grid-small">
+            <a href="#playlists/<%= playlist.id %>"
+               onclick="jQuery.UIkit.offcanvas.hide();"
+               class="uk-width-2-3">
+                <%= playlist.name %>
+            </a>
+
+            <div class="uk-button-group uk-width-1-3">
+                <a id="btn-playlist-edit"
+                   class="uk-button"
+                   data-playlist-id="<%= playlist.id %>"
+                   data-uk-modal="{target: '#rename-playlist-modal', bgclose:false}">
+                    <i class="uk-icon-pencil"></i>
+                </a>
+                <a id="btn-playlist-delete"
+                   class="uk-button"
+                   data-playlist-id="<%= playlist.id %>">
+                    <i class="uk-icon-minus"></i>
+                </a>
+            </div>
+        </div>
+    </li>
     <%}); %>
 </ul>

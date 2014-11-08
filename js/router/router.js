@@ -12,7 +12,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         "playlists": "playlists"
     },
 
-    urlBase: "http://localhost:3000/unsecure/",
+    urlBase: UB.urlBase,
 
     initialize: function () {
         _.bindAll(this,
