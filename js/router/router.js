@@ -35,6 +35,11 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
         // This handler needs to be attached only once.
         this.playerView.listenTo(this.globalView, "togglePlayPause", this.togglePlayPause);
+        this.listenTo(
+            this.createPlaylistModalView,
+            "onCreatePlaylistModalViewClose",
+            this.keepOffCanvasOpen
+        );
     },
 
     home: function () {
@@ -48,7 +53,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
             return self.urlBase + "playlists";
         };
         this.createPlaylistModalView = new UB.Views.CreatePlaylistView({
-            model: newPlaylistModel});
+            model: newPlaylistModel
+        });
         $("#global-container").append(this.createPlaylistModalView.render().el);
     },
 
@@ -63,6 +69,10 @@ window.UB.Routers.Router = Backbone.Router.extend({
         $("#playlists-container").append(this.renamePlaylistModalView.render().el);
     },
 
+    keepOffCanvasOpen: function () {
+        jQuery.UIkit.offcanvas.show();
+    },
+
     initializeUserPlaylist: function () {
         var self = this;
         var playlists = new UB.Collections.PlaylistCollection();
@@ -70,7 +80,17 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
         playlists.fetch({
             success: function (data) {
-                self.playlistcollectionView = new UB.Views.PlaylistCollectionView({collection: data});
+                var playlistCollectionView =
+                    new UB.Views.PlaylistCollectionView({
+                        collection: data
+                    });
+                playlistCollectionView.listenTo(
+                    self.createPlaylistModalView,
+                    "newPlaylistCreated",
+                    playlistCollectionView.createNewPlaylist
+                );
+
+                self.$playlists.html(playlistCollectionView.render().el);
             }
         });
     },
@@ -204,10 +224,16 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
         playlistCollection.fetch({
             success: function (data) {
-                self.$playlists.html((
+                var playlistCollectionView =
                     new UB.Views.PlaylistCollectionView({
                         collection: data
-                    })).render().el);
+                    });
+                playlistCollectionView.listenTo(
+                    self.createPlaylistModalView,
+                    "newPlaylistCreated",
+                    playlistCollectionView.createNewPlaylist
+                );
+                self.$playlists.html(playlistCollectionView.render().el);
             }
         });
     }
