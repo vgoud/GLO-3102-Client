@@ -39,7 +39,8 @@ $(document).ready(function () {
         "RenamePlaylistView",
         "HeaderStandardView",
         "HeaderTabletView",
-        "HeaderMobileView"
+        "HeaderMobileView",
+        "SearchFieldView"
     ], function () {
         UB.Routers.router = new UB.Routers.Router();
         Backbone.history.start();
