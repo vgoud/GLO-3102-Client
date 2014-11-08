@@ -23,11 +23,6 @@ window.UB.Views.PlaylistView = Backbone.View.extend({
         this.$el.html(this.template(this.model.toJSON()));
         var self = this;
         _.each(this.collection.models, function (track) {
-
-//            track.urlRoot = function () {
-//                return self.model.urlRoot + "/" + self.model.id + "/tracks";
-//            };
-
             this.$("tbody").append(
                 new UB.Views.PlaylistTrackView({model: track}).render().el);
         });

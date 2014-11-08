@@ -17,6 +17,7 @@ window.UB.Models.TrackModel = Backbone.Model.extend({
     idAttribute: "trackId",
 
     parse: function (data) {
+        // We do not want those attributes in the model.
         delete data.wrapperType;
         delete data.kind;
         delete data.radioStationUrl;
