@@ -31,7 +31,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.$player.html(this.playerView.render().el);
         this.initializeUserPlaylist();
         this.initializeNewPlaylistModal();
-        //this.initializeRenamePlaylistModal();
+//        this.initializeRenamePlaylistModal();
 
         // This handler needs to be attached only once.
         this.playerView.listenTo(this.globalView, "togglePlayPause", this.togglePlayPause);
@@ -58,15 +58,16 @@ window.UB.Routers.Router = Backbone.Router.extend({
         $("#global-container").append(this.createPlaylistModalView.render().el);
     },
 
-    initializeRenamePlaylistModal: function (id) {
+    initializeRenamePlaylistModal: function () {
         var self = this;
-        var renamePlaylistModel = new UB.Models.RenamePlaylistModel({id: id});
+        var renamePlaylistModel = new UB.Models.RenamePlaylistModel();
         renamePlaylistModel.urlRoot = function () {
             return self.urlBase + "playlists";
         };
         this.renamePlaylistModalView = new UB.Views.RenamePlaylistView({
-            model: renamePlaylistModel});
-        $("#playlists-container").append(this.renamePlaylistModalView.render().el);
+            model: renamePlaylistModel
+        });
+        $("#global-container").append(this.renamePlaylistModalView.render().el);
     },
 
     keepOffCanvasOpen: function () {

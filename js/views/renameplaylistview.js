@@ -10,17 +10,21 @@ window.UB.Views.RenamePlaylistView = Backbone.View.extend({
     },
 
     initialize: function () {
+        _.bindAll(this, "render");
+
         this.listenTo(this.model, "invalid", this.onInvalid);
+        this.listenTo(this.model, "change", this.render);
     },
 
     render: function() {
-        this.$el.html(this.template());
+        this.$el.html(this.template(this.model.toJSON()));
         this.$modal = $.UIkit.modal("#rename-playlist-modal");
+        this.$input = this.$("#renamed-playlist-name");
         return this;
     },
 
-    createPlaylist: function (e) {
-        if (this.model.save({name: this.$("#renamed-playlist-name").val()})) {
+    renamePlaylist: function (e) {
+        if (this.model.save({name: this.$input.val()})) {
             this.close();
         };
     },
@@ -37,7 +41,7 @@ window.UB.Views.RenamePlaylistView = Backbone.View.extend({
     onInvalid: function (model, error) {
         switch (error.type) {
             case "nameEmpty":
-                this.$("#renamed-playlist-name")
+                this.$input
                     .addClass("uk-form-danger")
                     .attr("placeholder", error.desc);
                 break;

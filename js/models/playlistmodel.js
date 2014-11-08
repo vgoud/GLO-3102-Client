@@ -14,6 +14,23 @@ window.UB.Models.PlaylistModel = Backbone.Model.extend({
         id: "n/d"
     },
 
-    urlRoot: UB.urlBase + "playlists"
+    urlRoot: UB.urlBase + "playlists",
+
+    validate: function (attrs, options) {
+        // Remove leading and trailing spaces before validation.
+        attrs.name = attrs.name.replace(/^\s+(.*)\s+$/i, "$1");
+
+        if (! attrs.name) {
+            return {
+                type: "nameEmpty",
+                desc: "The name of the playlist cannot be empty."
+            };
+        } else if (! attrs.owner) {
+            return {
+                type: "ownerEmpty",
+                desc: "The owner of the playlist must be specified."
+            };
+        }
+    }
 
 });

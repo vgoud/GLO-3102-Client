@@ -9,7 +9,7 @@ window.UB.Views.CreatePlaylistView = Backbone.View.extend({
     className: "uk-modal",
 
     events: {
-        "click #btn-create-playlist"  : "createPlaylist",
+        "click #btn-create-playlist"  : "renamePlaylist",
         "click #btn-cancel"           : "cancel",
         "keyup"                       : "onKeyEvent",
         "keydown"                     : "onKeyEvent",

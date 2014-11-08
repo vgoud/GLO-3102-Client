@@ -13,15 +13,15 @@
                 <%= playlist.name %>
             </a>
 
-            <div class="uk-button-group uk-width-1-3">
+            <div class="uk-width-1-3">
                 <a id="btn-playlist-edit"
-                   class="uk-button"
-                   data-playlist-id="<%= playlist.id %>"
-                   data-uk-modal="{target: '#rename-playlist-modal', bgclose:false}">
+                   class="uk-button uk-button-small"
+                   data-playlist-id="<%= playlist.id %>">
+                    <!--data-uk-modal="{target: '#rename-playlist-modal', bgclose:false}">-->
                     <i class="uk-icon-pencil"></i>
                 </a>
                 <a id="btn-playlist-delete"
-                   class="uk-button"
+                   class="uk-button uk-button-small"
                    data-playlist-id="<%= playlist.id %>">
                     <i class="uk-icon-minus"></i>
                 </a>
@@ -29,4 +29,7 @@
         </div>
     </li>
     <%}); %>
+    <button id="btn-hidden-open-modal" class="uk-hidden"
+         data-uk-modal="{target: '#rename-playlist-modal', bgclose:false}">
+    </button>
 </ul>

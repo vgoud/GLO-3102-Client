@@ -3,14 +3,30 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
     el: "#playlists-container",
 
     events: {
-        "click #btn-playlist-delete" : "deletePlaylist"
-//        "click #btn-playlist-edit"   : "editPlaylist"
+        "click #btn-playlist-delete" : "deletePlaylist",
+        "click #btn-playlist-edit"   : "editPlaylist"
     },
 
     initialize: function () {
         _.bindAll(this, "render");
 
+        this.$renamePlaylistModal = $("#rename-playlist-modal");
+        this.$modal = $.UIkit.modal("#rename-playlist-modal");
+        this.initializeRenamePlaylistModal();
+
         this.listenTo(this.collection, "change add sync remove", this.render);
+    },
+
+    initializeRenamePlaylistModal: function () {
+        var self = this;
+        var renamePlaylistModel = new UB.Models.RenamePlaylistModel();
+        renamePlaylistModel.urlRoot = function () {
+            return UB.urlBase + "playlists";
+        };
+        this.renamePlaylistModalView = new UB.Views.RenamePlaylistView({
+            model: renamePlaylistModel
+        });
+        $("#global-container").append(this.renamePlaylistModalView.render().el);
     },
 
     render: function () {
@@ -42,12 +58,26 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
         }
     },
 
+    setRenamePlaylistModal: function (model) {
+        if (this.renamePlaylistModalView) {
+            this.renamePlaylistModalView.remove();
+        }
+
+        this.renamePlaylistModalView = new UB.Views.RenamePlaylistView({
+            model: model
+        });
+        $("#global-container").append(this.renamePlaylistModalView.render().el);
+    },
+
     editPlaylist: function (e) {
         if (e) {
-            $target = $(e.target );
+            $target = $( e.currentTarget );
             var playlistId = $target.data("playlist-id");
-            var model = this.collectionl.get(playlistId);
-
+            var model = this.collection.get(playlistId);
+//            this.renamePlaylistModalView.model.set(model.toJSON());
+            this.setRenamePlaylistModal(model);
+//            this.$modal.show();
+            this.$("#btn-hidden-open-modal").click();
         }
     }
 

@@ -7,13 +7,20 @@
         <form class="uk-form">
             <div class="uk-grid uk-grid-small uk-margin">
                 <div class="uk-width-1-1 uk-margin-bottom">
-                    <input id="renamed-playlist-name" type="text" placeholder="Renamed playlist name..." class="uk-width-1-1">
+                    <input id="renamed-playlist-name"
+                           type="text"
+                           value="<%= name %>"
+                           class="uk-width-1-1">
                 </div>
                 <div class="uk-width-1-2">
-                    <button id="btn-rename-playlist" class="uk-button uk-width-1-1">Create playlist</button>
+                    <button id="btn-rename-playlist" class="uk-button uk-width-1-1">
+                        Rename
+                    </button>
                 </div>
                 <div class="uk-width-1-2">
-                    <button id="btn-cancel" class="uk-button uk-width-1-1">Cancel</button>
+                    <button id="btn-cancel" class="uk-button uk-width-1-1">
+                        Cancel
+                    </button>
                 </div>
             </div>
         </form>
