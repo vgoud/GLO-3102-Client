@@ -68,6 +68,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
         playlists.fetch({
             success: function (data) {
+                console.log("User playlists received.");
+                console.log(data);
                 var playlistCollectionView =
                     new UB.Views.PlaylistCollectionView({
                         collection: data
@@ -180,7 +182,14 @@ window.UB.Routers.Router = Backbone.Router.extend({
                 // Map tracks data to a new array of models.
                 var models =
                     _.map(playlistModel.get("tracks"), function (trackData) {
-                        return new UB.Models.TrackModel(trackData);
+                        var track = new UB.Models.TrackModel(trackData);
+                        // We artificially set the urlRoot to facilitate ajax calls
+                        // when removing track from playlist.
+                        track.urlRoot = function () {
+                            return playlistModel.urlRoot + "/" + playlistModel.id + "/tracks";
+                        };
+
+                        return track;
                     });
 
                 // Stop listening to old object before instantiating a new one.
@@ -188,7 +197,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
                     self.playerView.stopListening(self.playlistView, "playbackButtonClicked");
                 }
 
-                var playlistTrackCollection = new UB.Collections.PlaylistTrackCollection(models);
+                var playlistTrackCollection = new UB.Collections.PlaylistTrackCollection();
+                playlistTrackCollection.add(models);
                 self.playlistView =
                     new UB.Views.PlaylistView({
                         model: playlistModel,

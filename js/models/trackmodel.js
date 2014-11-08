@@ -14,6 +14,14 @@ window.UB.Models.TrackModel = Backbone.Model.extend({
         artistId: ""
     },
 
-    idAttribute: "trackId"
+    idAttribute: "trackId",
+
+    parse: function (data) {
+        delete data.wrapperType;
+        delete data.kind;
+        delete data.radioStationUrl;
+
+        return data;
+    }
 
 });

@@ -8,18 +8,26 @@ window.UB.Views.PlaylistView = Backbone.View.extend({
     className: "uk list uk-list-line",
 
     events: {
-        "click .ub-button-play" : "onPlaybackButtonClicked",
-        "click #dropdown-play"  : "onDropdownPlaybackButtonClicked"
+        "click .ub-button-play"                : "onPlaybackButtonClicked",
+        "click #dropdown-play"                 : "onDropdownPlaybackButtonClicked",
+        "click #dropdown-remove-from-playlist" : "onDropdownRemoveFromPlaylistButtonClick"
     },
 
     initialize: function () {
         this.listenTo(this.model, "change add sync", this.render);
+        this.listenTo(this.collection, "change add remove sync", this.render);
     },
 
     render: function () {
 
         this.$el.html(this.template(this.model.toJSON()));
+        var self = this;
         _.each(this.collection.models, function (track) {
+
+//            track.urlRoot = function () {
+//                return self.model.urlRoot + "/" + self.model.id + "/tracks";
+//            };
+
             this.$("tbody").append(
                 new UB.Views.PlaylistTrackView({model: track}).render().el);
         });
@@ -43,13 +51,18 @@ window.UB.Views.PlaylistView = Backbone.View.extend({
 
     onDropdownPlaybackButtonClicked: function (e) {
         // Route click to playback button by triggering a click.
-        this.findPlaybackButtonFromTrackId($( e.target).data("track-id")).click();
+        this.findPlaybackButtonFromTrackId($( e.target ).data("track-id")).click();
     },
 
     blurActiveElement: function () {
         // Remove focus from the active element, for example when
         // playback button is clicked.
         document.activeElement.blur();
+    },
+
+    onDropdownRemoveFromPlaylistButtonClick: function (e) {
+        var trackId = $( e.target ).data("track-id");
+        this.collection.get(trackId).destroy();
     },
 
     toggleActiveState: function ($target) {
