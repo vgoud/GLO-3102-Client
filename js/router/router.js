@@ -9,7 +9,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         "albums/:id": "album",
         "artists/:id": "artist",
         "playlists/:id": "playlist",
-        "playlists": "playlists" //ver la methode
+        "playlists": "playlists"
     },
 
     urlBase: "http://localhost:3000/unsecure/",
@@ -35,6 +35,11 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
         // This handler needs to be attached only once.
         this.playerView.listenTo(this.globalView, "togglePlayPause", this.togglePlayPause);
+        this.listenTo(
+            this.createPlaylistModalView,
+            "onCreatePlaylistModalViewClose",
+            this.keepOffCanvasOpen
+        );
     },
 
     home: function () {
@@ -48,7 +53,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
             return self.urlBase + "playlists";
         };
         this.createPlaylistModalView = new UB.Views.CreatePlaylistView({
-            model: newPlaylistModel});
+            model: newPlaylistModel
+        });
         $("#global-container").append(this.createPlaylistModalView.render().el);
     },
 
@@ -56,21 +62,35 @@ window.UB.Routers.Router = Backbone.Router.extend({
         var self = this;
         var renamePlaylistModel = new UB.Models.RenamePlaylistModel({id: id});
         renamePlaylistModel.urlRoot = function () {
-            return self.urlBase + "playlists/" + id;
+            return self.urlBase + "playlists";
         };
         this.renamePlaylistModalView = new UB.Views.RenamePlaylistView({
             model: renamePlaylistModel});
         $("#playlists-container").append(this.renamePlaylistModalView.render().el);
     },
 
+    keepOffCanvasOpen: function () {
+        jQuery.UIkit.offcanvas.show();
+    },
+
     initializeUserPlaylist: function () {
         var self = this;
         var playlists = new UB.Collections.PlaylistCollection();
-        playlists.url = "http://localhost:3000/unsecure/playlists";
+        playlists.url = this.urlBase + "playlists";
 
         playlists.fetch({
             success: function (data) {
-                self.playlistcollectionView = new UB.Views.PlaylistCollectionView({collection: data});
+                var playlistCollectionView =
+                    new UB.Views.PlaylistCollectionView({
+                        collection: data
+                    });
+                playlistCollectionView.listenTo(
+                    self.createPlaylistModalView,
+                    "newPlaylistCreated",
+                    playlistCollectionView.createNewPlaylist
+                );
+
+                self.$playlists.html(playlistCollectionView.render().el);
             }
         });
     },
@@ -81,7 +101,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         var tracks = new UB.Collections.TrackCollection();
 
         var self = this;
-        self.newPlaylistModal();
+//        self.newPlaylistModal();
 
         tracks.url = function () {
             return self.urlBase + "albums/" + id + "/tracks";
@@ -120,7 +140,6 @@ window.UB.Routers.Router = Backbone.Router.extend({
         var artist = new UB.Models.ArtistModel({id: id});
         var artistAlbums = new UB.Collections.ArtistAlbumCollection();
         var self = this;
-        self.newPlaylistModal();
 
         artist.urlRoot = function () {
             return self.urlBase + "artists";
@@ -205,10 +224,16 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
         playlistCollection.fetch({
             success: function (data) {
-                self.$playlists.html((
+                var playlistCollectionView =
                     new UB.Views.PlaylistCollectionView({
                         collection: data
-                    })).render().el);
+                    });
+                playlistCollectionView.listenTo(
+                    self.createPlaylistModalView,
+                    "newPlaylistCreated",
+                    playlistCollectionView.createNewPlaylist
+                );
+                self.$playlists.html(playlistCollectionView.render().el);
             }
         });
     }
