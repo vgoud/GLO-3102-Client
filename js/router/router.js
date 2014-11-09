@@ -22,7 +22,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.globalView = new UB.Views.GlobalView();
         this.globalView.render();
         this.initializeHeader();
-        this.$content = $("#content"); // container principal ds Index.Html
+        this.$content = $("#content");
         this.$player = $("#player-container");
         this.$playlists = $("#playlists-container");
         this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
