@@ -37,6 +37,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
             "onCreatePlaylistModalViewClose",
             this.keepOffCanvasOpen
         );
+        this.home();
     },
 
     home: function () {
