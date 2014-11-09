@@ -7,7 +7,7 @@ window.UB.Views.TrackView = Backbone.View.extend({
     tagName: "tr",
 
     events: {
-        "click .ajout-track-playlist" : "ajoutTrack"
+        "click .ajout-track-playlist" : "addTrack"
     },
 
     initialize: function (options) {
@@ -22,7 +22,7 @@ window.UB.Views.TrackView = Backbone.View.extend({
         return this;
     },
 
-    ajoutTrack: function(e){
+    addTrack: function(e){
 
         var url = $(e.currentTarget).data('playlisturl') + "/tracks";
 
