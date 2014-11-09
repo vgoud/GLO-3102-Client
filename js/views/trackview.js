@@ -24,12 +24,12 @@ window.UB.Views.TrackView = Backbone.View.extend({
 
     addTrack: function(e){
 
-        var url = $(e.currentTarget).data('playlisturl') + "/tracks";
+        var playlistId = $(e.currentTarget).data("playlistid");
+        var playlist = new UB.Models.PlaylistModel({id: playlistId});
 
-        $.post(url,
-            this.model.toJSON(),
-            function(data,status){
-                console.log("Data: " + data + "\nStatus: " + status);
-            });
+        playlist.addTrackToPlaylist(this.model);
+        playlist.save();
+
+
     }
 });
