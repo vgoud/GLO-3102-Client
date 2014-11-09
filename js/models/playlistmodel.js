@@ -10,8 +10,8 @@ window.UB.Models.PlaylistModel = Backbone.Model.extend({
             email: "n/d",
             name: "n/d",
             id: "n/d"
-        },
-        id: "n/d"
+        }
+        //id: "n/d" // en commentaire sinon CreatePlaylist car post playlist n'utilise pas d'id!
     },
 
     attributeId: "id",
