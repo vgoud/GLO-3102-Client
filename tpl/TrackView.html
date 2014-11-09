@@ -45,7 +45,7 @@
                     </a>
                     <ul id="add-to-playlist-accordion" class="uk-nav-sub">
                         <% _.each(pColl, function(playlist){%>
-                        <li data-playlistid="<%= playlist.id %>" class="ajout-track-playlist">
+                        <li data-playlist-id="<%= playlist.id %>" class="ajout-track-playlist">
                             <a>
                             <%= playlist.attributes.name %>
                             </a>
