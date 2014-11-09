@@ -5,6 +5,11 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="less" level="application" />
+    <orderEntry type="library" name="less" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="underscore" level="application" />
+    <orderEntry type="library" name="backbone" level="application" />
+    <orderEntry type="library" name="uikit" level="application" />
   </component>
 </module>
 

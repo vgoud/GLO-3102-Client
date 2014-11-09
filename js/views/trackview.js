@@ -29,7 +29,7 @@ window.UB.Views.TrackView = Backbone.View.extend({
         $.post(url,
             this.model.toJSON(),
             function(data,status){
-                alert("Data: " + data + "\nStatus: " + status);
+                console.log("Data: " + data + "\nStatus: " + status);
             });
     }
 });
