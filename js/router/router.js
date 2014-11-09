@@ -89,8 +89,11 @@ window.UB.Routers.Router = Backbone.Router.extend({
         var album = new UB.Models.AlbumInfoModel({id: id});
         var tracks = new UB.Collections.TrackCollection();
 
+        var playlistCollection = new UB.Collections.PlaylistCollection();
+        playlistCollection.url = this.urlBase + "playlists";
+        playlistCollection.fetch();
+
         var self = this;
-//        self.newPlaylistModal();
 
         tracks.url = function () {
             return self.urlBase + "albums/" + id + "/tracks";
@@ -104,13 +107,13 @@ window.UB.Routers.Router = Backbone.Router.extend({
             success: function (data) {
                 tracks.fetch({
                     success: function (dataTrack) {
-                        self.$content.html(new UB.Views.AlbumInfoView({model: data}).render().el);
+                        self.$content.html(new UB.Views.AlbumInfoView({model: data, playlistCollection: playlistCollection}).render().el);
 
 
                         if (self.trackCollectionView) {
                             self.playerView.stopListening(self.trackCollectionView, "playbackButtonClicked");
                         }
-                        self.trackCollectionView = new UB.Views.TrackCollectionView({collection: dataTrack});
+                        self.trackCollectionView = new UB.Views.TrackCollectionView({collection: dataTrack, playlistCollection: playlistCollection});
                         self.$content.append(self.trackCollectionView.render().el);
 
                         // Attach handlers to the tracks' and player's events.

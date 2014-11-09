@@ -33,6 +33,12 @@ window.UB.Models.PlaylistModel = Backbone.Model.extend({
                 desc: "The owner of the playlist must be specified."
             };
         }
+    },
+
+    addTrackToPlaylist: function(track) {
+        console.log("adding a track to a playlist");
+        this.attributes.tracks.push(track);
+        return this;
     }
 
 });

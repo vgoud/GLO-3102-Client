@@ -13,18 +13,21 @@ window.UB.Views.TrackCollectionView = Backbone.View.extend({
     events: {
         "click .ub-button-play"            : "onPlaybackButtonClick",
         "click #dropdown-play"             : "onDropdownPlaybackButtonClick",
-        "click #dropdown-add-to-playlist"  : "onDropdownAddToPlaylistClick"
+        "click #dropdown-add-to-playlist"  : "addAllTracksToPlaylist"
     },
 
-    initialize: function () {
+    initialize: function (options) {
         this.listenTo(this.collection, "change add sync", this.render);
+        this.options = options || {};
     },
 
     render: function () {
+        var pColl = this.options.playlistCollection;
+
         this.$el.html(this.template());
         _.each(this.collection.models, function (track) {
             this.$("tbody").append(
-                new UB.Views.TrackView({model: track}).render().el);
+                new UB.Views.TrackView({model: track, playlistCollection: pColl}).render().el);
         });
 
         return this;
@@ -49,24 +52,29 @@ window.UB.Views.TrackCollectionView = Backbone.View.extend({
         this.findPlaybackButtonFromTrackId($( e.target).data("track-id")).click();
     },
 
-    onDropdownAddToPlaylistClick: function (e) {
-        e.preventDefault();
-        var $target = $( e.target );
+    addAllTracksToPlaylist: function (event) {
+        console.log("addalltracks has been prssed");
+        console.log($(event.currentTarget.data("track-collection-id")));
+        console.log($(event.currentTarget.data("playlist-id")));
+        var playlist = new UB.Models.PlaylistModel({id: "5456b513dcbb62c41e07bd78"}); //hard coded id.
+        playlist.urlRoot = UB.PlaylistUrl;
 
-        var playlists = new UB.Collections.PlaylistCollection();
-        playlists.url = UB.urlBase + "playlists";
-        var self = this;
-        playlists.fetch({
-            success: function (data) {
-                console.log("User playlists received.");
-                console.log(data);
-                var addToPlaylistView =
-                    new UB.Views.AddToPlaylistView({
-                        collection: data
-                    });
+        playlist.fetch({
+            success: function (playlistModel) {
+                var trackId = $(event.currentTarget).data("track-id");
+                var tracks = new UB.Collections.TrackCollection({id: trackId});
+                tracks.url = UB.albumTracksUrl;
+                tracks.fetch({
+                    success: function () {
+                        console.log("tracks fetched:")
+                        console.log(tracks);
+                        _.forEach(tracks.models, function (track) {
+                            playlistModel.addTrackToPlaylist(track.toJSON());
+                        });
 
-                addToPlaylistView.el = $target.siblings().get(0);
-                addToPlaylistView.render();
+                        playlist.save();
+                    }
+                });
             }
         });
     },
