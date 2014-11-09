@@ -5,7 +5,7 @@
 window.UB.Routers.Router = Backbone.Router.extend({
 
     routes: {
-        "": "home",
+        "home": "home",
         "albums/:id": "album",
         "artists/:id": "artist",
         "playlists/:id": "playlist",
