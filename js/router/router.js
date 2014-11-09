@@ -8,8 +8,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         "home": "home",
         "albums/:id": "album",
         "artists/:id": "artist",
-        "playlists/:id": "playlist",
-        "playlists": "playlists"
+        "playlists/:id": "playlist"
     },
 
     urlBase: UB.urlBase,
@@ -212,28 +211,6 @@ window.UB.Routers.Router = Backbone.Router.extend({
                 self.playlistView.listenTo(self.playerView, "playbackEnded", self.playlistView.setStopState);
 
                 self.$content.html(self.playlistView.render().el);
-            }
-        });
-    },
-
-    playlists: function () {
-
-        var playlistCollection = new UB.Collections.PlaylistCollection();
-        var self = this;
-        playlistCollection.url = this.urlBase + "playlists";
-
-        playlistCollection.fetch({
-            success: function (data) {
-                var playlistCollectionView =
-                    new UB.Views.PlaylistCollectionView({
-                        collection: data
-                    });
-                playlistCollectionView.listenTo(
-                    self.createPlaylistModalView,
-                    "newPlaylistCreated",
-                    playlistCollectionView.createNewPlaylist
-                );
-                self.$playlists.html(playlistCollectionView.render().el);
             }
         });
     },

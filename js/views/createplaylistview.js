@@ -74,14 +74,13 @@ window.UB.Views.CreatePlaylistView = Backbone.View.extend({
     },
 
     close: function () {
-        // The call to .hide() doesn't work for an obscure reason.
-//        this.$(".uk-close").click();
-
+        this.$(".uk-close").click();
         this.clear();
     },
 
     cancel: function () {
-        this.close();
+        var self = this;
+        self.close();
     },
     
     onInvalid: function (model, error) {
