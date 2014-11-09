@@ -2,27 +2,27 @@
     <button
             class="ub-button ub-button-play uk-button uk-button-small"
             type="button"
-            data-track-id="<%= trackId %>"
-            data-track-collection-id="<%= collectionId %>"
-            data-track-number="<%= trackNumber %>"
-            data-track-preview-url="<%= previewUrl %>"
-            data-track-artist-id="<%= artistId %>"
+            data-track-id="<%= track.trackId %>"
+            data-track-collection-id="<%= track.collectionId %>"
+            data-track-number="<%= track.trackNumber %>"
+            data-track-preview-url="<%= track.previewUrl %>"
+            data-track-artist-id="<%= track.artistId %>"
             data-icon="uk-icon-play">
     </button>
 </td>
 <td>
     <div class="row-song-title uk-width-3-5">
-        <%= trackName %>
+        <%= track.trackName %>
     </div>
 </td>
 <td>
     <div class="row-song-artist">
-        <a href="#artists/<%= artistId %>"><%= artistName %></a>
+        <a href="#artists/<%= track.artistId %>"><%= track.artistName %></a>
     </div>
 </td>
 <td>
     <div class="row-song-length">
-        <% var duration = UB.Utils.convertMsToTime(trackTimeMillis); %>
+        <% var duration = UB.Utils.convertMsToTime(track.trackTimeMillis); %>
         <%- duration.minutes + ":" + duration.seconds %>
     </div>
 </td>
@@ -35,15 +35,22 @@
         <div class="uk-dropdown uk-dropdown-flip">
             <ul class="uk-nav uk-nav-dropdown uk-nav-parent-icon" data-uk-nav>
                 <li>
-                    <a id="dropdown-play" data-track-id="<%= trackId %>">
+                    <a id="dropdown-play" data-track-id="<%= track.trackId %>">
                         Play
                     </a>
                 </li>
                 <li class="uk-parent">
-                    <a id="dropdown-add-to-playlist" href="#" data-track-id="<%= trackId %>" data-track-collection-id="<%= collectionId %>">
+                    <a id="dropdown-add-to-playlist" href="#">
                         Add to playlist...
                     </a>
-                    <ul class="add-to-playlist-accordion" class="uk-nav-sub">
+                    <ul id="add-to-playlist-accordion" class="uk-nav-sub">
+                        <% _.each(pColl, function(playlist){%>
+                        <li data-playlistUrl="<%- playlist.url() %>" class="ajout-track-playlist" href="#/playlists/<%= playlist.attributes.id %>/tracks">
+                            <a>
+                            <%= playlist.attributes.name %>
+                            </a>
+                        </li>
+                        <% }); %>
                     </ul>
                 </li>
             </ul>

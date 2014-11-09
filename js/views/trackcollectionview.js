@@ -12,8 +12,7 @@ window.UB.Views.TrackCollectionView = Backbone.View.extend({
 
     events: {
         "click .ub-button-play"            : "onPlaybackButtonClick",
-        "click #dropdown-play"             : "onDropdownPlaybackButtonClick",
-        "click #dropdown-add-to-playlist"  : "addAllTracksToPlaylist"
+        "click #dropdown-play"             : "onDropdownPlaybackButtonClick"
     },
 
     initialize: function (options) {
@@ -50,33 +49,6 @@ window.UB.Views.TrackCollectionView = Backbone.View.extend({
     onDropdownPlaybackButtonClick: function (e) {
         // Route click to playback button by triggering a click.
         this.findPlaybackButtonFromTrackId($( e.target).data("track-id")).click();
-    },
-
-    addAllTracksToPlaylist: function (event) {
-        console.log("addalltracks has been prssed");
-        console.log($(event.currentTarget.data("track-collection-id")));
-        console.log($(event.currentTarget.data("playlist-id")));
-        var playlist = new UB.Models.PlaylistModel({id: "5456b513dcbb62c41e07bd78"}); //hard coded id.
-        playlist.urlRoot = UB.PlaylistUrl;
-
-        playlist.fetch({
-            success: function (playlistModel) {
-                var trackId = $(event.currentTarget).data("track-id");
-                var tracks = new UB.Collections.TrackCollection({id: trackId});
-                tracks.url = UB.albumTracksUrl;
-                tracks.fetch({
-                    success: function () {
-                        console.log("tracks fetched:")
-                        console.log(tracks);
-                        _.forEach(tracks.models, function (track) {
-                            playlistModel.addTrackToPlaylist(track.toJSON());
-                        });
-
-                        playlist.save();
-                    }
-                });
-            }
-        });
     },
 
     blurActiveElement: function () {
