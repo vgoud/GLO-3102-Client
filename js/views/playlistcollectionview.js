@@ -38,6 +38,8 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
     deletePlaylist: function (e) {
         // TODO Ask confirmation.
         if (e) {
+            e.preventDefault();
+            e.stopPropagation();
             $target = $(e.currentTarget);
             var playlistId = $target.data("playlist-id");
             var model = this.collection.get(playlistId);
