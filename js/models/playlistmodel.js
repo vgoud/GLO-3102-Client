@@ -49,7 +49,7 @@ window.UB.Models.PlaylistModel = Backbone.Model.extend({
         for(var i = 0; i < tracks.length; i++){
             if(tracks[i].trackId === track.trackId){
                 bool = true;
-                alert("\""+track.trackName+"\""+"already in the playlist");
+                console.log("\""+track.trackName+"\""+"already in the playlist");
             }
         }
         return bool;

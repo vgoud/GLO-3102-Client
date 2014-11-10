@@ -40,6 +40,11 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
             $target = $( e.currentTarget );
             var playlistId = $target.data("playlist-id");
             var model = this.collection.get(playlistId);
+
+            this.trigger("playlistDeleted", {
+                playlistId: playlistId
+            });
+
             // TODO error management.
             model.destroy();
         }
