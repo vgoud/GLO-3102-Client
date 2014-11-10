@@ -17,6 +17,7 @@ window.UB.Views.TrackCollectionView = Backbone.View.extend({
 
     initialize: function (options) {
         this.listenTo(this.collection, "change add sync", this.render);
+        this.listenTo(options.playlistCollection, "change remove add sync", this.render);
         this.options = options || {};
     },
 

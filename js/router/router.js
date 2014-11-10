@@ -27,7 +27,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.$playlists = $("#playlists-container");
         this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
         this.$player.html(this.playerView.render().el);
-        this.initializeUserPlaylist();
+
         this.initializeNewPlaylistModal();
 
         // This handler needs to be attached only once.
@@ -37,6 +37,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
             "onCreatePlaylistModalViewClose",
             this.keepOffCanvasOpen
         );
+        this.initializeUserPlaylist();
         this.home();
     },
 
@@ -62,26 +63,35 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     initializeUserPlaylist: function () {
         var self = this;
-        var playlists = new UB.Collections.PlaylistCollection();
-        playlists.url = this.urlBase + "playlists";
+        UB.Collections.userPlaylists = new UB.Collections.PlaylistCollection();
+        UB.Collections.userPlaylists.url = this.urlBase + "playlists";
 
-        playlists.fetch({
+        UB.Collections.userPlaylists.fetch({
+            async: false,
             success: function (data) {
                 console.log("User playlists received.");
                 console.log(data);
-                var playlistCollectionView =
+                self.playlistCollectionView =
                     new UB.Views.PlaylistCollectionView({
                         collection: data
                     });
-                playlistCollectionView.listenTo(
+                self.playlistCollectionView.listenTo(
                     self.createPlaylistModalView,
                     "newPlaylistCreated",
-                    playlistCollectionView.createNewPlaylist
+                    self.playlistCollectionView.createNewPlaylist
                 );
 
-                self.$playlists.html(playlistCollectionView.render().el);
+                self.$playlists.html(self.playlistCollectionView.render().el);
             }
         });
+
+        this.listenTo(self.playlistCollectionView, "playlistDeleted", this.onPlaylistDeleted);
+    },
+
+    onPlaylistDeleted: function (e) {
+         if (this.playlistView && e && e.playlistId == this.playlistView.model.id) {
+             this.navigate("#home", {trigger: true});
+         }
     },
 
     // Display the album's page.
@@ -89,9 +99,9 @@ window.UB.Routers.Router = Backbone.Router.extend({
         var album = new UB.Models.AlbumInfoModel({id: id});
         var tracks = new UB.Collections.TrackCollection();
 
-        var playlistCollection = new UB.Collections.PlaylistCollection();
-        playlistCollection.url = this.urlBase + "playlists";
-        playlistCollection.fetch();
+        var playlistCollection = UB.Collections.userPlaylists;
+//        playlistCollection.url = this.urlBase + "playlists";
+//        playlistCollection.fetch();
 
         var self = this;
 
@@ -175,45 +185,45 @@ window.UB.Routers.Router = Backbone.Router.extend({
     },
 
     playlist: function (id) {
-        var playlist = new UB.Models.PlaylistModel({id: id});
-        var self = this;
-        playlist.urlRoot = this.urlBase + "playlists";
+        var playlist = UB.Collections.userPlaylists.get(id);
 
-        playlist.fetch({
-            success: function (playlistModel) {
-                // Map tracks data to a new array of models.
-                var models =
-                    _.map(playlistModel.get("tracks"), function (trackData) {
-                        var track = new UB.Models.TrackModel(trackData);
-                        // We artificially set the urlRoot to facilitate ajax calls
-                        // when removing track from playlist.
-                        track.urlRoot = function () {
-                            return playlistModel.urlRoot + "/" + playlistModel.id + "/tracks";
-                        };
+        if (playlist) {
+            var self = this;
 
-                        return track;
-                    });
+            // Map tracks data to a new array of models.
+            var models =
+                _.map(playlist.get("tracks"), function (trackData) {
+                    var track = new UB.Models.TrackModel(trackData);
+                    // We artificially set the urlRoot to facilitate ajax calls
+                    // when removing track from playlist.
+                    track.urlRoot = function () {
+                        return playlist.urlRoot + "/" + playlist.id + "/tracks";
+                    };
 
-                // Stop listening to old object before instantiating a new one.
-                if (self.playlistView) {
-                    self.playerView.stopListening(self.playlistView, "playbackButtonClicked");
-                }
+                    return track;
+                });
 
-                var playlistTrackCollection = new UB.Collections.PlaylistTrackCollection();
-                playlistTrackCollection.add(models);
-                self.playlistView =
-                    new UB.Views.PlaylistView({
-                        model: playlistModel,
-                        collection: playlistTrackCollection
-                    });
-                self.playerView.listenTo(self.playlistView, "playbackButtonClicked", self.togglePlayPause);
-                self.playlistView.listenTo(self.playerView, "playbackResumed", self.playlistView.setPlayState);
-                self.playlistView.listenTo(self.playerView, "playbackStopped", self.playlistView.setStopState);
-                self.playlistView.listenTo(self.playerView, "playbackEnded", self.playlistView.setStopState);
-
-                self.$content.html(self.playlistView.render().el);
+            // Stop listening to old object before instantiating a new one.
+            if (self.playlistView) {
+                self.playerView.stopListening(self.playlistView, "playbackButtonClicked");
             }
-        });
+
+            var playlistTrackCollection = new UB.Collections.PlaylistTrackCollection();
+            playlistTrackCollection.add(models);
+            self.playlistView =
+                new UB.Views.PlaylistView({
+                    model: playlist,
+                    collection: playlistTrackCollection
+                });
+            self.playerView.listenTo(self.playlistView, "playbackButtonClicked", self.togglePlayPause);
+            self.playlistView.listenTo(self.playerView, "playbackResumed", self.playlistView.setPlayState);
+            self.playlistView.listenTo(self.playerView, "playbackStopped", self.playlistView.setStopState);
+            self.playlistView.listenTo(self.playerView, "playbackEnded", self.playlistView.setStopState);
+
+            self.$content.html(self.playlistView.render().el);
+        } else {
+            this.navigate("#home", {trigger: true});
+        }
     },
 
     initializeHeader: function () {
@@ -222,7 +232,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.initializeButtons();
     },
 
-    initializeHeaderViews: function() {
+    initializeHeaderViews: function () {
         this.headercommonview = new UB.Views.HeaderCommonView();
         this.headercommonview.render();
         this.headerstandardview = new UB.Views.HeaderStandardView();
@@ -233,7 +243,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.headermobileview.render();
     },
 
-    initializeSearchFieldView: function() {
+    initializeSearchFieldView: function () {
         this.searchfieldview = new UB.Views.SearchFieldView();
         this.searchfieldview.render();
     },
