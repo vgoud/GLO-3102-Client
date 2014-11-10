@@ -7,9 +7,9 @@ window.UB.Models.PlaylistModel = Backbone.Model.extend({
         name: "n/d",
         tracks: [],
         owner: {
-            email: "n/d",
-            name: "n/d",
-            id: "n/d"
+            id: "vince82",
+            email: "vince@bidon.com",
+            name: "owner"
         }
     },
 
