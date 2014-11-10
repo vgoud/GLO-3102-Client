@@ -3,15 +3,13 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
     el: "#playlists-container",
 
     events: {
-        "click #btn-playlist-delete" : "deletePlaylist",
-        "click #btn-playlist-edit"   : "editPlaylist"
+        "click #btn-playlist-delete": "deletePlaylist",
+        "click #btn-playlist-edit": "editPlaylist",
+        "click #btn-create-playlist": "createPlaylist"
     },
 
     initialize: function () {
         _.bindAll(this, "render");
-
-        this.$renamePlaylistModal = $("#rename-playlist-modal");
-        this.$modal = $.UIkit.modal("#rename-playlist-modal");
 
         this.listenTo(this.collection, "change add sync remove", this.render);
     },
@@ -21,14 +19,17 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
             playlists: this.collection.toJSON()
             //playlists: filterPlaylists(this.collection.toJSON())
         }));
+        this.$input = this.$("#new-playlist-name");
         return this;
     },
 
-    createNewPlaylist: function (e) {
-        var newPlaylist = this.collection.create(
-            e.attributes, {
-            type: 'POST'
-        });
+    createPlaylist: function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var newPlaylist = this.collection.create({
+            name: this.$input.val() }, {
+                type: 'POST'
+            });
         if (!newPlaylist) {
             console.log("There was an error during the playlist creation");
         }
@@ -37,7 +38,7 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
     deletePlaylist: function (e) {
         // TODO Ask confirmation.
         if (e) {
-            $target = $( e.currentTarget );
+            $target = $(e.currentTarget);
             var playlistId = $target.data("playlist-id");
             var model = this.collection.get(playlistId);
 
@@ -63,7 +64,7 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
 
     editPlaylist: function (e) {
         if (e) {
-            $target = $( e.currentTarget );
+            $target = $(e.currentTarget);
             var playlistId = $target.data("playlist-id");
             var model = this.collection.get(playlistId);
             this.setRenamePlaylistModal(model);
