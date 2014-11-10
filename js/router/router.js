@@ -99,9 +99,9 @@ window.UB.Routers.Router = Backbone.Router.extend({
         var album = new UB.Models.AlbumInfoModel({id: id});
         var tracks = new UB.Collections.TrackCollection();
 
-        var playlistCollection = new UB.Collections.PlaylistCollection();
-        playlistCollection.url = this.urlBase + "playlists";
-        playlistCollection.fetch();
+        var playlistCollection = UB.Collections.userPlaylists;
+//        playlistCollection.url = this.urlBase + "playlists";
+//        playlistCollection.fetch();
 
         var self = this;
 
