@@ -7,7 +7,7 @@ window.UB.Views.TrackView = Backbone.View.extend({
     tagName: "tr",
 
     events: {
-        "click .ajout-track-playlist" : "addTrack"
+        "click .ajout-track-playlist": "addTrack"
     },
 
     initialize: function (options) {
@@ -15,24 +15,20 @@ window.UB.Views.TrackView = Backbone.View.extend({
         this.options = options || {};
     },
 
-    render: function() {
+    render: function () {
         var pColl = this.options.playlistCollection;
 
-        $(this.el).html(this.template({track:this.model.toJSON(), pColl :pColl.models}));
+        $(this.el).html(this.template({track: this.model.toJSON(), pColl: pColl.models}));
         return this;
     },
 
-    addTrack: function(e){
+    addTrack: function (e) {
 
         var playlistId = $(e.currentTarget).data("playlist-id");
-        var playlist = new UB.Models.PlaylistModel({id: playlistId});
+        var playlist = UB.Collections.userPlaylists.get(playlistId);
         var track = this.model.attributes;
 
-        playlist.fetch({
-            success: function (playlistModel) {
-                playlistModel.addTrackToPlaylist(track);
-                playlist.save();
-            }
-        });
+        playlist.addTrackToPlaylist(track);
+        playlist.save();
     }
 });

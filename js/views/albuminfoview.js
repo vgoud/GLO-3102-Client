@@ -4,8 +4,8 @@
 
 window.UB.Views.AlbumInfoView = Backbone.View.extend({
     events: {
-        "click .btn-add-all-tracks"   : "addAllTracksToPlaylist",
-        "click #btn-cancel"           : "cancel"
+        "click .btn-add-all-tracks": "addAllTracksToPlaylist",
+        "click #btn-cancel": "cancel"
     },
 
     tagName: "div",
@@ -28,31 +28,28 @@ window.UB.Views.AlbumInfoView = Backbone.View.extend({
         this.close();
     },
 
-    render: function() {
+    render: function () {
         var pColl = this.options.playlistCollection;
-        $(this.el).html(this.template({album:this.model.toJSON(), pColl :pColl.models}));
+        $(this.el).html(this.template({album: this.model.toJSON(), pColl: pColl.models}));
         return this;
     },
 
     addAllTracksToPlaylist: function (event) {
-        var $playlistId = $(event.currentTarget).data("playlist-id");
-        var playlist = new UB.Models.PlaylistModel({id: $playlistId});
+        var playlistId = $(event.currentTarget).data("playlist-id");
+        var playlist = UB.Collections.userPlaylists.get(playlistId);
 
-        playlist.fetch({
-            success: function (playlistModel) {
-                var $trackCollectionId= $(event.currentTarget).data("collection-id");
-                var tracks = new UB.Collections.TrackCollection({id: $trackCollectionId});
-                tracks.url = UB.urlBase + "albums/" +$trackCollectionId + "/tracks";
-                tracks.fetch({
-                    success: function () {
-                        _.forEach(tracks.models, function (track) {
-                            playlistModel.addTrackToPlaylist(track.toJSON());
-                        });
-                        playlist.save();
-                        this.$(".uk-close").click();
-                    }
+        var $trackCollectionId = $(event.currentTarget).data("collection-id");
+        var tracks = new UB.Collections.TrackCollection({id: $trackCollectionId});
+        tracks.url = UB.urlBase + "albums/" + $trackCollectionId + "/tracks";
+        tracks.fetch({
+            success: function () {
+                _.forEach(tracks.models, function (track) {
+                    playlist.addTrackToPlaylist(track.toJSON());
                 });
+                playlist.save();
+                this.$(".uk-close").click();
             }
         });
+
     }
 });
