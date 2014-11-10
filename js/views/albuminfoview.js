@@ -16,6 +16,7 @@ window.UB.Views.AlbumInfoView = Backbone.View.extend({
 
     initialize: function (options) {
         this.listenTo(this.model, "all", this.render);
+        this.listenTo(options.playlistCollection, "change remove add sync", this.render);
         this.options = options || {};
     },
 
@@ -31,6 +32,8 @@ window.UB.Views.AlbumInfoView = Backbone.View.extend({
     render: function () {
         var pColl = this.options.playlistCollection;
         $(this.el).html(this.template({album: this.model.toJSON(), pColl: pColl.models}));
+        jQuery.UIkit.offcanvas.show();
+
         return this;
     },
 

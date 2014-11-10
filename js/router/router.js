@@ -28,33 +28,15 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
         this.$player.html(this.playerView.render().el);
 
-        this.initializeNewPlaylistModal();
-
         // This handler needs to be attached only once.
         this.playerView.listenTo(this.globalView, "togglePlayPause", this.togglePlayPause);
-        this.listenTo(
-            this.createPlaylistModalView,
-            "onCreatePlaylistModalViewClose",
-            this.keepOffCanvasOpen
-        );
+
         this.initializeUserPlaylist();
         this.home();
     },
 
     home: function () {
         this.$content.html(new UB.Views.HomeView().render().el);
-    },
-
-    initializeNewPlaylistModal: function () {
-        var self = this;
-        var newPlaylistModel = new UB.Models.CreatePlaylistModel();
-        newPlaylistModel.urlRoot = function () {
-            return self.urlBase + "playlists";
-        };
-        this.createPlaylistModalView = new UB.Views.CreatePlaylistView({
-            model: newPlaylistModel
-        });
-        $("#global-container").append(this.createPlaylistModalView.render().el);
     },
 
     keepOffCanvasOpen: function () {
@@ -75,11 +57,6 @@ window.UB.Routers.Router = Backbone.Router.extend({
                     new UB.Views.PlaylistCollectionView({
                         collection: data
                     });
-                self.playlistCollectionView.listenTo(
-                    self.createPlaylistModalView,
-                    "newPlaylistCreated",
-                    self.playlistCollectionView.createNewPlaylist
-                );
 
                 self.$playlists.html(self.playlistCollectionView.render().el);
             }
@@ -100,8 +77,6 @@ window.UB.Routers.Router = Backbone.Router.extend({
         var tracks = new UB.Collections.TrackCollection();
 
         var playlistCollection = UB.Collections.userPlaylists;
-//        playlistCollection.url = this.urlBase + "playlists";
-//        playlistCollection.fetch();
 
         var self = this;
 

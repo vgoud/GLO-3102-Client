@@ -1,7 +1,19 @@
-<button id="add-playlist" class="uk-button" data-uk-modal="{target: '#new-playlist-modal', bgclose:false}">
-    <i class="uk-icon-plus"></i>
-    Create new playlist
-</button>
+<form class="uk-form">
+    <div class="uk-grid uk-grid-small uk-margin">
+        <div class="uk-width-1-1 uk-margin-bottom">
+            <input id="new-playlist-name" type="text" placeholder="New playlist name..." class="uk-width-1-1">
+        </div>
+        <div class="uk-width-1-1">
+            <button id="btn-create-playlist" class="uk-button uk-width-1-1">
+                <i class="uk-icon-plus"></i>
+                Create
+            </button>
+        </div>
+    </div>
+</form>
+<div class="uk-alert uk-hidden" data-uk-alert>
+    <p>New playlist successfully created!</p>
+</div>
 
 <ul id="playlists-menu" class="uk-list uk-list-line">
     <p>Your playlists</p>
@@ -31,6 +43,6 @@
     </li>
     <%}); %>
     <button id="btn-hidden-open-modal" class="uk-hidden"
-         data-uk-modal="{target: '#rename-playlist-modal', bgclose:false}">
+            data-uk-modal="{target: '#rename-playlist-modal', bgclose:false}">
     </button>
 </ul>
