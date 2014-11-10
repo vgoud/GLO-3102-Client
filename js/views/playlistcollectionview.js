@@ -26,12 +26,14 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
     createPlaylist: function (e) {
         e.preventDefault();
         e.stopPropagation();
-        var newPlaylist = this.collection.create({
-            name: this.$input.val() }, {
+        if (this.$input.val() !== "") {
+            var newPlaylist = this.collection.create({
+                name: this.$input.val() }, {
                 type: 'POST'
             });
-        if (!newPlaylist) {
-            console.log("There was an error during the playlist creation");
+            if (!newPlaylist) {
+                console.log("There was an error during the playlist creation");
+            }
         }
     },
 

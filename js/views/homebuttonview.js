@@ -1,9 +1,6 @@
 /**
  * Created by Michel on 08/11/2014.
  */
-/**
- * Created by Michel on 08/11/2014.
- */
 
 window.UB.Views.HomeButtonView = Backbone.View.extend({
 
