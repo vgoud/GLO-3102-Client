@@ -35,8 +35,24 @@ window.UB.Models.PlaylistModel = Backbone.Model.extend({
     },
 
     addTrackToPlaylist: function(track) {
-        this.attributes.tracks.push(track);
+
+        if(!this.isPresent(track)){
+            this.attributes.tracks.push(track);
+        }
         return this;
+    },
+
+    isPresent: function(track){
+        var bool = false;
+        var tracks = this.get("tracks");
+
+        for(var i = 0; i < tracks.length; i++){
+            if(tracks[i].trackId === track.trackId){
+                bool = true;
+                alert("\""+track.trackName+"\""+"already in the playlist");
+            }
+        }
+        return bool;
     }
 
 });
