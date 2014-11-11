@@ -24,7 +24,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.initializeHeader();
         this.$content = $("#content");
         this.$player = $("#player-container");
-        this.$playlists = $("#playlists-container");
+//        this.$playlists = $("#playlists-container");
+        this.$playlists = $("#sidebar-left");
         this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
         this.$player.html(this.playerView.render().el);
 

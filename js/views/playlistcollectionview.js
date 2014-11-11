@@ -3,15 +3,17 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
     el: "#playlists-container",
 
     events: {
-        "click #btn-playlist-delete": "deletePlaylist",
-        "click #btn-playlist-edit": "editPlaylist",
-        "click #btn-create-playlist": "createPlaylist"
+        "click #btn-playlist-delete"  : "deletePlaylist",
+        "click #btn-playlist-edit"    : "editPlaylist",
+        "click #btn-creat-playlist"   : "createPlaylist",
+        "click #btn-toggle-sidebar"   : "toggleSidebar"
     },
 
     initialize: function () {
         _.bindAll(this, "render");
 
         this.listenTo(this.collection, "change add sync remove", this.render);
+        this.on();
     },
 
     render: function () {
@@ -75,6 +77,10 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
 //            this.$modal.show();
             this.$("#btn-hidden-open-modal").click();
         }
+    },
+
+    toggleSidebar: function (e) {
+        $("#sidebar-left").toggleClass("sidebar-visible");
     }
 
 });

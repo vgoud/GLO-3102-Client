@@ -1,0 +1,90 @@
+@import "variables";
+
+#sidebar-left-footer {
+  background-color: @button-background;
+}
+
+#sidebar-left {
+  transition: width 200ms linear;
+}
+
+#sidebar-left.sidebar-visible {
+  min-width: @sidebar-width;
+  max-width: @sidebar-width;
+  width: @sidebar-width;
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  top: 0;
+
+  & #sidebar-left-content {
+    margin: 15px 0 -@player-container-height 12px;
+//    visibility: visible;
+    display: block;
+
+    //  overflow-x: hidden;
+    //  overflow-y: scroll;
+
+    //  &::after {
+    //    content: "";
+    //    display: block;
+    //
+    //    & {
+    //      height: @player-container-height;
+    //    }
+    //  }
+  }
+
+  & #sidebar-left-footer {
+    height: @player-container-height;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+#sidebar-left:not(.sidebar-visible) + #main {
+  margin-left: 30px;
+}
+
+#sidebar-left:not(.sidebar-visible) + #main > #player-container {
+  left: 30px;
+}
+
+#sidebar-left {
+  min-width: 30px;
+  max-width: 30px;
+  width: 30px;
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  top: 0;
+
+  & #sidebar-left-content {
+    margin: 15px 0 -@player-container-height 0;
+//    visibility: hidden;
+    display: none;
+    //  overflow-x: hidden;
+    //  overflow-y: scroll;
+
+    //  &::after {
+    //    content: "";
+    //    display: block;
+    //
+    //    & {
+    //      height: @player-container-height;
+    //    }
+    //  }
+  }
+
+  & #sidebar-left-footer {
+    height: @player-container-height;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
