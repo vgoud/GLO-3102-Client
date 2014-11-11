@@ -4,8 +4,17 @@
   background-color: @button-background;
 }
 
+#btn-toggle-sidebar {
+  font-size: 20px;
+  line-height: 40px;
+}
+
 #sidebar-left {
-  transition: width 100ms, min-width 100ms, max-width 100ms, linear;
+  transition:
+    width @sidebar-transition-duration,
+    min-width @sidebar-transition-duration,
+    max-width @sidebar-transition-duration,
+    linear;
 }
 
 #sidebar-left.sidebar-visible {
@@ -46,7 +55,7 @@
 }
 
 #main {
-  transition: margin-left 100ms linear;
+  transition: margin-left @sidebar-transition-duration linear;
 }
 
 #sidebar-left:not(.sidebar-visible) + #main {
