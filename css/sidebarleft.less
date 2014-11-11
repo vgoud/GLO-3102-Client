@@ -2,6 +2,11 @@
 
 #sidebar-left-footer {
   background-color: @button-background;
+  height: @player-container-height;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: @sidebar-width;
 }
 
 #btn-toggle-sidebar {
@@ -10,47 +15,49 @@
 }
 
 #sidebar-left {
-  transition:
-    width @sidebar-transition-duration,
-    min-width @sidebar-transition-duration,
-    max-width @sidebar-transition-duration,
-    linear;
-}
-
-#sidebar-left.sidebar-visible {
-  min-width: @sidebar-width;
-  max-width: @sidebar-width;
-  width: @sidebar-width;
+  transition: width @sidebar-transition-duration,
+  min-width @sidebar-transition-duration,
+  max-width @sidebar-transition-duration,
+  linear;
 
   position: fixed;
   bottom: 0;
   left: 0;
   top: 0;
 
+  & #sidebar-left-footer {
+    transition: width @sidebar-transition-duration linear;
+  }
+
+  #sidebar-left-content {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+
+#sidebar-left.sidebar-visible {
+  min-width: @sidebar-width;
+  max-width: @sidebar-width;
+  width: @sidebar-width;
+  max-height: 100%;
+
   & #sidebar-left-content {
     margin: 15px 0 -@player-container-height 12px;
-//    visibility: visible;
-    display: block;
+    visibility: visible;
+    max-height: 100%;
 
-    //  overflow-x: hidden;
-    //  overflow-y: scroll;
-
-    //  &::after {
-    //    content: "";
-    //    display: block;
+    //      &::after {
+    //        content: "";
+    //        display: block;
     //
-    //    & {
-    //      height: @player-container-height;
-    //    }
-    //  }
+    //        & {
+    //          height: @player-container-height;
+    //        }
+    //      }
   }
 
   & #sidebar-left-footer {
-    height: @player-container-height;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    width: @sidebar-width;
   }
 }
 
@@ -66,22 +73,19 @@
   left: 30px;
 }
 
-#sidebar-left {
+#sidebar-left:not(.sidebar-visible) {
   min-width: 30px;
   max-width: 30px;
   width: 30px;
 
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  top: 0;
-
   & #sidebar-left-content {
     margin: 15px 0 -@player-container-height 0;
-//    visibility: hidden;
-    display: none;
+    visibility: hidden;
+    max-height: 100%;
+    //    display: none;
     //  overflow-x: hidden;
     //  overflow-y: scroll;
+    overflow-y: hidden;
 
     //  &::after {
     //    content: "";
@@ -94,10 +98,6 @@
   }
 
   & #sidebar-left-footer {
-    height: @player-container-height;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    width: 30px;
   }
 }
