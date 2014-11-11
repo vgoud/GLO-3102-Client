@@ -5,7 +5,7 @@
 }
 
 #sidebar-left {
-  transition: width 200ms linear;
+  transition: width 100ms, min-width 100ms, max-width 100ms, linear;
 }
 
 #sidebar-left.sidebar-visible {
@@ -43,6 +43,10 @@
     left: 0;
     right: 0;
   }
+}
+
+#main {
+  transition: margin-left 100ms linear;
 }
 
 #sidebar-left:not(.sidebar-visible) + #main {
