@@ -5,7 +5,7 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
     events: {
         "click #btn-playlist-delete"  : "deletePlaylist",
         "click #btn-playlist-edit"    : "editPlaylist",
-        "click #btn-creat-playlist"   : "createPlaylist",
+        "click #btn-create-playlist"   : "createPlaylist",
         "click #btn-toggle-sidebar"   : "toggleSidebar"
     },
 
