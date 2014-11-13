@@ -5,12 +5,29 @@
 }
 
 #sidebar-left-footer {
-  background-color: @button-background;
+//  background-color: @button-background;
+  background-color: @skin-dark-accent-color;
   height: @player-container-height;
   position: fixed;
   bottom: 0;
   left: 0;
   width: @sidebar-width;
+
+  & #btn-toggle-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+  }
+
+  & .uk-button {
+    background-color: @skin-dark-accent-color;
+    justify-content: flex-end;
+    align-items: center;
+
+    &:hover, &:focus {
+      color: @button-background;
+    }
+  }
 }
 
 #btn-toggle-sidebar {
