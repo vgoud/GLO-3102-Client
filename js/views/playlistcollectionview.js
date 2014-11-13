@@ -84,6 +84,7 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
 
     toggleSidebar: function () {
         $("#sidebar-left").toggleClass("sidebar-visible");
+        document.activeElement.blur();
     }
 
 });
