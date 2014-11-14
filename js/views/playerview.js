@@ -11,9 +11,9 @@ window.UB.Views.PlayerView = Backbone.View.extend({
     className: "uk-container uk-container-center uk-width-1-1 uk-height-1-1",
 
     events: {
-        "click #audio-player-progress" : "onProgressBarClick",
-        "click #playButton" : "onPlayClicked",
-        "click #pauseButton" : "onPauseClicked"
+        "click #audio-player-progress": "onProgressBarClick",
+        "click #playButton": "onPlayClicked",
+        "click #pauseButton": "onPauseClicked"
     },
 
     initialize: function (options) {
@@ -22,7 +22,9 @@ window.UB.Views.PlayerView = Backbone.View.extend({
             "onEnded",
             "onTimeUpdate",
             "setCurrentTime",
-            "seek"
+            "seek",
+            "draw",
+            "visualize"
         );
 
         this.listenTo(this.model, "change", this.render);
@@ -34,6 +36,12 @@ window.UB.Views.PlayerView = Backbone.View.extend({
         this._analyser = this._audioCtx.createAnalyser();
 
         this.progressBarMinWidth = 3;
+
+        this.fps = 30;
+        this.now = 0;
+        this.then = Date.now();
+        this.interval = 1000/this.fps;
+        this.delta;
     },
 
     render: function () {
@@ -50,7 +58,7 @@ window.UB.Views.PlayerView = Backbone.View.extend({
         // that has an API.
         this.audio = this.$("audio").get(0);
         // jQuery object.
-        this.$audio = $( this.audio );
+        this.$audio = $(this.audio);
         // Events binding.
         this.$audio.on("ended", this.onEnded);
         this.$audio.on("timeupdate", this.onTimeUpdate);
@@ -63,11 +71,16 @@ window.UB.Views.PlayerView = Backbone.View.extend({
         this._source.connect(this._analyser);
         this._analyser.connect(this._audioCtx.destination);
 
+        this.$canvas = this.$("#visualizer-canvas");
+        this._canvasCtx = this.$canvas.get(0).getContext("2d");
+
+        this.visualize();
+
         return this;
     },
 
     // Current time is rounded down so time progress second by second.
-    getCurrentTimeInPercentage: function() {
+    getCurrentTimeInPercentage: function () {
         return ~~((Math.floor(this.audio.currentTime) / this.audio.duration) * 100);
     },
 
@@ -94,12 +107,12 @@ window.UB.Views.PlayerView = Backbone.View.extend({
     },
 
     play: function () {
-        if(this.audio.src != this.audio.baseURI){
-        this._isPlaying = true;
-        this.audio.play();
-        this.trigger("playbackResumed", {model: this.model});
-        $("#playButton")[0].style.display = "none";
-        $("#pauseButton")[0].style.display = "inline";
+        if (this.audio.src != this.audio.baseURI) {
+            this._isPlaying = true;
+            this.audio.play();
+            this.trigger("playbackResumed", {model: this.model});
+            $("#playButton")[0].style.display = "none";
+            $("#pauseButton")[0].style.display = "inline";
         }
     },
 
@@ -146,15 +159,80 @@ window.UB.Views.PlayerView = Backbone.View.extend({
         $("#pauseButton")[0].style.display = "none";
     },
 
-    onPlayClicked: function() {
+    onPlayClicked: function () {
         this.play();
     },
 
-    onPauseClicked: function() {
-        if(this._isPlaying){
-        this.stop();
+    onPauseClicked: function () {
+        if (this._isPlaying) {
+            this.stop();
         }
-    }
+    },
 
+    draw: function () {
+        var drawVisual = requestAnimationFrame(this.draw);
+
+        this.now = Date.now();
+        this.delta = this.now - this.then;
+
+        if (this.delta > this.interval) {
+            // update time stuffs
+
+            // Just `then = now` is not enough.
+            // Lets say we set fps at 10 which means
+            // each frame must take 100ms
+            // Now frame executes in 16ms (60fps) so
+            // the loop iterates 7 times (16*7 = 112ms) until
+            // delta > interval === true
+            // Eventually this lowers down the FPS as
+            // 112*10 = 1120ms (NOT 1000ms).
+            // So we have to get rid of that extra 12ms
+            // by subtracting delta (112) % interval (100).
+            // Hope that makes sense.
+
+            this.then = this.now - (this.delta % this.interval);
+
+            var WIDTH = this.$canvas.width();
+            var HEIGHT = this.$canvas.height();
+
+            var bufferLength = this._analyser.frequencyBinCount;
+            var dataArray = new Uint8Array(bufferLength);
+
+            this._analyser.getByteFrequencyData(dataArray);
+
+            this._canvasCtx.fillStyle = '#555555';
+            this._canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+
+            var barWidth = (WIDTH / bufferLength) * 2.5;
+            var barHeight;
+            var x = 0;
+
+            for (var i = 0; i < bufferLength; i++) {
+                barHeight = dataArray[i];
+
+//            this._canvasCtx.fillStyle = 'rgb(' + (barHeight + 100) + ',66,00)';
+                this._canvasCtx.fillStyle = '#ff6600';
+                this._canvasCtx.fillRect(
+                    x,
+                        HEIGHT - barHeight / 2,
+                    barWidth,
+                        barHeight / 2
+                );
+
+                x += barWidth + 1;
+            }
+        }
+    },
+
+    visualize: function () {
+        var WIDTH = this.$canvas.width();
+        var HEIGHT = this.$canvas.height();
+
+        this._analyser.fftSize = 256;
+
+        this._canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+
+        this.draw();
+    }
 
 });

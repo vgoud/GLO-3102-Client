@@ -1,25 +1,32 @@
 <audio src="<%= previewUrl %>" data-track-id="<%= trackId %>">
     Your browser does not support the <code>audio</code> element.
 </audio>
-<div class="uk-width-1-2 uk-container-center uk-panel">
-    <div id="audio-player-song-name-artist-name" class="uk-width-3-4 uk-panel uk-container-center uk-text-center">
-        <%= trackNumber %><% if (trackNumber) { %>. <% } %><%= trackName %> -- <%= artistName %>
+<div class="uk-grid uk-grid-small">
+    <div class="uk-width-1-2 uk-container-center uk-panel">
+        <div id="audio-player-song-name-artist-name" class="uk-width-3-4 uk-panel uk-container-center uk-text-center">
+            <%= trackNumber %><% if (trackNumber) { %>. <% } %><%= trackName %> -- <%= artistName %>
+        </div>
+        <div id="audio-player-controls" class="uk-panel uk-width-1-1 uk-container-center">
+            <div id="audio-player-progress" class="uk-progress uk-progress-mini">
+                <span id="audio-player-progress-bar" class="uk-progress-bar"></span>
+            </div>
+            <div id="audio-player-button-wrapper"
+                 class="uk-grid uk-width-1-2 uk-panel uk-container-center uk-text-center">
+                <div class="uk-width-1-3 uk-panel">
+                    <a role="button" class="audio-player-button small uk-icon-fast-backward"></a>
+                </div>
+                <div class="uk-width-1-3 uk-panel">
+                    <a id="playButton" role="button" class="audio-player-button uk-icon-play"></a>
+                    <a id="pauseButton" role="button" class="audio-player-button uk-icon-pause"
+                       style="display: none"></a>
+                </div>
+                <div class="uk-width-1-3 uk-panel">
+                    <a role="button" class="audio-player-button small uk-icon-fast-forward"></a>
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="audio-player-controls" class="uk-panel uk-width-1-1 uk-container-center">
-        <div id="audio-player-progress" class="uk-progress uk-progress-mini">
-          <span id="audio-player-progress-bar" class="uk-progress-bar"></span>
-        </div>
-        <div id="audio-player-button-wrapper" class="uk-grid uk-width-1-2 uk-panel uk-container-center uk-text-center">
-          <div class="uk-width-1-3 uk-panel">
-              <a role="button" class="audio-player-button small uk-icon-fast-backward"></a>
-          </div>
-            <div class="uk-width-1-3 uk-panel">
-                <a id="playButton" role="button" class="audio-player-button uk-icon-play"></a>
-                <a id="pauseButton" role="button" class="audio-player-button uk-icon-pause" style="display: none"></a>
-            </div>
-            <div class="uk-width-1-3 uk-panel">
-                <a role="button" class="audio-player-button small uk-icon-fast-forward"></a>
-            </div>
-        </div>
+    <div id="visualizer-container" class="uk-width-1-2 uk-container-center">
+        <canvas id="visualizer-canvas"></canvas>
     </div>
 </div>
