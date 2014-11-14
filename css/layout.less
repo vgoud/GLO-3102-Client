@@ -6,6 +6,10 @@
   min-height: 100vh;
   display: flex;
   flex-direction: row;
+
+  .wrapper {
+    width: 100%;
+  }
 }
 
 #header-container::after {
@@ -24,7 +28,7 @@
 }
 
 #content {
-  padding: 0 10px;
+//  padding: 0 10px;
   margin: 5px 0 0 0;
 }
 
@@ -40,6 +44,10 @@
   left: @sidebar-width;
   right: 0;
   height: @player-container-height;
+  transition:
+    width @sidebar-transition-duration,
+    left @sidebar-transition-duration,
+    linear;
 }
 
 .uk.list {
