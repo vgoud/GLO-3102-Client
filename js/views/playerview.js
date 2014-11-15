@@ -175,20 +175,8 @@ window.UB.Views.PlayerView = Backbone.View.extend({
         this.now = Date.now();
         this.delta = this.now - this.then;
 
+        // This condition is for controlling the fps.
         if (this.delta > this.interval) {
-            // update time stuffs
-
-            // Just `then = now` is not enough.
-            // Lets say we set fps at 10 which means
-            // each frame must take 100ms
-            // Now frame executes in 16ms (60fps) so
-            // the loop iterates 7 times (16*7 = 112ms) until
-            // delta > interval === true
-            // Eventually this lowers down the FPS as
-            // 112*10 = 1120ms (NOT 1000ms).
-            // So we have to get rid of that extra 12ms
-            // by subtracting delta (112) % interval (100).
-            // Hope that makes sense.
 
             this.then = this.now - (this.delta % this.interval);
 
@@ -196,6 +184,7 @@ window.UB.Views.PlayerView = Backbone.View.extend({
             var HEIGHT = this.$canvas.height();
 
             var bufferLength = this._analyser.frequencyBinCount;
+//            console.log("buffer len = " + bufferLength);
             var dataArray = new Uint8Array(bufferLength);
 
             this._analyser.getByteFrequencyData(dataArray);
@@ -203,23 +192,22 @@ window.UB.Views.PlayerView = Backbone.View.extend({
             this._canvasCtx.fillStyle = '#555555';
             this._canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
-            var barWidth = (WIDTH / bufferLength) * 2.5;
-            var barHeight;
+            var barWidth = (WIDTH / bufferLength);// * 2.5;
             var x = 0;
 
+//            this._canvasCtx.fillStyle = '#ff6600';
+//            this._canvasCtx.fillRect(
+//                0, 0, 50, HEIGHT*2);
+
             for (var i = 0; i < bufferLength; i++) {
-                barHeight = dataArray[i];
+                var barHeight = (dataArray[i] * HEIGHT) / 255;
 
 //            this._canvasCtx.fillStyle = 'rgb(' + (barHeight + 100) + ',66,00)';
                 this._canvasCtx.fillStyle = '#ff6600';
                 this._canvasCtx.fillRect(
-                    x,
-                        HEIGHT - barHeight / 2,
-                    barWidth,
-                        barHeight / 2
-                );
+                    x, HEIGHT - barHeight, barWidth - 1, barHeight);
 
-                x += barWidth + 1;
+                x += barWidth;
             }
         }
     },
@@ -228,7 +216,7 @@ window.UB.Views.PlayerView = Backbone.View.extend({
         var WIDTH = this.$canvas.width();
         var HEIGHT = this.$canvas.height();
 
-        this._analyser.fftSize = 256;
+        this._analyser.fftSize = 64;
 
         this._canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
 

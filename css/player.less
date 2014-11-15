@@ -4,10 +4,26 @@
   background-color: @button-background;
 }
 
+#player {
+  display: flex;
+  flex: 1 1 50%;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+#player-view {
+  display: flex;
+  flex: 1 1;
+  flex-direction: column;
+  width: 280px;
+  min-width: 250px;
+  max-width: 280px;
+}
+
 // Audio player customization.
 
 #audio-player-progress {
-  display: block;
+//  display: block;
   width: 100%;
   height: 5px;
 //  border-radius: 25px;
@@ -22,7 +38,7 @@
   -moz-transition: width 100ms linear;
   -o-transition: width 100ms linear;
   transition: width 100ms linear;
-  display: block;
+//  display: block;
   height: 100%;
   max-width: 100%;
   background-color: @skin-dark-accent-color;
@@ -31,6 +47,7 @@
 .audio-player-button {
   margin: 0 5px;
   cursor: pointer;
+  display: flex;
 }
 
 .audio-player-button:hover {
@@ -42,19 +59,62 @@
   color: @skin-dark-accent-color;
 }
 
+@-webkit-keyframes left {
+  0%  {
+    transform:translateX(100%);
+  }
+  5%  {
+    transform:translateX(0);
+  }
+  35% {
+    transform:translateX(0);
+  }
+//  55% {
+//    transform:translateX(0);
+//  }
+  100%{
+    transform:translateX(-100%);
+  }
+}
+
 #audio-player-button-wrapper {
   margin: 5px auto 0 auto;
-  & > * {
-    padding-left: 0;
-  }
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 #audio-player-song-name-artist-name {
   min-height: 20px;
   margin-bottom: 2px;
+  position: relative;
+  overflow-x: hidden;
+
+  & p:not(.no-animation) {
+    position: absolute;
+    height: 100%;
+    text-align: center;
+    white-space: nowrap;
+    overflow-x: visible;
+
+    -webkit-animation: left 10s linear infinite;
+  }
+
+  & p.no-animation {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    white-space: nowrap;
+  }
 }
 
-#visualizer-canvas {
-  width: 271px;
-  height: 136px;
+#visualizer-container {
+  margin-left: 25px;
+
+  #visualizer-canvas {
+    width: 300px;
+    height: @player-container-height;
+  }
 }
+
