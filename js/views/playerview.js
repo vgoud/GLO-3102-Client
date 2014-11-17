@@ -233,23 +233,26 @@ window.UB.Views.PlayerView = Backbone.View.extend({
             this._canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
             var barWidth = (WIDTH / bufferLength);// * 2.5;
+            var marginBottom = 3;
+            var borderBottomWidth = 1;
+            var barMarginRight = 3;
             var x = 0;
 
             this._canvasCtx.strokeStyle = '#ff6600';
             this._canvasCtx.moveTo(0, HEIGHT);
             this._canvasCtx.lineTo(WIDTH, HEIGHT);
-            this._canvasCtx.lineWidth = 5;
+            this._canvasCtx.lineWidth = borderBottomWidth;
             this._canvasCtx.stroke();
 //            this._canvasCtx.fillRect(
 //                0, 0, 50, HEIGHT*2);
 
             for (var i = 0; i < bufferLength; i++) {
-                var barHeight = (dataArray[i] * HEIGHT) / 255;
+                var barHeight = (dataArray[i] * (HEIGHT - (marginBottom + borderBottomWidth))) / 255;
 
 //            this._canvasCtx.fillStyle = 'rgb(' + (barHeight + 100) + ',66,00)';
                 this._canvasCtx.fillStyle = '#ff6600';
                 this._canvasCtx.fillRect(
-                    x, HEIGHT - barHeight, barWidth - 1, barHeight);
+                    x, HEIGHT - barHeight - (marginBottom + borderBottomWidth), barWidth - barMarginRight, barHeight);
 
                 x += barWidth;
             }
@@ -260,7 +263,7 @@ window.UB.Views.PlayerView = Backbone.View.extend({
         var WIDTH = this.$canvas.width();
         var HEIGHT = this.$canvas.height();
 
-        this._analyser.fftSize = 64;
+        this._analyser.fftSize = 32;
 
         this._canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
 
