@@ -1,7 +1,5 @@
 window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
 
-//    el: "#playlists-container",
-
     id: "sidebar-left-content-wrapper",
 
     events: {
@@ -12,7 +10,10 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
     },
 
     initialize: function () {
-        _.bindAll(this, "render");
+        _.bindAll(this,
+            "render",
+            "triggerSidebarToggled"
+        );
 
         this.listenTo(this.collection, "change add sync remove", this.render);
 
@@ -23,7 +24,10 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
             playlists: this.collection.toJSON()
             //playlists: filterPlaylists(this.collection.toJSON())
         }));
+
         this.$input = this.$("#new-playlist-name");
+        this.$sidebar = $("#sidebar-left");
+        this.$sidebar.get(0).addEventListener("transitionend", this.triggerSidebarToggled);
 
         return this;
     },
@@ -82,8 +86,16 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
         }
     },
 
+    triggerSidebarToggled: function(e) {
+        // Trigger event only for one property,
+        // otherwise it would fire for all the properties transitioned.
+        if (e.propertyName == "visibility") {
+            this.trigger("sidebarToggled");
+        }
+    },
+
     toggleSidebar: function () {
-        $("#sidebar-left").toggleClass("sidebar-visible");
+        this.$sidebar.toggleClass("sidebar-visible");
         document.activeElement.blur();
     }
 

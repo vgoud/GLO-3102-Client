@@ -27,7 +27,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
 //        this.$playlists = $("#playlists-container");
         this.$playlists = $("#sidebar-left-content");
         this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
-        this.$player.html(this.playerView.render().el);
+        this.playerView.render();
 
         // This handler needs to be attached only once.
         this.playerView.listenTo(this.globalView, "togglePlayPause", this.togglePlayPause);
@@ -60,6 +60,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
                     });
 
                 self.$playlists.html(self.playlistCollectionView.render().el);
+
+                self.playerView.listenTo(self.playlistCollectionView, "sidebarToggled", self.playerView.toggleTitleAnimation);
             }
         });
 

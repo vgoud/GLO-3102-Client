@@ -2,9 +2,11 @@
     Your browser does not support the <code>audio</code> element.
 </audio>
 <!--<div class="uk-grid uk-grid-small">-->
+<div id="player-view-container">
     <div id="player-view">
         <div id="audio-player-song-name-artist-name" class="uk-panel uk-text-center">
-            <p class="<% if (! artistName) { %>no-animation<% } %>"><%= trackNumber %><% if (trackNumber) { %>. <% } %><%= trackName %> -- <%= artistName %></p>
+            <p><%= trackNumber %><% if (trackNumber) { %>. <% }
+                %><%= trackName %> -- <%= artistName %></p>
         </div>
         <div id="audio-player-controls" class="uk-panel">
             <div id="audio-player-progress" class="uk-progress uk-progress-mini">
@@ -26,8 +28,11 @@
             </div>
         </div>
     </div>
-    <div id="visualizer-container">
-        <!--We must specify the width and height here for the canvas element to work properly.-->
-        <canvas id="visualizer-canvas" width="300px" height="60px"></canvas>
+</div>
+<div id="visualizer-container">
+    <!--We must specify the width and height here for the canvas element to work properly.-->
+    <div id="flex-container">
+        <canvas id="visualizer-canvas" width="300px" height="50px"></canvas>
     </div>
+</div>
 <!--</div>-->

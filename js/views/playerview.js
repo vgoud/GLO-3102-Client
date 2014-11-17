@@ -4,11 +4,13 @@
 
 window.UB.Views.PlayerView = Backbone.View.extend({
 
-    tagName: "div",
+    el: "#player-container",
 
-    id: "player",
-
-    className: "uk-container uk-container-center uk-width-1-1 uk-height-1-1",
+//    tagName: "div",
+//
+//    id: "player",
+//
+//    className: "uk-container uk-container-center uk-width-1-1 uk-height-1-1",
 
     events: {
         "click #audio-player-progress": "onProgressBarClick",
@@ -24,10 +26,18 @@ window.UB.Views.PlayerView = Backbone.View.extend({
             "setCurrentTime",
             "seek",
             "draw",
-            "visualize"
+            "visualize",
+            "resizeCanvas",
+            "toggleTitleAnimation"
         );
 
         this.listenTo(this.model, "change", this.render);
+
+        // Register an event listener to
+        // call the resizeCanvas() and toggleTitleAnimation functions
+        // each timethe window is resized.
+        window.addEventListener('resize', this.resizeCanvas, false);
+        window.addEventListener('resize', this.toggleTitleAnimation, false);
 
         // Define audio context.
         this._audioCtx =
@@ -40,7 +50,7 @@ window.UB.Views.PlayerView = Backbone.View.extend({
         this.fps = 30;
         this.now = 0;
         this.then = Date.now();
-        this.interval = 1000/this.fps;
+        this.interval = 1000 / this.fps;
         this.delta;
     },
 
@@ -71,12 +81,30 @@ window.UB.Views.PlayerView = Backbone.View.extend({
         this._source.connect(this._analyser);
         this._analyser.connect(this._audioCtx.destination);
 
+        this.$canvasContainer = this.$("#flex-container");
         this.$canvas = this.$("#visualizer-canvas");
         this._canvasCtx = this.$canvas.get(0).getContext("2d");
+
+        this.toggleTitleAnimation();
+
+        this.resizeCanvas();
 
         this.visualize();
 
         return this;
+    },
+
+    toggleTitleAnimation: function () {
+        // Disable title animation if not necessary, i.e. title can be displayed entirely.
+        var $songTitleArtistName = this.$("#audio-player-song-name-artist-name");
+        var $songTitleArtistNamePEl = this.$("#audio-player-song-name-artist-name p");
+        if ($songTitleArtistNamePEl.width() <= $songTitleArtistName.width()) {
+            // Title can be displayed entirely; disable animation.
+            $songTitleArtistNamePEl.removeClass("marquee");
+        } else {
+            // Enable animation.
+            $songTitleArtistNamePEl.addClass("marquee");
+        }
     },
 
     // Current time is rounded down so time progress second by second.
@@ -169,6 +197,18 @@ window.UB.Views.PlayerView = Backbone.View.extend({
         }
     },
 
+    redraw: function () {
+        this.visualize();
+    },
+
+    // Runs each time the DOM window resize event fires.
+    // Resets the canvas dimensions to match its container.
+    resizeCanvas: function () {
+        this.$canvas.get(0).width = this.$canvasContainer.width();
+        this.$canvas.get(0).height = this.$canvasContainer.height();
+        this.visualize();
+    },
+
     draw: function () {
         var drawVisual = requestAnimationFrame(this.draw);
 
@@ -195,7 +235,11 @@ window.UB.Views.PlayerView = Backbone.View.extend({
             var barWidth = (WIDTH / bufferLength);// * 2.5;
             var x = 0;
 
-//            this._canvasCtx.fillStyle = '#ff6600';
+            this._canvasCtx.strokeStyle = '#ff6600';
+            this._canvasCtx.moveTo(0, HEIGHT);
+            this._canvasCtx.lineTo(WIDTH, HEIGHT);
+            this._canvasCtx.lineWidth = 5;
+            this._canvasCtx.stroke();
 //            this._canvasCtx.fillRect(
 //                0, 0, 50, HEIGHT*2);
 
@@ -223,4 +267,5 @@ window.UB.Views.PlayerView = Backbone.View.extend({
         this.draw();
     }
 
-});
+})
+;
