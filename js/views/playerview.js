@@ -47,7 +47,7 @@ window.UB.Views.PlayerView = Backbone.View.extend({
 
         this.progressBarMinWidth = 3;
 
-        this.fps = 30;
+        this.fps = 60;
         this.now = 0;
         this.then = Date.now();
         this.interval = 1000 / this.fps;
