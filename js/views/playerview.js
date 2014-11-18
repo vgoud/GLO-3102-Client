@@ -223,8 +223,8 @@ window.UB.Views.PlayerView = Backbone.View.extend({
             var WIDTH = this.$canvas.width();
             var HEIGHT = this.$canvas.height();
 
+            // Number of bars to draw.
             var bufferLength = this._analyser.frequencyBinCount;
-//            console.log("buffer len = " + bufferLength);
             var dataArray = new Uint8Array(bufferLength);
 
             this._analyser.getByteFrequencyData(dataArray);
@@ -232,28 +232,84 @@ window.UB.Views.PlayerView = Backbone.View.extend({
             this._canvasCtx.fillStyle = '#555555';
             this._canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
-            var barWidth = (WIDTH / bufferLength);// * 2.5;
+            var barWidth = (WIDTH / bufferLength);
             var marginBottom = 3;
             var borderBottomWidth = 1;
-            var barMarginRight = 3;
+            var barMarginRight = 2;
+            var maxBarHeight = HEIGHT - (marginBottom + borderBottomWidth);
             var x = 0;
 
+            // Bottom border.
             this._canvasCtx.strokeStyle = '#ff6600';
             this._canvasCtx.moveTo(0, HEIGHT);
             this._canvasCtx.lineTo(WIDTH, HEIGHT);
             this._canvasCtx.lineWidth = borderBottomWidth;
             this._canvasCtx.stroke();
-//            this._canvasCtx.fillRect(
-//                0, 0, 50, HEIGHT*2);
 
+            var rectHeight = 6;
+            var totalPossibleRectsInBar = maxBarHeight / rectHeight;
+            var rectTopMargin = 1;
+
+            // Accent color's rgb values (orange).
+            // r = 0xFF = 255
+            // g = 0x66 = 102
+            // b = 0x00;
+
+            // Shades
+            // Formula : component * fraction
+            //      lighter ............... darker
+            //               0.8     0.6     0.4
+            // rs : FF 255, CC 204, 99 153, 66 102
+            // gs : 66 102, 52 82,  3D 61,  29 41
+
+            // Tints
+            // Formula : component + ((255 - component) * fraction)
+            //      lighter ....................... darker
+            //       0.9     0.8     0.6     0.4     0.25    0.2     0.1
+            // gt : F0 240, E0 224, C2 194, A3 163, 8C 140, 85 133, 75 117
+            // bt : E6 230, CC 204, 99 153, 66 102, 40 64,  33 51,  1A 26
+            var rectColors = [
+                "#662900",
+                "#993d00",
+                "#cc5200",
+                "#ff6600",
+                "#ff751a",
+                "#ff8c40",
+                "#ffa366",
+                "#ffc299"
+            ];
+
+            // Draw bars.
             for (var i = 0; i < bufferLength; i++) {
-                var barHeight = (dataArray[i] * (HEIGHT - (marginBottom + borderBottomWidth))) / 255;
+                var barHeight = Math.floor((dataArray[i] * maxBarHeight) / 255);
 
-//            this._canvasCtx.fillStyle = 'rgb(' + (barHeight + 100) + ',66,00)';
-                this._canvasCtx.fillStyle = '#ff6600';
-                this._canvasCtx.fillRect(
-                    x, HEIGHT - barHeight - (marginBottom + borderBottomWidth), barWidth - barMarginRight, barHeight);
+                // Rectangles forming the bar.
+                // Rect's height includes margin.
+                var nbCompleteRects = Math.floor(barHeight / rectHeight);
+                var partialRectHeight = barHeight % rectHeight;
+                var totalRects = nbCompleteRects;
+                if (partialRectHeight != 0) totalRects += 1;
+                // Start to draw at this point on the y axis.
+                var y = HEIGHT - barHeight - (marginBottom + borderBottomWidth);
 
+                // Draw rectangles inside bar.
+                for (var j = 0; j < totalRects; ++j) {
+                    this._canvasCtx.fillStyle = rectColors[j + (totalPossibleRectsInBar - totalRects)];
+
+                    if (j == 0 && partialRectHeight != 0) {
+                        // Top partial rect.
+                        this._canvasCtx.fillRect(
+                            x, y, barWidth - barMarginRight, partialRectHeight);
+                        y += partialRectHeight;
+                    } else {
+                        // Complete rect.
+                        this._canvasCtx.fillRect(
+                            x, y + rectTopMargin, barWidth - barMarginRight, rectHeight - rectTopMargin);
+                        y += rectHeight;
+                    }
+                }
+
+                // Next bar.
                 x += barWidth;
             }
         }
