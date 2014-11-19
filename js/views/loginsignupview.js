@@ -23,6 +23,17 @@ window.UB.Views.LoginSignupView = Backbone.View.extend({
 
     render: function() {
         this.$el.html(this.template());
+
+        this.loginParsleyFormInstance = this.$('#tab-login-form').parsley({
+            errorClass: "uk-form-danger",
+            successClass: "uk-form-success"
+        });
+
+        this.signupParsleyFormInstance = this.$('#tab-signup-form').parsley({
+            errorClass: "uk-form-danger",
+            successClass: "uk-form-success"
+        });
+
         return this;
     },
 
@@ -61,11 +72,7 @@ window.UB.Views.LoginSignupView = Backbone.View.extend({
     onLoginSubmitClick: function () {
         this.$("#login-error").removeClass("error");
 
-        var parsleyFormInstance = this.$('#tab-login-form').parsley({
-            errorClass: "uk-form-danger",
-            successClass: "uk-form-success"
-        });
-        if (parsleyFormInstance.validate()) {
+        if (this.loginParsleyFormInstance.validate()) {
             this.submitLogin();
         };
     },
@@ -95,12 +102,7 @@ window.UB.Views.LoginSignupView = Backbone.View.extend({
     onSignupSubmitClick: function () {
         this.$("#submit-error").removeClass("error");
 
-        var parsleyFormInstance = this.$('#tab-signup-form').parsley({
-            errorClass: "uk-form-danger",
-            successClass: "uk-form-success"
-        });
-
-        if (parsleyFormInstance.validate()) {
+        if (this.signupParsleyFormInstance.validate()) {
             this.submitSignup();
         };
     }
