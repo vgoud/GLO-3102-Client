@@ -12,4 +12,4 @@ window.UB.Collections = window.UB.Collections || {};
 window.UB.Routers = window.UB.Routers || {};
 window.UB.Utils = window.UB.Utils || {};
 
-UB.urlBase = "http://localhost:3000/unsecure/";
+UB.urlBase = "http://localhost:3000/";

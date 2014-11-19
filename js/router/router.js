@@ -6,6 +6,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     routes: {
         "home": "home",
+        "loginsignup" : "loginSignup",
         "albums/:id": "album",
         "artists/:id": "artist",
         "playlists/:id": "playlist"
@@ -24,20 +25,37 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.initializeHeader();
         this.$content = $("#content");
         this.$player = $("#player-container");
-//        this.$playlists = $("#playlists-container");
         this.$playlists = $("#sidebar-left-content");
         this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
         this.playerView.render();
 
         // This handler needs to be attached only once.
         this.playerView.listenTo(this.globalView, "togglePlayPause", this.togglePlayPause);
+    },
 
-        this.initializeUserPlaylist();
-        this.home();
+    loginSignup: function () {
+        // Hide all except the main container.
+//        $("#sidebar-left").addClass("uk-hidden");
+//        $("#player-container").addClass("uk-hidden");
+//        $("#header-container").addClass("uk-hidden");
+//        $("#main").addClass("uk-margin-remove");
+
+        this.loginSignupView = new UB.Views.LoginSignupView();
+        $("#global-container").html(this.loginSignupView.render().el);
     },
 
     home: function () {
-        this.$content.html(new UB.Views.HomeView().render().el);
+        if ($.cookie("ubeat")) {
+            // TODO Not sure about calling this here.
+            this.initializeUserPlaylist();
+            this.$content.html(new UB.Views.HomeView().render().el);
+//            $("#sidebar-left").removeClass("uk-hidden");
+//            $("#player-container").removeClass("uk-hidden");
+//            $("#header-container").removeClass("uk-hidden");
+//            $("#main").removeClass("uk-margin-remove");
+        } else {
+            this.navigate("#loginsignup", {trigger: true});
+        }
     },
 
     keepOffCanvasOpen: function () {

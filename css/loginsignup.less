@@ -1,0 +1,60 @@
+@import "variables";
+
+.uk-tab > li.uk-active > a {
+  color: @skin-dark-accent-color;
+}
+
+#login-signup-container {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  width: 100%;
+  padding: 25px 0 25px 0;
+
+  & .uk-tab {
+    width: 250px;
+  }
+
+  & input {
+    color: @skin-dark-background-color;
+  }
+}
+
+#login-icon, #signup-icon {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  font-size: 140px;
+}
+
+#signup-icon {
+  padding-top: 15px;
+}
+
+#tab-container {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: space-around;
+  width: 250px;
+}
+
+#tab-login-form, #tab-signup-form {
+  width: 250px;
+  height: 450px;
+
+  &:not(.active) {
+    display: none;
+  }
+}
+
+#login-error, #signup-error {
+  opacity: 0;
+  transition: opacity .3s ease-in;
+
+  &.error {
+    opacity: 1;
+  }
+}

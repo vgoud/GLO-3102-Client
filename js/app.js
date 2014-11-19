@@ -45,10 +45,12 @@ $(document).ready(function () {
         "SearchFieldView",
         "HomeButtonView",
         "LogoutButtonView",
-        "ParametersButtonView"
+        "ParametersButtonView",
+        "LoginSignupView"
     ], function () {
         UB.Routers.router = new UB.Routers.Router();
         Backbone.history.start();
+        UB.Routers.router.navigate("#home", {trigger: true});
     });
 
     // Prevent page from scrolling down when pressing spacebar.
