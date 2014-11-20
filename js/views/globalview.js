@@ -16,9 +16,15 @@ window.UB.Views.GlobalView = Backbone.View.extend({
     },
 
     togglePlayPause: function (e) {
-        if(e && e.keyCode == 32) {
+//        e.preventDefault();
+        var $target = $( e.target );
+        if(e.keyCode == 32 && ! $target.is("input")) {
             e.preventDefault();
+            e.stopPropagation();
             this.trigger("togglePlayPause", e);
+        } else if (e.keyCode == 32 && $target.is("input")) {
+            e.preventDefault();
+            e.stopPropagation();
         }
     }
 });

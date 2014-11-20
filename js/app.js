@@ -52,7 +52,21 @@ $(document).ready(function () {
     });
 
     // Prevent page from scrolling down when pressing spacebar.
-    window.onkeydown = function (e) {
-        return !(e.keyCode == 32);
-    };
+//    document.onkeydown = function (e) {
+//        if(e.keyCode == 32) {
+//            e.preventDefault();
+//            return false;
+//        }
+//        return true;
+//    };
+    $(document).on("keydown", function (evt) {
+        {
+
+            evt = evt || window.event;
+            var charCode = evt.keyCode || evt.which;
+            if (charCode == 32) {
+                evt.preventDefault();
+            }
+        }
+    });
 });
