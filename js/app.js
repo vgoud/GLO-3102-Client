@@ -51,22 +51,4 @@ $(document).ready(function () {
         Backbone.history.start();
     });
 
-    // Prevent page from scrolling down when pressing spacebar.
-//    document.onkeydown = function (e) {
-//        if(e.keyCode == 32) {
-//            e.preventDefault();
-//            return false;
-//        }
-//        return true;
-//    };
-    $(document).on("keydown", function (evt) {
-        {
-
-            evt = evt || window.event;
-            var charCode = evt.keyCode || evt.which;
-            if (charCode == 32) {
-                evt.preventDefault();
-            }
-        }
-    });
 });

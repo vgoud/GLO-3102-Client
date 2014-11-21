@@ -30,7 +30,20 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.playerView.render();
 
         // This handler needs to be attached only once.
-        this.playerView.listenTo(this.globalView, "togglePlayPause", this.togglePlayPause);
+        var self = this;
+        $(document).on("keydown", function (e) {
+            e = e || window.event;
+            var $target = $(e.target );
+            var charCode = e.keyCode || e.which;
+            // Check if target is an input;
+            // if not, call togglePlayPause.
+            if (charCode == 32 && ! $target.is("input")) {
+                // Prevent page from scrolling down when pressing spacebar.
+                e.preventDefault();
+                self.togglePlayPause(e)
+            }
+        });
+
 
         this.initializeUserPlaylist();
         this.home();
@@ -154,7 +167,9 @@ window.UB.Routers.Router = Backbone.Router.extend({
     },
 
     togglePlayPause: function (e) {
-        this.playerView.togglePlayPause(e);
+        if (this.playerView) {
+            this.playerView.togglePlayPause(e);
+        }
     },
 
     // Stop the actually playing song.
