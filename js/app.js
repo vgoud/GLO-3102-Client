@@ -37,8 +37,4 @@ $(document).ready(function () {
         UB.Routers.router.navigate("#", {trigger: true});
     });
 
-    // Prevent page from scrolling down when pressing spacebar.
-    window.onkeydown = function (e) {
-        return !(e.keyCode == 32);
-    };
 });
