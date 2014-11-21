@@ -5,6 +5,7 @@
 window.UB.Routers.Router = Backbone.Router.extend({
 
     routes: {
+        "" : "index",
         "home": "home",
         "loginsignup" : "loginSignup",
         "albums/:id": "album",
@@ -22,44 +23,60 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
         this.globalView = new UB.Views.GlobalView();
         this.globalView.render();
-        this.initializeHeader();
-        this.$content = $("#content");
-        this.$player = $("#player-container");
-        this.$playlists = $("#sidebar-left-content");
-        this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
-        this.playerView.render();
-
-        // This handler needs to be attached only once.
-        this.playerView.listenTo(this.globalView, "togglePlayPause", this.togglePlayPause);
     },
 
     loginSignup: function () {
-        // Hide all except the main container.
-//        $("#sidebar-left").addClass("uk-hidden");
-//        $("#player-container").addClass("uk-hidden");
-//        $("#header-container").addClass("uk-hidden");
-//        $("#main").addClass("uk-margin-remove");
-
         this.loginSignupView = new UB.Views.LoginSignupView();
         $("#global-container").html(this.loginSignupView.render().el);
+
+        this.listenTo(this.loginSignupView, "loginSucceeded", this.onLoginSucceeded);
+        this.listenTo(this.loginSignupView, "signupSucceeded", this.onSignupSucceeded);
     },
 
-    home: function () {
-        if ($.cookie("ubeat")) {
-            // TODO Not sure about calling this here.
+    onLoginSucceeded: function (e) {
+        // Keep the token in a cookie.
+        $.cookie("ubeat-token", e.user.token);
+
+        // Redirect to index.html
+        this.navigate("#", {trigger: true});
+    },
+
+    onSignupSucceeded: function () {
+        this.navigate("#loginsignup", {trigger: true});
+    },
+
+    index: function () {
+        var token = $.cookie("ubeat-token");
+        if (token) {
+            // User is logged in.
+
+            // Setup all future headers to include the token.
+            $.ajaxSetup({
+                headers: { "Authorization": token }
+            });
+
+            // We re-render the global view because the content was
+            // overwritten by the login view.
+            this.globalView.render();
+
+            this.initializeHeader();
+            this.$content = $("#content");
+            this.$playlists = $("#sidebar-left-content");
+            this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
+            this.playerView.render();
             this.initializeUserPlaylist();
             this.$content.html(new UB.Views.HomeView().render().el);
-//            $("#sidebar-left").removeClass("uk-hidden");
-//            $("#player-container").removeClass("uk-hidden");
-//            $("#header-container").removeClass("uk-hidden");
-//            $("#main").removeClass("uk-margin-remove");
+
+            // This handler needs to be attached only once.
+            this.playerView.listenTo(this.globalView, "togglePlayPause", this.togglePlayPause);
         } else {
+            // User need to log in.
             this.navigate("#loginsignup", {trigger: true});
         }
     },
 
-    keepOffCanvasOpen: function () {
-        jQuery.UIkit.offcanvas.show();
+    home: function () {
+        // TODO Do we have to keep this function?
     },
 
     initializeUserPlaylist: function () {
@@ -80,6 +97,11 @@ window.UB.Routers.Router = Backbone.Router.extend({
                 self.$playlists.html(self.playlistCollectionView.render().el);
 
                 self.playerView.listenTo(self.playlistCollectionView, "sidebarToggled", self.playerView.toggleTitleAnimation);
+            },
+            error: function (model, res, options) {
+                if (res.status == 401) {
+                    self.navigate("#loginsignup", {trigger: true});
+                }
             }
         });
 

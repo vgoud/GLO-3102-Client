@@ -59,8 +59,10 @@ window.UB.Views.LoginSignupView = Backbone.View.extend({
                 password: this.$("#login-password").val()
             }
         }).done(function (data) {
-            // Create session with returned logged-in user info and token
-            // and redirect to home.
+            // Trigger loginSucceeded event for the router.
+            console.log("Login succeeded, data received : ");
+            console.log(data);
+
             self.trigger("loginSucceeded", {
                 user: data
             });
@@ -90,7 +92,9 @@ window.UB.Views.LoginSignupView = Backbone.View.extend({
                 password: this.$("#signup-password").val()
             }
         }).done(function (data) {
-            // Redirect to login?.
+            console.log("Signup succeeded, data received : ");
+            console.log(data);
+
             self.trigger("signupSucceeded", {
                 user: data
             });
