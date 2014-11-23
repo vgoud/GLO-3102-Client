@@ -20,6 +20,7 @@ $(document).ready(function () {
     UB.albumInfoUrl = "http://localhost:3000/unsecure/albums/718938040";
     UB.albumTracksUrl = "http://localhost:3000/unsecure/albums/718938040/tracks";
     UB.PlaylistUrl = "http://localhost:3000/unsecure/playlists";
+    UB.mspUrl = "http://api.music-story.com/";
 
     // Load and compile all templates at once.
     UB.Utils.templateLoader.load([
