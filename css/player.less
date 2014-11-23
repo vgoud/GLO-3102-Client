@@ -2,12 +2,57 @@
 
 #player-container {
   background-color: @button-background;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+}
+
+#player-view-container {
+  display: flex;
+  flex: 1 1 75%;
+  flex-flow: row nowrap;
+  justify-content: center;
+}
+
+#player-view {
+  display: flex;
+  flex: 2 1 75%;
+  flex-direction: column;
+//  width: 350px;
+  min-width: 300px;
+  max-width: 600px;
+  padding: 0 5px;
+}
+
+#visualizer-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+//  margin-left: 20px;
+  flex: 1 1 25%;
+  min-width: 200px;
+  max-width: 300px;
+  padding: 0 5px;
+
+  #flex-container {
+    min-width: 200px;
+    max-width: 300px;
+    width: 100%;
+  }
+
+  #visualizer-canvas {
+    display: flex;
+    min-width: 200px;
+    max-width: 300px;
+    height: @player-container-height - 8px;
+  }
 }
 
 // Audio player customization.
 
 #audio-player-progress {
-  display: block;
+//  display: block;
   width: 100%;
   height: 5px;
 //  border-radius: 25px;
@@ -22,7 +67,7 @@
   -moz-transition: width 100ms linear;
   -o-transition: width 100ms linear;
   transition: width 100ms linear;
-  display: block;
+//  display: block;
   height: 100%;
   max-width: 100%;
   background-color: @skin-dark-accent-color;
@@ -31,6 +76,7 @@
 .audio-player-button {
   margin: 0 5px;
   cursor: pointer;
+  display: flex;
 }
 
 .audio-player-button:hover {
@@ -42,14 +88,52 @@
   color: @skin-dark-accent-color;
 }
 
+@-webkit-keyframes marquee {
+  0%  {
+    transform:translateX(100%);
+  }
+  5%  {
+    transform:translateX(0);
+  }
+  35% {
+    transform:translateX(0);
+  }
+  100%{
+    transform:translateX(-100%);
+  }
+}
+
 #audio-player-button-wrapper {
   margin: 5px auto 0 auto;
-  & > * {
-    padding-left: 0;
-  }
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 #audio-player-song-name-artist-name {
   min-height: 20px;
   margin-bottom: 2px;
+  position: relative;
+  overflow-x: hidden;
+
+  & p.marquee {
+    display:inline-block;
+//    position: absolute;
+    height: 100%;
+    text-align: center;
+    white-space: nowrap;
+    overflow-x: visible;
+
+    -webkit-animation: marquee 10s linear infinite;
+  }
+
+  & p {
+//    position: absolute;
+    display:inline-block;
+//    width: 100%;
+    height: 100%;
+    text-align: center;
+    white-space: nowrap;
+  }
 }
+
