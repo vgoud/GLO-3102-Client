@@ -174,7 +174,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
             if (list.data.length > 0) {
                 //Gets the picture of the artist
                 list.current().getConnector('pictures', null, null, null, function(pics) {
-                    var artistImageURL = pics.current().url;
+                    var artistImageURL = pics.data[0].url_400;
                     $('#artist-image').append("<img id='artist-img-url' src='" +artistImageURL+ "' />");
                 });
             } else {
