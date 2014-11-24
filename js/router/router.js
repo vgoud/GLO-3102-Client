@@ -132,9 +132,6 @@ window.UB.Routers.Router = Backbone.Router.extend({
     artist: function (id) {
         var artist = new UB.Models.ArtistModel({id: id});
         var artistAlbums = new UB.Collections.ArtistAlbumCollection();
-        var key = '133b4c7f0ff32e661ffff807bd128553d8a9b02d';
-        var secret = '7f2e908305a809a8c036b12e12e8b64975872bb5';
-        var api = new MusicStoryApi(key, secret);
         var self = this;
 
 
@@ -154,6 +151,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
                         self.$content.html((new UB.Views.ArtistView({model: data})).render().el);
                         var artistAlbumsView = new UB.Views.AlbumsView({collection: dataAlbums});
                         self.$content.append(artistAlbumsView.render().el);
+
                         self.getArtistPicture(artist);
                     },
                     error: function (callback) {
@@ -165,15 +163,23 @@ window.UB.Routers.Router = Backbone.Router.extend({
                 console.log("ARTIST could not be fetched.");
             }
         });
-
-        //$("a").attr("href", UB.mspUrl + "en/picture" + list[0].artistId);
     },
 
     getArtistPicture: function(artist) {
         //Search for the artist ID in the database
-        api.search('Artist', {type: 'Band', name: artist.get('artistName')}, function(list) {
-            while (list.hasNext()) {
-                artistPictureURL = list[0].artistId;
+        var key = '133b4c7f0ff32e661ffff807bd128553d8a9b02d';
+        var secret = '7f2e908305a809a8c036b12e12e8b64975872bb5';
+        var api = new MusicStoryApi(key, secret);
+        api.search('artist', {type: 'Band', name: artist.get('artistName')}, function(list) {
+            if (list.data.length > 0) {
+                //Gets the picture of the artist
+                list.current().getConnector('pictures', null, null, null, function(pics) {
+                    var artistImageURL = pics.current().url;
+                    $('#artist-image').append("<img id='artist-img-url' src='" +artistImageURL+ "' />");
+                });
+            } else {
+                // Temporary
+                return ("http://placekitten.com/g/300/300");
             }
         });
     },
