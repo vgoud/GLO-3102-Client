@@ -41,6 +41,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
     },
 
     loginSignup: function () {
+        this.isHomeViewRendered = false;
+        
         this.loginSignupView = new UB.Views.LoginSignupView();
         $("#global-container").html(this.loginSignupView.render().el);
 
@@ -52,8 +54,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
         // Keep the token in a cookie.
         $.cookie("ubeat-token", e.user.token);
 
-        // Redirect to index.html
-        this.navigate("#", {trigger: true});
+        // Redirect to home.
+        this.navigate("#home", {trigger: true});
     },
 
     onSignupSucceeded: function () {
@@ -63,27 +65,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
     index: function () {
         var token = $.cookie("ubeat-token");
         if (token) {
-            // User is logged in.
-
-            // Setup all future headers to include the token.
-            $.ajaxSetup({
-                headers: { "Authorization": token }
-            });
-
-            // We re-render the global view because the content was
-            // overwritten by the login view.
-            this.globalView.render();
-
-            this.initializeHeader();
-            this.$content = $("#content");
-            this.$playlists = $("#sidebar-left-content");
-            this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
-            this.playerView.render();
-            this.initializeUserPlaylist();
-            this.$content.html(new UB.Views.HomeView().render().el);
-
-            // This handler needs to be attached only once.
-            this.playerView.listenTo(this.globalView, "togglePlayPause", this.togglePlayPause);
+            // Redirect to home.
+            this.navigate("#home", {trigger: true});
         } else {
             // User need to log in.
             this.navigate("#loginsignup", {trigger: true});
@@ -91,7 +74,34 @@ window.UB.Routers.Router = Backbone.Router.extend({
     },
 
     home: function () {
-        // TODO Do we have to keep this function?
+        var token = $.cookie("ubeat-token");
+        if (token) {
+            // User is logged in.
+
+            // Setup all future headers to include the token.
+            $.ajaxSetup({
+                headers: { "Authorization": token }
+            });
+
+            if (! this.isHomeViewRendered) {
+                // We re-render the global view because the content was
+                // overwritten by the login view.
+                this.globalView.render();
+
+                this.initializeHeader();
+                this.$content = $("#content");
+                this.$playlists = $("#sidebar-left-content");
+                this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
+                this.playerView.render();
+                this.initializeUserPlaylist();
+                this.$content.html(new UB.Views.HomeView().render().el);
+
+                this.isHomeViewRendered = true;
+            }
+        } else {
+            // User need to log in.
+            this.navigate("#loginsignup", {trigger: true});
+        }
     },
 
     initializeUserPlaylist: function () {
@@ -113,7 +123,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
                 self.playerView.listenTo(self.playlistCollectionView, "sidebarToggled", self.playerView.toggleTitleAnimation);
             },
-            error: function (model, res, options) {
+            error: function (model, res) {
                 if (res.status == 401) {
                     self.navigate("#loginsignup", {trigger: true});
                 }
@@ -131,6 +141,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     // Display the album's page.
     album: function (id) {
+        var token = $.cookie();
         var album = new UB.Models.AlbumInfoModel({id: id});
         var tracks = new UB.Collections.TrackCollection();
 
@@ -152,7 +163,6 @@ window.UB.Routers.Router = Backbone.Router.extend({
                     success: function (dataTrack) {
                         self.$content.html(new UB.Views.AlbumInfoView({model: data, playlistCollection: playlistCollection}).render().el);
 
-
                         if (self.trackCollectionView) {
                             self.playerView.stopListening(self.trackCollectionView, "playbackButtonClicked");
                         }
@@ -164,6 +174,11 @@ window.UB.Routers.Router = Backbone.Router.extend({
                         self.trackCollectionView.listenTo(self.playerView, "playbackResumed", self.trackCollectionView.setPlayState);
                         self.trackCollectionView.listenTo(self.playerView, "playbackStopped", self.trackCollectionView.setStopState);
                         self.trackCollectionView.listenTo(self.playerView, "playbackEnded", self.trackCollectionView.setStopState);
+                    },
+                    error: function (model, res) {
+                        if (res.status == 401) {
+                            self.navigate("#loginsignup", {trigger: true});
+                        }
                     }
                 });
             }
@@ -193,13 +208,17 @@ window.UB.Routers.Router = Backbone.Router.extend({
                         var artistAlbumsView = new UB.Views.AlbumsView({collection: dataAlbums});
                         self.$content.append(artistAlbumsView.render().el);
                     },
-                    error: function (callback) {
-                        console.log("ARTIST ALBUMS could not be fetched.");
+                    error: function (model, res) {
+                        if (res.status == 401) {
+                            self.navigate("#loginsignup", {trigger: true});
+                        }
                     }
                 });
             },
-            error: function (callback) {
-                console.log("ARTIST could not be fetched.");
+            error: function (model, res) {
+                if (res.status == 401) {
+                    self.navigate("#loginsignup", {trigger: true});
+                }
             }
         });
     },

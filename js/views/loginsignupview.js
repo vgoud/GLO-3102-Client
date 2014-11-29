@@ -10,14 +10,16 @@ window.UB.Views.LoginSignupView = Backbone.View.extend({
         "click #tab-item-login"  : "displayLoginForm",
         "click #tab-item-signup" : "displaySignupForm",
         "click #login-submit"    : "onLoginSubmitClick",
-        "click #signup-submit"   : "onSignupSubmitClick"
+        "click #signup-submit"   : "onSignupSubmitClick",
+        "keydown"                : "onKeydown"
     },
 
     initialize: function () {
         _.bindAll(this,
             "render",
             "onLoginSubmitClick",
-            "submitLogin"
+            "submitLogin",
+            "onKeydown"
         );
     },
 
@@ -37,6 +39,13 @@ window.UB.Views.LoginSignupView = Backbone.View.extend({
         return this;
     },
 
+    onKeydown: function (e) {
+        var $event = $( e );
+        if (e.which == 13) {
+            this.onLoginSubmitClick();
+        }
+    },
+
     displayLoginForm: function () {
         this.$("ul li").toggleClass("uk-active");
         this.$("#tab-login-form, #tab-signup-form").toggleClass("active");
@@ -51,6 +60,7 @@ window.UB.Views.LoginSignupView = Backbone.View.extend({
         var self = this;
 
         $.ajax({
+            cache: false,
             url: UB.urlBase + "login",
             type: "POST",
             contentType: "application/x-www-form-urlencoded",

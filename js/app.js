@@ -34,7 +34,7 @@ $(document).ready(function () {
         UB.Routers.router = new UB.Routers.Router();
         Backbone.history.start();
 
-        UB.Routers.router.navigate("#", {trigger: true});
+//        UB.Routers.router.navigate("#", {trigger: true});
     });
 
 });
