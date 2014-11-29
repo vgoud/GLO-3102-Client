@@ -134,7 +134,6 @@ window.UB.Routers.Router = Backbone.Router.extend({
         var artistAlbums = new UB.Collections.ArtistAlbumCollection();
         var self = this;
 
-
         artist.urlRoot = function () {
             return self.urlBase + "artists";
         };
@@ -152,7 +151,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
                         var artistAlbumsView = new UB.Views.AlbumsView({collection: dataAlbums});
                         self.$content.append(artistAlbumsView.render().el);
 
-                        self.getArtistPicture(artist);
+                        self.getMSPArtistInfos(artist);
                     },
                     error: function (callback) {
                         console.log("ARTIST ALBUMS could not be fetched.");
@@ -165,11 +164,12 @@ window.UB.Routers.Router = Backbone.Router.extend({
         });
     },
 
-    getArtistPicture: function(artist) {
+    getMSPArtistInfos: function(artist) {
         //Search for the artist ID in the database
         var key = '133b4c7f0ff32e661ffff807bd128553d8a9b02d';
         var secret = '7f2e908305a809a8c036b12e12e8b64975872bb5';
         var api = new MusicStoryApi(key, secret);
+
         api.search('artist', {type: 'Band', name: artist.get('artistName')}, function(list) {
             if (list.data.length > 0) {
                 //Gets the picture of the artist
@@ -179,7 +179,20 @@ window.UB.Routers.Router = Backbone.Router.extend({
                 });
             } else {
                 // Temporary
-                return ("http://placekitten.com/g/300/300");
+                console.log("artist PICTURE not found in API!!");
+            }
+        });
+
+        api.search('artist', {type: 'Band', name: artist.get('artistName')}, function(list) {
+            if (list.data.length > 0) {
+                list.current().getConnector('biographies', null, null, null, function(bio) {
+                    var artistBio = bio.data[0];
+                    $('#artist-bio-header').append(artistBio.header);
+                    $('#artist-bio').append(artistBio.content);
+                });
+            } else {
+                // Temporary
+                console.log("artist BIO not found in API!!");
             }
         });
     },
