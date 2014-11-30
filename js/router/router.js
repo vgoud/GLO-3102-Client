@@ -15,11 +15,12 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     urlBase: UB.urlBase,
 
+    cookieTokenKey: "ubeat-token",
+
     initialize: function () {
         _.bindAll(this,
-            "playSong",
-            "togglePlayPause",
-            "stopSong");
+            "togglePlayPause"
+        );
 
         this.globalView = new UB.Views.GlobalView();
         this.globalView.render();
@@ -40,8 +41,12 @@ window.UB.Routers.Router = Backbone.Router.extend({
         });
     },
 
+    redirectToLoginSignup: function () {
+        this.navigate("#loginsignup", {trigger: true});
+    },
+
     loginSignup: function () {
-        this.isHomeViewRendered = false;
+        this.isGlobalViewRendered = false;
         
         this.loginSignupView = new UB.Views.LoginSignupView();
         $("#global-container").html(this.loginSignupView.render().el);
@@ -52,29 +57,52 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     onLoginSucceeded: function (e) {
         // Keep the token in a cookie.
-        $.cookie("ubeat-token", e.user.token);
+        $.cookie(this.cookieTokenKey, e.user.token);
 
         // Redirect to home.
         this.navigate("#home", {trigger: true});
     },
 
     onSignupSucceeded: function () {
-        this.navigate("#loginsignup", {trigger: true});
+        this.redirectToLoginSignup();
+    },
+
+    logout: function () {
+        $.cookie(this.cookieTokenKey, null);
+        this.redirectToLoginSignup();
     },
 
     index: function () {
-        var token = $.cookie("ubeat-token");
+        var token = $.cookie(this.cookieTokenKey);
         if (token) {
             // Redirect to home.
             this.navigate("#home", {trigger: true});
         } else {
             // User need to log in.
-            this.navigate("#loginsignup", {trigger: true});
+            this.redirectToLoginSignup();
+        }
+    },
+
+    renderGlobalView: function () {
+        if (! this.isGlobalViewRendered) {
+            // We re-render the global view because the content was
+            // overwritten by the login view.
+            this.globalView.render();
+
+            this.initializeHeader();
+            this.$content = $("#content");
+            this.$playlists = $("#sidebar-left-content");
+            this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
+            this.playerView.render();
+            this.initializeUserPlaylist();
+            this.$content.html(new UB.Views.HomeView().render().el);
+
+            this.isGlobalViewRendered = true;
         }
     },
 
     home: function () {
-        var token = $.cookie("ubeat-token");
+        var token = $.cookie(this.cookieTokenKey);
         if (token) {
             // User is logged in.
 
@@ -83,24 +111,10 @@ window.UB.Routers.Router = Backbone.Router.extend({
                 headers: { "Authorization": token }
             });
 
-            if (! this.isHomeViewRendered) {
-                // We re-render the global view because the content was
-                // overwritten by the login view.
-                this.globalView.render();
-
-                this.initializeHeader();
-                this.$content = $("#content");
-                this.$playlists = $("#sidebar-left-content");
-                this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
-                this.playerView.render();
-                this.initializeUserPlaylist();
-                this.$content.html(new UB.Views.HomeView().render().el);
-
-                this.isHomeViewRendered = true;
-            }
+            this.renderGlobalView();
         } else {
             // User need to log in.
-            this.navigate("#loginsignup", {trigger: true});
+            this.redirectToLoginSignup();
         }
     },
 
@@ -125,7 +139,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
             },
             error: function (model, res) {
                 if (res.status == 401) {
-                    self.navigate("#loginsignup", {trigger: true});
+                    self.redirectToLoginSignup();
                 }
             }
         });
@@ -139,9 +153,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
          }
     },
 
-    // Display the album's page.
-    album: function (id) {
-        var token = $.cookie();
+    displayAlbum: function (id) {
         var album = new UB.Models.AlbumInfoModel({id: id});
         var tracks = new UB.Collections.TrackCollection();
 
@@ -177,16 +189,39 @@ window.UB.Routers.Router = Backbone.Router.extend({
                     },
                     error: function (model, res) {
                         if (res.status == 401) {
-                            self.navigate("#loginsignup", {trigger: true});
+                            self.redirectToLoginSignup();
                         }
                     }
                 });
+            },
+            error: function (model, res) {
+                if (res.status == 401) {
+                    self.redirectToLoginSignup();
+                }
             }
         });
     },
 
+    // Display the album's page.
+    album: function (id) {
+        var token = $.cookie(this.cookieTokenKey);
+        if (token) {
+            // User is logged in.
+
+            // Setup all future headers to include the token.
+            $.ajaxSetup({
+                headers: { "Authorization": token }
+            });
+
+            this.renderGlobalView();
+            this.displayAlbum(id);
+        } else {
+            this.redirectToLoginSignup();
+        }
+    },
+
     // Display the artist's page
-    artist: function (id) {
+    displayArtist: function (id) {
         var artist = new UB.Models.ArtistModel({id: id});
         var artistAlbums = new UB.Collections.ArtistAlbumCollection();
         var self = this;
@@ -223,8 +258,21 @@ window.UB.Routers.Router = Backbone.Router.extend({
         });
     },
 
-    playSong: function () {
-        this.playerView.play();
+    artist: function (id) {
+        var token = $.cookie(this.cookieTokenKey);
+        if (token) {
+            // User is logged in.
+
+            // Setup all future headers to include the token.
+            $.ajaxSetup({
+                headers: { "Authorization": token }
+            });
+
+            this.renderGlobalView();
+            this.displayArtist(id);
+        } else {
+            this.redirectToLoginSignup();
+        }
     },
 
     togglePlayPause: function (e) {
@@ -233,12 +281,10 @@ window.UB.Routers.Router = Backbone.Router.extend({
         }
     },
 
-    // Stop the actually playing song.
-    stopSong: function () {
-        this.playerView.stop();
-    },
-
-    playlist: function (id) {
+    displayPlaylist: function (id) {
+        if (! UB.Collections.userPlaylists) {
+            this.initializeUserPlaylist();
+        }
         var playlist = UB.Collections.userPlaylists.get(id);
 
         if (playlist) {
@@ -280,10 +326,31 @@ window.UB.Routers.Router = Backbone.Router.extend({
         }
     },
 
+    playlist: function (id) {
+        var token = $.cookie(this.cookieTokenKey);
+        if (token) {
+            // User is logged in.
+
+            // Setup all future headers to include the token.
+            $.ajaxSetup({
+                headers: { "Authorization": token }
+            });
+
+            this.renderGlobalView();
+            this.displayPlaylist(id);
+        } else {
+            this.redirectToLoginSignup();
+        }
+    },
+
     initializeHeader: function () {
         this.initializeHeaderViews();
         this.initializeSearchFieldView();
         this.initializeButtons();
+
+        this.listenTo(this.headerstandardview, "logout", this.logout);
+        this.listenTo(this.logoutbuttonview, "logout", this.logout);
+        this.listenTo(this.headertabletview, "logout", this.logout);
     },
 
     initializeHeaderViews: function () {
