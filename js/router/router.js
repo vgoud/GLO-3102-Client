@@ -69,7 +69,21 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     logout: function () {
         $.cookie(this.cookieTokenKey, null);
-        this.redirectToLoginSignup();
+
+        var self = this;
+
+        $.ajax({
+            cache: false,
+            url: UB.urlBase + "logout",
+            type: "GET"
+        }).done(function () {
+            // Logged out successfully..
+            self.redirectToLoginSignup();
+
+            self.trigger("loggedOut");
+        }).fail(function () {
+            console.log("Cannot log out?");
+        });
     },
 
     index: function () {
