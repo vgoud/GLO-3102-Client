@@ -37,7 +37,9 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
         e.stopPropagation();
         if (this.$input.val() !== "") {
             var newPlaylist = this.collection.create({
-                name: this.$input.val() }, {
+                name: this.$input.val(),
+                owner: _.omit(UB.session.user, "following")
+            }, {
                 type: 'POST'
             });
             if (!newPlaylist) {
