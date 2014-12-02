@@ -32,9 +32,12 @@ $(document).ready(function () {
         "LoginSignupView"
     ], function () {
         UB.Routers.router = new UB.Routers.Router();
-        Backbone.history.start();
+        UB.session = new UB.Models.SessionModel();
 
-//        UB.Routers.router.navigate("#", {trigger: true});
+        // Force ajax call.
+        $.ajaxSetup({ cache: false });
+
+        Backbone.history.start();
     });
 
 });

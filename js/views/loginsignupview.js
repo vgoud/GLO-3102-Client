@@ -41,8 +41,10 @@ window.UB.Views.LoginSignupView = Backbone.View.extend({
 
     onKeydown: function (e) {
         var $event = $( e );
-        if (e.which == 13) {
+        if (e.which == 13 && e.target.id.indexOf("login") > -1) {
             this.onLoginSubmitClick();
+        } else if (e.which == 13 && e.target.id.indexOf("signup") > -1) {
+            this.onSignupSubmitClick();
         }
     },
 
@@ -59,26 +61,20 @@ window.UB.Views.LoginSignupView = Backbone.View.extend({
     submitLogin: function () {
         var self = this;
 
-        $.ajax({
-            cache: false,
-            url: UB.urlBase + "login",
-            type: "POST",
-            contentType: "application/x-www-form-urlencoded",
-            data: {
+        UB.session.login({
                 email: this.$("#login-username").val(),
                 password: this.$("#login-password").val()
+            }, {
+                success: function (data) {
+                    self.trigger("loginSucceeded", {
+                        user: data
+                    });
+                },
+                error: function () {
+                    self.$("#login-error").addClass("error");
+                }
             }
-        }).done(function (data) {
-            // Trigger loginSucceeded event for the router.
-            console.log("Login succeeded, data received : ");
-            console.log(data);
-
-            self.trigger("loginSucceeded", {
-                user: data
-            });
-        }).fail(function (jqXHR, textStatus) {
-            self.$("#login-error").addClass("error");
-        });
+        );
     },
 
     onLoginSubmitClick: function () {
@@ -86,31 +82,27 @@ window.UB.Views.LoginSignupView = Backbone.View.extend({
 
         if (this.loginParsleyFormInstance.validate()) {
             this.submitLogin();
-        };
+        }
     },
 
     submitSignup: function () {
         var self = this;
 
-        $.ajax({
-            url: UB.urlBase + "signup",
-            type: "POST",
-            contentType: "application/x-www-form-urlencoded",
-            data: {
+        UB.session.signup({
                 name: this.$("#signup-name").val(),
-                email: this.$("#signup-email").val(),
-                password: this.$("#signup-password").val()
+                email: this.$("#login-username").val(),
+                password: this.$("#login-password").val()
+            }, {
+                success: function (data) {
+                    self.trigger("signupSucceeded", {
+                        user: data
+                    });
+                },
+                error: function () {
+                    self.$("#signup-error").addClass("error");
+                }
             }
-        }).done(function (data) {
-            console.log("Signup succeeded, data received : ");
-            console.log(data);
-
-            self.trigger("signupSucceeded", {
-                user: data
-            });
-        }).fail(function (jqXHR, textStatus) {
-            self.$("#signup-error").addClass("error");
-        });
+        );
     },
 
     onSignupSubmitClick: function () {

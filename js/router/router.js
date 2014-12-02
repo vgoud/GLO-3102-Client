@@ -17,6 +17,29 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     cookieTokenKey: "ubeat-token",
 
+    // Function executed before each route is triggered.
+    before: function (route) {
+        if (route.indexOf("loginsignup") == -1) {
+
+            // Not trying to navigate to login / signup.
+            // Check if user is authenticated.
+            // If so, proceed with the original routing.
+            if (UB.session.checkAuth({})) {
+                // User is logged in. Proceed with routing.
+                this.renderGlobalView();
+                return true;
+            } else {
+                // Navigate to login/signup page.
+                this.navigate("loginsignup", {trigger: true});
+                // Do not continue current routing.
+                return false;
+            }
+        }
+
+        // Otherwise, just proceed with actual routing.
+        return true;
+    },
+
     initialize: function () {
         _.bindAll(this,
             "togglePlayPause"
@@ -56,9 +79,6 @@ window.UB.Routers.Router = Backbone.Router.extend({
     },
 
     onLoginSucceeded: function (e) {
-        // Keep the token in a cookie.
-        $.cookie(this.cookieTokenKey, e.user.token);
-
         // Redirect to home.
         this.navigate("#home", {trigger: true});
     },
@@ -68,33 +88,18 @@ window.UB.Routers.Router = Backbone.Router.extend({
     },
 
     logout: function () {
-        $.cookie(this.cookieTokenKey, null);
-
         var self = this;
-
-        $.ajax({
-            cache: false,
-            url: UB.urlBase + "logout",
-            type: "GET"
-        }).done(function () {
-            // Logged out successfully..
-            self.redirectToLoginSignup();
-
-            self.trigger("loggedOut");
-        }).fail(function () {
-            console.log("Cannot log out?");
+        UB.session.logout({}, {
+            success: function () {
+                // Logged out successfully.
+                self.trigger("loggedOut");
+                self.redirectToLoginSignup();
+            }
         });
     },
 
     index: function () {
-        var token = $.cookie(this.cookieTokenKey);
-        if (token) {
-            // Redirect to home.
-            this.navigate("#home", {trigger: true});
-        } else {
-            // User need to log in.
-            this.redirectToLoginSignup();
-        }
+        this.navigate("#home", {trigger: true});
     },
 
     renderGlobalView: function () {
@@ -116,20 +121,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
     },
 
     home: function () {
-        var token = $.cookie(this.cookieTokenKey);
-        if (token) {
-            // User is logged in.
-
-            // Setup all future headers to include the token.
-            $.ajaxSetup({
-                headers: { "Authorization": token }
-            });
-
-            this.renderGlobalView();
-        } else {
-            // User need to log in.
-            this.redirectToLoginSignup();
-        }
+//        this.renderGlobalView();
     },
 
     initializeUserPlaylist: function () {
@@ -218,20 +210,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     // Display the album's page.
     album: function (id) {
-        var token = $.cookie(this.cookieTokenKey);
-        if (token) {
-            // User is logged in.
-
-            // Setup all future headers to include the token.
-            $.ajaxSetup({
-                headers: { "Authorization": token }
-            });
-
-            this.renderGlobalView();
-            this.displayAlbum(id);
-        } else {
-            this.redirectToLoginSignup();
-        }
+//        this.renderGlobalView();
+        this.displayAlbum(id);
     },
 
     // Display the artist's page
@@ -273,20 +253,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
     },
 
     artist: function (id) {
-        var token = $.cookie(this.cookieTokenKey);
-        if (token) {
-            // User is logged in.
-
-            // Setup all future headers to include the token.
-            $.ajaxSetup({
-                headers: { "Authorization": token }
-            });
-
-            this.renderGlobalView();
-            this.displayArtist(id);
-        } else {
-            this.redirectToLoginSignup();
-        }
+//        this.renderGlobalView();
+        this.displayArtist(id);
     },
 
     togglePlayPause: function (e) {
@@ -341,20 +309,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
     },
 
     playlist: function (id) {
-        var token = $.cookie(this.cookieTokenKey);
-        if (token) {
-            // User is logged in.
-
-            // Setup all future headers to include the token.
-            $.ajaxSetup({
-                headers: { "Authorization": token }
-            });
-
-            this.renderGlobalView();
-            this.displayPlaylist(id);
-        } else {
-            this.redirectToLoginSignup();
-        }
+//        this.renderGlobalView();
+        this.displayPlaylist(id);
     },
 
     initializeHeader: function () {
@@ -370,9 +326,13 @@ window.UB.Routers.Router = Backbone.Router.extend({
     initializeHeaderViews: function () {
         this.headercommonview = new UB.Views.HeaderCommonView();
         this.headercommonview.render();
-        this.headerstandardview = new UB.Views.HeaderStandardView();
+        this.headerstandardview = new UB.Views.HeaderStandardView({
+            model: UB.session.user
+        });
         this.headerstandardview.render();
-        this.headertabletview = new UB.Views.HeaderTabletView();
+        this.headertabletview = new UB.Views.HeaderTabletView({
+            model: UB.session.user
+        });
         this.headertabletview.render();
         this.headermobileview = new UB.Views.HeaderMobileView();
         this.headermobileview.render();
@@ -388,7 +348,9 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.homebuttonview.render();
         this.parameterbuttonview = new UB.Views.ParametersButtonView();
         this.parameterbuttonview.render();
-        this.logoutbuttonview = new UB.Views.LogoutButtonView();
+        this.logoutbuttonview = new UB.Views.LogoutButtonView({
+            model: UB.session.user
+        });
         this.logoutbuttonview.render();
     }
 
