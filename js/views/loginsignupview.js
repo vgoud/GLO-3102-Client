@@ -24,7 +24,7 @@ window.UB.Views.LoginSignupView = Backbone.View.extend({
     },
 
     render: function() {
-        this.$el.html(this.template());
+        this.$el.html(this.template(this.model.toJSON()));
 
         this.loginParsleyFormInstance = this.$('#tab-login-form').parsley({
             errorClass: "uk-form-danger",
@@ -90,8 +90,8 @@ window.UB.Views.LoginSignupView = Backbone.View.extend({
 
         UB.session.signup({
                 name: this.$("#signup-name").val(),
-                email: this.$("#login-username").val(),
-                password: this.$("#login-password").val()
+                email: this.$("#signup-email").val(),
+                password: this.$("#signup-password").val()
             }, {
                 success: function (data) {
                     self.trigger("signupSucceeded", {

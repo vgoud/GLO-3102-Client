@@ -65,13 +65,20 @@ window.UB.Routers.Router = Backbone.Router.extend({
     },
 
     redirectToLoginSignup: function () {
-        this.navigate("#loginsignup", {trigger: true});
+        if (Backbone.history.fragment == "loginsignup") {
+            // Reload the page.
+            Backbone.history.loadUrl();
+        } else {
+            this.navigate("#loginsignup", {trigger: true});
+        }
     },
 
     loginSignup: function () {
         this.isGlobalViewRendered = false;
         
-        this.loginSignupView = new UB.Views.LoginSignupView();
+        this.loginSignupView = new UB.Views.LoginSignupView({
+            model: UB.session.user
+        });
         $("#global-container").html(this.loginSignupView.render().el);
 
         this.listenTo(this.loginSignupView, "loginSucceeded", this.onLoginSucceeded);
@@ -83,8 +90,9 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.navigate("#home", {trigger: true});
     },
 
-    onSignupSucceeded: function () {
-        this.redirectToLoginSignup();
+    onSignupSucceeded: function (e) {
+        // Redirect to login.
+        this.redirectToLoginSignup(e);
     },
 
     logout: function () {

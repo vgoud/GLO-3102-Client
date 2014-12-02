@@ -107,21 +107,23 @@ UB.Models.SessionModel = Backbone.Model.extend({
             type: type,
             data: postData
         }).done(function(data){
-                if(_.indexOf(['login', 'signup'], opts.method) !== -1){
+                if(isLoginSignup){
 
                     self.updateSessionUser(data);
                     self.set({
                         userId: data.id,
-                        loggedIn: true,
+                        loggedIn: ! (opts.method == "signup"),
                         token: data.token
                     });
 
-                    self.setCookie(data.token);
+                    if (! (opts.method == "signup")) {
+                        self.setCookie(data.token);
 
-                    // Setup all future headers to include the token.
-                    $.ajaxSetup({
-                        headers: { "Authorization": data.token }
-                    });
+                        // Setup all future headers to include the token.
+                        $.ajaxSetup({
+                            headers: { "Authorization": data.token }
+                        });
+                    }
                 } else {
                     // Logout. Reset the session.
                     self.set(self.defaults);
