@@ -24,24 +24,25 @@ window.UB.Views.RenamePlaylistView = Backbone.View.extend({
     },
 
     renamePlaylist: function (e) {
+        e.preventDefault();
+
         var newName = this.$input.val();
-//        this.model.fetch({
-//            success: function(playlistModel) {
-//
-//            }
-//        });
+
         if (this.model.set({name: newName})) {
             this.model.save();
         }
-
     },
 
     close: function () {
         // The call to .hide() doesn't work for an obscure reason.
         this.$(".uk-close").click();
+//        if ( this.$modal.isActive() ) {
+//            this.$modal.hide();
+//        }
     },
 
-    cancel: function () {
+    cancel: function (e) {
+        e.preventDefault();
         this.close();
     },
 
