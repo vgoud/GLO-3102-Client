@@ -25,14 +25,15 @@ window.UB.Views.RenamePlaylistView = Backbone.View.extend({
 
     renamePlaylist: function (e) {
         var newName = this.$input.val();
-        this.model.fetch({
-            success: function(playlistModel) {
-                if (playlistModel.set({name: newName})) {
-                    playlistModel.save();
-                };
-            }
-        });
-        this.close();
+//        this.model.fetch({
+//            success: function(playlistModel) {
+//
+//            }
+//        });
+        if (this.model.set({name: newName})) {
+            this.model.save();
+        }
+
     },
 
     close: function () {
