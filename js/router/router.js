@@ -122,14 +122,14 @@ window.UB.Routers.Router = Backbone.Router.extend({
             this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
             this.playerView.render();
             this.initializeUserPlaylist();
-            this.$content.html(new UB.Views.HomeView().render().el);
 
             this.isGlobalViewRendered = true;
         }
     },
 
     home: function () {
-//        this.renderGlobalView();
+        this.renderGlobalView();
+        this.$content.html(new UB.Views.HomeView().render().el);
     },
 
     initializeUserPlaylist: function () {
