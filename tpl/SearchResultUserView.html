@@ -1,0 +1,40 @@
+<td>
+    <i class="uk-icon-medium uk-icon-user"></i>
+</td>
+<td>
+    <div class="row-song-artist">
+        <a href="#users/<%= user.id %>"><%= user.name %></a>
+    </div>
+</td>
+<td class="uk-width-1-10">
+
+</td>
+<td>
+    <div class="row-song-title uk-width-3-5">
+        <a href="mailto:<%= user.email %>"><%= user.email %></a>
+    </div>
+</td>
+<td>
+
+</td>
+<td class="uk-width-1-10">
+    <div id="track-share-button" data-uk-dropdown="{mode: 'click'}">
+        <button
+                class="ub-button ub-button-ellipsis uk-button uk-button-small"
+                type="button">
+        </button>
+        <div class="uk-dropdown uk-dropdown-flip uk-dropdown-up" >
+            <ul class="uk-nav uk-nav-dropdown uk-nav-parent-icon" data-uk-nav>
+                <li class="uk-parent">
+                    <ul id="add-to-playlist-accordion" class="uk-nav-sub">
+                        <li class="follow-user">
+                            <a>
+                                Follow user
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</td>

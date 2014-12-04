@@ -29,7 +29,12 @@ $(document).ready(function () {
         "HomeButtonView",
         "LogoutButtonView",
         "ParametersButtonView",
-        "LoginSignupView"
+        "LoginSignupView",
+        "SearchResultsView",
+        "SearchResultTrackView",
+        "SearchResultCollectionView",
+        "SearchResultArtistView",
+        "SearchResultUserView"
     ], function () {
         UB.Routers.router = new UB.Routers.Router();
         UB.session = new UB.Models.SessionModel();

@@ -13,6 +13,7 @@
 @import "layout";
 @import "loginsignup";
 @import "parsley.css";
+@import "searchresults.css";
 
 // Override for font location.
 // Because we have a uikit directory, the page was unable to load the FontAwesome font.
@@ -28,6 +29,7 @@
 html {
   font: 300 14px / 20px @global-font-family;
   background-color: @skin-dark-background-color;
+  margin-bottom: 100px;
 }
 
 h1, h2, h3, h4, h5, h6, .uk-navbar-nav > li > a {
@@ -61,6 +63,34 @@ h1, h2, h3, h4, h5, h6, .uk-navbar-nav > li > a {
 }
 
 .uk-search-field {
+  color: @place-holder-color;
+  border-color: @skin-dark-accent-color;
+
+  //-moz-box-sizing: border-box;
+  //box-sizing: border-box;
+  /* 2 */
+  //margin: 0;
+  /* 3 */
+  //border-radius: 0;
+  /* 4 */
+  //font: inherit;
+  //color: #444444;
+  /* 5 */
+  //-webkit-appearance: none;
+  /* 6 */
+  //width: 120px;
+  //height: 30px;
+  //padding: 0 0 0 30px;
+  //border: 1px solid rgba(0, 0, 0, 0);
+  //background: rgba(0, 0, 0, 0);
+  //-webkit-transition: all linear 0.2s;
+  //transition: all linear 0.2s;
+  //vertical-align: middle;
+
+
+}
+
+.uk-search-option {
   color: @place-holder-color;
   border-color: @skin-dark-accent-color;
 }

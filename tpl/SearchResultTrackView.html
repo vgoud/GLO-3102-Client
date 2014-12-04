@@ -1,0 +1,62 @@
+<td>
+    <i class="uk-icon-medium uk-icon-music"></i>
+</td>
+<td class="uk-width-1-10">
+    <button
+            class="ub-button ub-button-play uk-button uk-button-small"
+            type="button"
+            data-track-id="<%= track.trackId %>"
+            data-track-collection-id="<%= track.collectionId %>"
+            data-track-number="<%= track.trackNumber %>"
+            data-track-preview-url="<%= track.previewUrl %>"
+            data-track-artist-id="<%= track.artistId %>"
+            data-icon="uk-icon-play">
+    </button>
+</td>
+<td>
+    <div class="row-song-title uk-width-3-5">
+        <%= track.trackName %>
+    </div>
+</td>
+<td>
+    <div class="row-song-artist">
+        <a href="#artists/<%= track.artistId %>"><%= track.artistName %></a>
+    </div>
+</td>
+<td>
+    <div class="row-song-length">
+        <% var duration = UB.Utils.convertMsToTime(track.trackTimeMillis); %>
+        <%- duration.minutes + ":" + duration.seconds %>
+    </div>
+</td>
+<td class="uk-width-1-10">
+    <div id="track-share-button" data-uk-dropdown="{mode: 'click'}">
+        <button
+                class="ub-button ub-button-ellipsis uk-button uk-button-small"
+                type="button">
+        </button>
+        <div class="uk-dropdown uk-dropdown-flip uk-dropdown-up" >
+            <ul class="uk-nav uk-nav-dropdown uk-nav-parent-icon" data-uk-nav>
+                <li>
+                    <a id="dropdown-play" data-track-id="<%= track.trackId %>">
+                        Play
+                    </a>
+                </li>
+                <li class="uk-parent">
+                    <a href="#">
+                        Add to playlist...
+                    </a>
+                    <ul id="add-to-playlist-accordion" class="uk-nav-sub">
+                        <% _.each(pColl, function(playlist){%>
+                        <li data-playlist-id="<%= playlist.id %>" class="ajout-track-playlist">
+                            <a>
+                            <%= playlist.attributes.name %>
+                            </a>
+                        </li>
+                        <% }); %>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</td>
