@@ -11,5 +11,9 @@ window.UB.Collections.PlaylistCollection = Backbone.Collection.extend({
         console.log(data);
 
         return data;
+    },
+
+    comparator: function (playlist) {
+        return playlist.get("owner").id;
     }
 });
