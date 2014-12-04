@@ -5,7 +5,9 @@
 window.UB.Routers.Router = Backbone.Router.extend({
 
     routes: {
+        "" : "index",
         "home": "home",
+        "loginsignup" : "loginSignup",
         "albums/:id": "album",
         "artists/:id": "artist",
         "playlists/:id": "playlist"
@@ -13,21 +15,38 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     urlBase: UB.urlBase,
 
+    cookieTokenKey: "ubeat-token",
+
+    // Function executed before each route is triggered.
+    before: function (route) {
+        if (route.indexOf("loginsignup") == -1) {
+
+            // Not trying to navigate to login / signup.
+            // Check if user is authenticated.
+            // If so, proceed with the original routing.
+            if (UB.session.checkAuth({})) {
+                // User is logged in. Proceed with routing.
+                this.renderGlobalView();
+                return true;
+            } else {
+                // Navigate to login/signup page.
+                this.navigate("loginsignup", {trigger: true});
+                // Do not continue current routing.
+                return false;
+            }
+        }
+
+        // Otherwise, just proceed with actual routing.
+        return true;
+    },
+
     initialize: function () {
         _.bindAll(this,
-            "playSong",
-            "togglePlayPause",
-            "stopSong");
+            "togglePlayPause"
+        );
 
         this.globalView = new UB.Views.GlobalView();
         this.globalView.render();
-        this.initializeHeader();
-        this.$content = $("#content");
-        this.$player = $("#player-container");
-//        this.$playlists = $("#playlists-container");
-        this.$playlists = $("#sidebar-left-content");
-        this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
-        this.playerView.render();
 
         // This handler needs to be attached only once.
         var self = this;
@@ -43,19 +62,75 @@ window.UB.Routers.Router = Backbone.Router.extend({
                 self.togglePlayPause(e)
             }
         });
+    },
 
+    redirectToLoginSignup: function () {
+        if (Backbone.history.fragment == "loginsignup") {
+            // Reload the page.
+            Backbone.history.loadUrl();
+        } else {
+            this.navigate("#loginsignup", {trigger: true});
+        }
+    },
 
-        this.initializeUserPlaylist();
-        this.home();
+    loginSignup: function () {
+        this.isGlobalViewRendered = false;
+        
+        this.loginSignupView = new UB.Views.LoginSignupView({
+            model: UB.session.user
+        });
+        $("#global-container").html(this.loginSignupView.render().el);
+
+        this.listenTo(this.loginSignupView, "loginSucceeded", this.onLoginSucceeded);
+        this.listenTo(this.loginSignupView, "signupSucceeded", this.onSignupSucceeded);
+    },
+
+    onLoginSucceeded: function (e) {
+        // Redirect to home.
+        this.navigate("#home", {trigger: true});
+    },
+
+    onSignupSucceeded: function (e) {
+        // Redirect to login.
+        this.redirectToLoginSignup(e);
+    },
+
+    logout: function () {
+        var self = this;
+        UB.session.logout({}, {
+            success: function () {
+                // Logged out successfully.
+                self.trigger("loggedOut");
+                self.redirectToLoginSignup();
+            }
+        });
+    },
+
+    index: function () {
+        this.navigate("#home", {trigger: true});
+    },
+
+    renderGlobalView: function () {
+        if (! this.isGlobalViewRendered) {
+            // We re-render the global view because the content was
+            // overwritten by the login view.
+            this.globalView.render();
+
+            this.initializeHeader();
+            this.$content = $("#content");
+            this.$playlists = $("#sidebar-left-content");
+            this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
+            this.playerView.render();
+            this.initializeUserPlaylist();
+
+            this.isGlobalViewRendered = true;
+        }
+
     },
 
     home: function () {
+        this.renderGlobalView();
         this.$content.html(new UB.Views.HomeView().render().el);
-        UB.mspHelpers.getMSPChart();
-    },
-
-    keepOffCanvasOpen: function () {
-        jQuery.UIkit.offcanvas.show();
     },
 
     initializeUserPlaylist: function () {
@@ -76,6 +151,11 @@ window.UB.Routers.Router = Backbone.Router.extend({
                 self.$playlists.html(self.playlistCollectionView.render().el);
 
                 self.playerView.listenTo(self.playlistCollectionView, "sidebarToggled", self.playerView.toggleTitleAnimation);
+            },
+            error: function (model, res) {
+                if (res.status == 401) {
+                    self.redirectToLoginSignup();
+                }
             }
         });
 
@@ -88,8 +168,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
          }
     },
 
-    // Display the album's page.
-    album: function (id) {
+    displayAlbum: function (id) {
         var album = new UB.Models.AlbumInfoModel({id: id});
         var tracks = new UB.Collections.TrackCollection();
 
@@ -111,7 +190,6 @@ window.UB.Routers.Router = Backbone.Router.extend({
                     success: function (dataTrack) {
                         self.$content.html(new UB.Views.AlbumInfoView({model: data, playlistCollection: playlistCollection}).render().el);
 
-
                         if (self.trackCollectionView) {
                             self.playerView.stopListening(self.trackCollectionView, "playbackButtonClicked");
                         }
@@ -123,14 +201,30 @@ window.UB.Routers.Router = Backbone.Router.extend({
                         self.trackCollectionView.listenTo(self.playerView, "playbackResumed", self.trackCollectionView.setPlayState);
                         self.trackCollectionView.listenTo(self.playerView, "playbackStopped", self.trackCollectionView.setStopState);
                         self.trackCollectionView.listenTo(self.playerView, "playbackEnded", self.trackCollectionView.setStopState);
+                    },
+                    error: function (model, res) {
+                        if (res.status == 401) {
+                            self.redirectToLoginSignup();
+                        }
                     }
                 });
+            },
+            error: function (model, res) {
+                if (res.status == 401) {
+                    self.redirectToLoginSignup();
+                }
             }
         });
     },
 
+    // Display the album's page.
+    album: function (id) {
+//        this.renderGlobalView();
+        this.displayAlbum(id);
+    },
+
     // Display the artist's page
-    artist: function (id) {
+    displayArtist: function (id) {
         var artist = new UB.Models.ArtistModel({id: id});
         var artistAlbums = new UB.Collections.ArtistAlbumCollection();
         var self = this;
@@ -154,21 +248,25 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
                         UB.mspHelpers.getMSPArtistPicture(artist);
                         UB.mspHelpers.getMSPArtistInfos(artist);
-                        UB.mspHelpers.getMSPChart();
                     },
-                    error: function () {
-                        console.log("ARTIST ALBUMS could not be fetched.");
+                    error: function (model, res) {
+                        if (res.status == 401) {
+                            self.navigate("#loginsignup", {trigger: true});
+                        }
                     }
                 });
             },
-            error: function () {
-                console.log("ARTIST could not be fetched.");
+            error: function (model, res) {
+                if (res.status == 401) {
+                    self.navigate("#loginsignup", {trigger: true});
+                }
             }
         });
     },
 
-    playSong: function () {
-        this.playerView.play();
+    artist: function (id) {
+//        this.renderGlobalView();
+        this.displayArtist(id);
     },
 
     togglePlayPause: function (e) {
@@ -177,12 +275,10 @@ window.UB.Routers.Router = Backbone.Router.extend({
         }
     },
 
-    // Stop the actually playing song.
-    stopSong: function () {
-        this.playerView.stop();
-    },
-
-    playlist: function (id) {
+    displayPlaylist: function (id) {
+        if (! UB.Collections.userPlaylists) {
+            this.initializeUserPlaylist();
+        }
         var playlist = UB.Collections.userPlaylists.get(id);
 
         if (playlist) {
@@ -224,18 +320,31 @@ window.UB.Routers.Router = Backbone.Router.extend({
         }
     },
 
+    playlist: function (id) {
+//        this.renderGlobalView();
+        this.displayPlaylist(id);
+    },
+
     initializeHeader: function () {
         this.initializeHeaderViews();
         this.initializeSearchFieldView();
         this.initializeButtons();
+
+        this.listenTo(this.headerstandardview, "logout", this.logout);
+        this.listenTo(this.logoutbuttonview, "logout", this.logout);
+        this.listenTo(this.headertabletview, "logout", this.logout);
     },
 
     initializeHeaderViews: function () {
         this.headercommonview = new UB.Views.HeaderCommonView();
         this.headercommonview.render();
-        this.headerstandardview = new UB.Views.HeaderStandardView();
+        this.headerstandardview = new UB.Views.HeaderStandardView({
+            model: UB.session.user
+        });
         this.headerstandardview.render();
-        this.headertabletview = new UB.Views.HeaderTabletView();
+        this.headertabletview = new UB.Views.HeaderTabletView({
+            model: UB.session.user
+        });
         this.headertabletview.render();
         this.headermobileview = new UB.Views.HeaderMobileView();
         this.headermobileview.render();
@@ -251,7 +360,9 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.homebuttonview.render();
         this.parameterbuttonview = new UB.Views.ParametersButtonView();
         this.parameterbuttonview.render();
-        this.logoutbuttonview = new UB.Views.LogoutButtonView();
+        this.logoutbuttonview = new UB.Views.LogoutButtonView({
+            model: UB.session.user
+        });
         this.logoutbuttonview.render();
     }
 
