@@ -44,7 +44,7 @@ window.UB.mspHelpers.getMSPArtistInfos = function(artist) {
         }
     });
 }
-
+/*
 window.UB.mspHelpers.getMSPChart = function() {
 
     //Search for the artist ID in the database
@@ -54,3 +54,4 @@ window.UB.mspHelpers.getMSPChart = function() {
         }
     });
 }
+*/
