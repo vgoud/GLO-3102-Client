@@ -51,6 +51,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     home: function () {
         this.$content.html(new UB.Views.HomeView().render().el);
+        UB.mspHelpers.getMSPChart();
     },
 
     keepOffCanvasOpen: function () {
@@ -151,48 +152,17 @@ window.UB.Routers.Router = Backbone.Router.extend({
                         var artistAlbumsView = new UB.Views.AlbumsView({collection: dataAlbums});
                         self.$content.append(artistAlbumsView.render().el);
 
-                        self.getMSPArtistInfos(artist);
+                        UB.mspHelpers.getMSPArtistPicture(artist);
+                        UB.mspHelpers.getMSPArtistInfos(artist);
+                        UB.mspHelpers.getMSPChart();
                     },
-                    error: function (callback) {
+                    error: function () {
                         console.log("ARTIST ALBUMS could not be fetched.");
                     }
                 });
             },
-            error: function (callback) {
+            error: function () {
                 console.log("ARTIST could not be fetched.");
-            }
-        });
-    },
-
-    getMSPArtistInfos: function(artist) {
-        //Search for the artist ID in the database
-        var key = '133b4c7f0ff32e661ffff807bd128553d8a9b02d';
-        var secret = '7f2e908305a809a8c036b12e12e8b64975872bb5';
-        var api = new MusicStoryApi(key, secret);
-
-        api.search('artist', {type: 'Band', name: artist.get('artistName')}, function(list) {
-            if (list.data.length > 0) {
-                //Gets the picture of the artist
-                list.current().getConnector('pictures', null, null, null, function(pics) {
-                    var artistImageURL = pics.data[0].url_400;
-                    $('#artist-image').append("<img id='artist-img-url' src='" +artistImageURL+ "' />");
-                });
-            } else {
-                // Temporary
-                console.log("artist PICTURE not found in API!!");
-            }
-        });
-
-        api.search('artist', {type: 'Band', name: artist.get('artistName')}, function(list) {
-            if (list.data.length > 0) {
-                list.current().getConnector('biographies', null, null, null, function(bio) {
-                    var artistBio = bio.data[0];
-                    $('#artist-bio-header').append(artistBio.header);
-                    $('#artist-bio').append(artistBio.content);
-                });
-            } else {
-                // Temporary
-                console.log("artist BIO not found in API!!");
             }
         });
     },
