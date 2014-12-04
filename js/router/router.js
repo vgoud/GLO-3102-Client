@@ -255,14 +255,14 @@ window.UB.Routers.Router = Backbone.Router.extend({
                     },
                     error: function (model, res) {
                         if (res.status == 401) {
-                            self.navigate("#loginsignup", {trigger: true});
+                            self.redirectToLoginSignup();
                         }
                     }
                 });
             },
             error: function (model, res) {
                 if (res.status == 401) {
-                    self.navigate("#loginsignup", {trigger: true});
+                    self.redirectToLoginSignup();
                 }
             }
         });
@@ -392,7 +392,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
             },
             error: function (model, res) {
                 if (res.status == 401) {
-                    self.navigate("#loginsignup", {trigger: true});
+                    self.redirectToLoginSignup();
                 }
             }
         });
