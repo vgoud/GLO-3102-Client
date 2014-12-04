@@ -175,6 +175,8 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
                 .removeClass("uk-hidden")
                 .val(playlist.get("name"));
             $parentContainer.find(".edit-buttons-group").removeClass("uk-hidden");
+            
+            $parentContainer.find("input").focus();
         }
     },
 
