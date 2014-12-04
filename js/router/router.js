@@ -126,14 +126,15 @@ window.UB.Routers.Router = Backbone.Router.extend({
             this.playerView = new UB.Views.PlayerView({model: new UB.Models.PlayerModel()});
             this.playerView.render();
             this.initializeUserPlaylist();
-            this.$content.html(new UB.Views.HomeView().render().el);
 
             this.isGlobalViewRendered = true;
         }
+
     },
 
     home: function () {
-//        this.renderGlobalView();
+        this.renderGlobalView();
+        this.$content.html(new UB.Views.HomeView().render().el);
     },
 
     initializeUserPlaylist: function () {
@@ -248,6 +249,9 @@ window.UB.Routers.Router = Backbone.Router.extend({
                         self.$content.html((new UB.Views.ArtistView({model: data})).render().el);
                         var artistAlbumsView = new UB.Views.AlbumsView({collection: dataAlbums});
                         self.$content.append(artistAlbumsView.render().el);
+
+                        UB.mspHelpers.getMSPArtistPicture(artist);
+                        UB.mspHelpers.getMSPArtistInfos(artist);
                     },
                     error: function (model, res) {
                         if (res.status == 401) {

@@ -6,7 +6,7 @@ window.UB.Models.ArtistModel = Backbone.Model.extend({
     defaults: {
         artistName: "n/d",
         primaryGenreName: "n/d",
-        artistLinkUrl: "n/d"
+        artistLinkUrl: "n/d",
     },
 
     initialize: function() {

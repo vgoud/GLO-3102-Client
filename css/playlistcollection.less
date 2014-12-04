@@ -1,0 +1,75 @@
+@import "variables";
+
+#playlists-menu li.playlist-row {
+  padding: 2px 0 2px 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  min-height: 30px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+
+  & .playlist-link {
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 25px;
+    align-self: center;
+  }
+
+  & form {
+    align-self: center;
+    justify-content: flex-start;
+  }
+
+  & input.rename-playlist-input {
+    color: @skin-dark-background-color;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 28px;
+    align-self: center;
+  }
+}
+
+ul li.playlist-row .buttons-container {
+  visibility: hidden;
+  align-self: center;
+  justify-content: flex-end;
+}
+
+ul li.playlist-row:hover {
+
+  background-color: #ffffff;
+
+  form ul li { // Parsley annotations.
+    color: @skin-dark-background-color;
+  }
+
+  &:not(.dirty) .buttons-container {
+    visibility: visible;
+
+    & .btn-playlist-edit, & .btn-playlist-delete {
+      background: transparent;
+      color: @skin-dark-accent-color;
+      font-size: 18px;
+      justify-content: space-around;
+    }
+  }
+}
+
+ul li.playlist-row.dirty {
+  & .buttons-container .edit-delete-buttons-container {
+    display: none;
+  }
+}
+
+#playlists-menu li.playlist-row.dirty {
+  & .edit-buttons-group {
+    visibility: visible;
+
+    & .uk-button-small {
+      background: transparent;
+      color: @skin-dark-accent-color;
+      font-size: 18px;
+    }
+  }
+}

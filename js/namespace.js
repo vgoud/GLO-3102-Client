@@ -11,5 +11,6 @@ window.UB.Models = window.UB.Models || {};
 window.UB.Collections = window.UB.Collections || {};
 window.UB.Routers = window.UB.Routers || {};
 window.UB.Utils = window.UB.Utils || {};
+window.UB.mspHelpers = window.UB.mspHelpers || {};
 
 UB.urlBase = "http://localhost:3000/";

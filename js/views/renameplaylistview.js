@@ -19,35 +19,37 @@ window.UB.Views.RenamePlaylistView = Backbone.View.extend({
     render: function() {
         this.$el.html(this.template(this.model.toJSON()));
         this.$modal = $.UIkit.modal("#rename-playlist-modal");
-        this.$input = this.$("#renamed-playlist-name");
+        this.$createPlaylistInput = this.$("#renamed-playlist-name");
         return this;
     },
 
     renamePlaylist: function (e) {
-        var newName = this.$input.val();
-        this.model.fetch({
-            success: function(playlistModel) {
-                if (playlistModel.set({name: newName})) {
-                    playlistModel.save();
-                };
-            }
-        });
-        this.close();
+        e.preventDefault();
+
+        var newName = this.$createPlaylistInput.val();
+
+        if (this.model.set({name: newName})) {
+            this.model.save();
+        }
     },
 
     close: function () {
         // The call to .hide() doesn't work for an obscure reason.
         this.$(".uk-close").click();
+//        if ( this.$modal.isActive() ) {
+//            this.$modal.hide();
+//        }
     },
 
-    cancel: function () {
+    cancel: function (e) {
+        e.preventDefault();
         this.close();
     },
 
     onInvalid: function (model, error) {
         switch (error.type) {
             case "nameEmpty":
-                this.$input
+                this.$createPlaylistInput
                     .addClass("uk-form-danger")
                     .attr("placeholder", error.desc);
                 break;

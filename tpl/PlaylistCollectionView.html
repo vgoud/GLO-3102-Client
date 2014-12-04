@@ -1,8 +1,8 @@
 <div id="sidebar-top">
-    <form class="uk-form">
+    <form id="create-playlist-form" class="uk-form">
         <div class="uk-grid uk-grid-small uk-margin">
             <div class="uk-width-1-1 uk-margin-bottom">
-                <input id="new-playlist-name" type="text" placeholder="New playlist name..." class="uk-width-1-1">
+                <input name="new-playlist-name-input" id="new-playlist-name" type="text" placeholder="New playlist name..." class="uk-width-1-1" required>
             </div>
             <div class="uk-width-1-1">
                 <button id="btn-create-playlist" class="uk-button uk-width-1-1">
@@ -16,28 +16,38 @@
         <p>New playlist successfully created!</p>
     </div>
 
-    <ul id="playlists-menu" class="uk-list uk-list-line">
+    <ul id="playlists-menu" class="uk-list uk-list-space">
         <p>Your playlists</p>
         <% _.each(playlists, function(playlist) { %>
-        <li>
-            <div class="uk-grid uk-grid-small">
-                <a href="#playlists/<%= playlist.id %>"
+        <li class="playlist-row" data-playlist-id="<%= playlist.id %>">
+            <a href="#playlists/<%= playlist.id %>"
+               class="playlist-link uk-width-2-3">
+                <%= playlist.name %>
+            </a>
 
-                   class="uk-width-2-3">
-                    <%= playlist.name %>
-                </a>
+            <form class="uk-form">
+                <input name="rename-input" class="rename-playlist-input uk-hidden" type="text" required>
+            </form>
 
-                <div class="uk-width-1-3">
-                    <a id="btn-playlist-edit"
-                       class="uk-button uk-button-small"
+            <div class="buttons-container uk-width-1-3">
+                <div class="edit-delete-buttons-container">
+                    <a class="btn-playlist-edit uk-button uk-button-small"
                        data-playlist-id="<%= playlist.id %>">
-                        <!--data-uk-modal="{target: '#rename-playlist-modal', bgclose:false}">-->
                         <i class="uk-icon-pencil"></i>
                     </a>
-                    <a id="btn-playlist-delete"
-                       class="uk-button uk-button-small"
+                    <a class="btn-playlist-delete uk-button uk-button-small"
                        data-playlist-id="<%= playlist.id %>">
                         <i class="uk-icon-minus"></i>
+                    </a>
+                </div>
+                <div class="edit-buttons-group uk-button-group uk-hidden">
+                    <a class="btn-rename-submit uk-button uk-button-small"
+                       data-playlist-id="<%= playlist.id %>">
+                        <i class="uk-icon-check"></i>
+                    </a>
+                    <a class="btn-rename-cancel uk-button uk-button-small"
+                       data-playlist-id="<%= playlist.id %>">
+                        <i class="uk-icon-close"></i>
                     </a>
                 </div>
             </div>
@@ -53,7 +63,7 @@
     <div id="btn-toggle-container">
         <button id="btn-toggle-sidebar" class="uk-button uk-button-small">
             <i id="btn-icon-toggle-right" class="uk-icon-toggle-right"></i>
-            <i id="btn-icon-toggle-left"  class="uk-icon-toggle-left"></i>
+            <i id="btn-icon-toggle-left" class="uk-icon-toggle-left"></i>
         </button>
     </div>
 </div>
