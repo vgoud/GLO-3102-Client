@@ -125,6 +125,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
             this.isGlobalViewRendered = true;
         }
+
     },
 
     home: function () {
@@ -244,6 +245,9 @@ window.UB.Routers.Router = Backbone.Router.extend({
                         self.$content.html((new UB.Views.ArtistView({model: data})).render().el);
                         var artistAlbumsView = new UB.Views.AlbumsView({collection: dataAlbums});
                         self.$content.append(artistAlbumsView.render().el);
+
+                        UB.mspHelpers.getMSPArtistPicture(artist);
+                        UB.mspHelpers.getMSPArtistInfos(artist);
                     },
                     error: function (model, res) {
                         if (res.status == 401) {
