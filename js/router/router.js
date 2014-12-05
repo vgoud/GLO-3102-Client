@@ -276,31 +276,6 @@ window.UB.Routers.Router = Backbone.Router.extend({
     mostPlayedAlbum: function(e) {
         var mostPlayedAlbumCollection = window.UB.Collections.MostPlayedAlbums();
         mostPlayedAlbumCollection.add(e.model);
-        /*
-         mostPlayedAlbumCollection.fetch({
-         success: function (data) {
-
-         if (self.searchResultView) {
-         self.playerView.stopListening(self.searchResultView, "playbackButtonClicked");
-         }
-         self.searchResultView = new UB.Views.SearchResultsView({collection: data, playlistCollection: playlistCollection,
-         searchString: searchString, mode: mode, limit: limit});
-         self.$content.html(self.searchResultView.render().el);
-
-         // Attach handlers to the tracks' and player's events.
-         self.playerView.listenTo(self.searchResultView, "playbackButtonClicked", self.togglePlayPause);
-         self.listenTo(self.searchResultView, "searchMore", self.onSearchLimit);
-         self.searchResultView.listenTo(self.playerView, "playbackResumed", self.searchResultView.setPlayState);
-         self.searchResultView.listenTo(self.playerView, "playbackStopped", self.searchResultView.setStopState);
-         self.searchResultView.listenTo(self.playerView, "playbackEnded", self.searchResultView.setStopState);
-         },
-         error: function (model, res) {
-         if (res.status == 401) {
-         self.redirectToLoginSignup();
-         }
-         }
-         });
-         */
     },
 
     togglePlayPause: function (e) {
