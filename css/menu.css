@@ -69,3 +69,13 @@
     -webkit-appearance: none;
 }
 
+#search-field.uk-form-danger {
+    border-color: #ff6600 !important;
+    background: rgba(255, 0, 0, 0.5) !important;
+}
+
+#search-field.uk-form-success {
+    border-color: #ff6600 !important;
+    background: rgba(0, 0, 0, 0) !important;
+}
+
