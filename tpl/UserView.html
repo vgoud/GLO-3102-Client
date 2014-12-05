@@ -1,0 +1,55 @@
+<div class="uk-container uk-container-center uk-margin-top">
+    <h1>
+        <%= name %>
+    </h1>
+    <h3>
+        <%= email %>
+    </h3>
+</div>
+
+<% if (id != UB.session.user.id) { %>
+<div id="follow-unfollow-buttons-container">
+    <% if (_.isUndefined(_.find(following, function(user) { return user.id == id } ))) { %>
+    <button id="btn-follow-user" class="uk-button">Follow</button>
+    <% } else { %>
+    <button id="btn-unfollow-user" class="uk-button">Unfollow</button>
+    <% } %>
+</div>
+<% } %>
+
+<h2>Follow :</h2>
+<div class="uk-container uk-container-center">
+    <table class="uk-table uk-table-hover">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Playlists</th>
+            <th>Follow</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% _.each(following, function(user) { %>
+        <tr>
+            <td><%= user.name %></td>
+            <td><%= user.email %></td>
+            <td>
+                <ul class="uk-list">
+                <% var playlists = UB.Collections.allPlaylists.getPlaylistsFromOwner(user.id).toJSON(); %>
+                <% _.each(playlists, function(playlist) { %>
+                    <li><a href="#playlists/<%= playlist.id %>"><%= playlist.name %></a></li>
+                <% }); %>
+                </ul>
+            </td>
+            <td>
+                <ul class="uk-list">
+                    <% _.each(user.following, function(user) { %>
+                    <li><a href="#users/<%= user.id %>"><%= user.email %></a></li>
+                    <% }); %>
+                </ul>
+            </td>
+        </tr>
+        <% }); %>
+        </tbody>
+    </table>
+</div>

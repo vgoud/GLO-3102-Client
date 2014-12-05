@@ -24,7 +24,7 @@ window.UB.Views.SearchResultArtistView = Backbone.View.extend({
 
     addArtist: function (e) {
         var playlistId = $(e.currentTarget).data("playlist-id");
-        var playlist = UB.Collections.userPlaylists.get(playlistId);
+        var playlist = UB.Collections.allPlaylists.get(playlistId);
 
         var $artistId = $(e.currentTarget).data("artist-id");
         var albums = new UB.Collections.AlbumsCollection({id: $artistId});
