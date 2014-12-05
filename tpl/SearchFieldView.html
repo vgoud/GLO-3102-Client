@@ -1,3 +1,19 @@
-<form class="uk-search">
-    <input id="search-field-navbar" class="uk-search-field" type="search"  placeholder="Search...">
+<form class="uk-search" data-validate="parsley">
+    <div>
+        <div id="search-field">
+            <input id="search-field-navbar" class="uk-search-field" type="search"  placeholder="Search..." required>
+        </div>
+        <div id="search-go">
+            <button>Go</button>
+        </div>
+        <div id="search-option">
+            <select id="search-option-navbar">
+                <option selected="selected" value="">All</option>
+                <option value="tracks/">Track</option>
+                <option value="artists/">Artist</option>
+                <option value="albums/">Album</option>
+                <option value="users/">User</option>
+            </select>
+        </div>
+    </div>
 </form>

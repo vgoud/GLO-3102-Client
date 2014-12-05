@@ -10,7 +10,11 @@ window.UB.Routers.Router = Backbone.Router.extend({
         "loginsignup" : "loginSignup",
         "albums/:id": "album",
         "artists/:id": "artist",
-        "playlists/:id": "playlist"
+        "playlists/:id": "playlist",
+        "search/:id": "displaySearchResultBase",
+        "search/:mode/:id": "displaySearchResultMode",
+        "search/:id/limit/:num": "displaySearchResultBaseLimit",
+        "search/:mode/:id/limit/:num": "displaySearchResultModeLimit"
     },
 
     urlBase: UB.urlBase,
@@ -251,14 +255,14 @@ window.UB.Routers.Router = Backbone.Router.extend({
                     },
                     error: function (model, res) {
                         if (res.status == 401) {
-                            self.navigate("#loginsignup", {trigger: true});
+                            self.redirectToLoginSignup();
                         }
                     }
                 });
             },
             error: function (model, res) {
                 if (res.status == 401) {
-                    self.navigate("#loginsignup", {trigger: true});
+                    self.redirectToLoginSignup();
                 }
             }
         });
@@ -270,6 +274,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
     },
 
     togglePlayPause: function (e) {
+        console.log("PLAY");
+        console.log(e);
         if (this.playerView) {
             this.playerView.togglePlayPause(e);
         }
@@ -353,6 +359,74 @@ window.UB.Routers.Router = Backbone.Router.extend({
     initializeSearchFieldView: function () {
         this.searchfieldview = new UB.Views.SearchFieldView();
         this.searchfieldview.render();
+
+        this.listenTo(this.searchfieldview, "searchSucceeded", this.onSearch);
+    },
+
+    displaySearchResult: function (searchString, mode, url, limit) {
+        var searchResult = new UB.Collections.SearchResultCollection();
+
+        var playlistCollection = UB.Collections.userPlaylists;
+        var self = this;
+
+        searchResult.url = function () {
+            return url;
+        };
+
+        searchResult.fetch({
+            success: function (data) {
+
+                if (self.searchResultView) {
+                    self.playerView.stopListening(self.searchResultView, "playbackButtonClicked");
+                }
+                self.searchResultView = new UB.Views.SearchResultsView({collection: data, playlistCollection: playlistCollection,
+                    searchString: searchString, mode: mode, limit: limit});
+                self.$content.html(self.searchResultView.render().el);
+
+                // Attach handlers to the tracks' and player's events.
+                self.playerView.listenTo(self.searchResultView, "playbackButtonClicked", self.togglePlayPause);
+                self.listenTo(self.searchResultView, "searchMore", self.onSearchLimit);
+                self.searchResultView.listenTo(self.playerView, "playbackResumed", self.searchResultView.setPlayState);
+                self.searchResultView.listenTo(self.playerView, "playbackStopped", self.searchResultView.setStopState);
+                self.searchResultView.listenTo(self.playerView, "playbackEnded", self.searchResultView.setStopState);
+            },
+            error: function (model, res) {
+                if (res.status == 401) {
+                    self.redirectToLoginSignup();
+                }
+            }
+        });
+    },
+
+    displaySearchResultBase: function (searchString) {
+        var url = UB.urlBase + "search?q=" + searchString;
+        this.displaySearchResult(searchString, "all", url, 10);
+    },
+
+    displaySearchResultMode: function (mode, searchString) {
+        var url = UB.urlBase + "search/" + mode + "?q=" + searchString;
+        this.displaySearchResult(searchString, mode, url, 10);
+    },
+
+    displaySearchResultBaseLimit: function (searchString, limit) {
+        var url = UB.urlBase + "search?q=" + searchString + "&limit=" + limit;
+        this.displaySearchResult(searchString, "all", url, parseInt(limit));
+    },
+
+    displaySearchResultModeLimit: function (mode, searchString, limit) {
+        var url = UB.urlBase + "search/" + mode + "?q=" + searchString + "&limit=" + limit;
+        this.displaySearchResult(searchString, mode, url, parseInt(limit));
+    },
+
+    onSearch: function (e) {
+        this.navigate("#search/" + e.searchType + e.searchValue, {trigger: true});
+    },
+
+    onSearchLimit: function (e) {
+        if (e.searchType == "all/") {
+            e.searchType = "";
+        }
+        this.navigate("#search/" + e.searchType + e.searchValue + "/limit/" + e.searchLimit, {trigger: true});
     },
 
     initializeButtons: function () {

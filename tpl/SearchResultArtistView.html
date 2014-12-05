@@ -1,0 +1,43 @@
+<td>
+    <i class="uk-icon-medium uk-icon-group"></i>
+</td>
+<td class="uk-width-1-10">
+
+</td>
+<td>
+    <div class="row-song-artist">
+        <a href="#artists/<%= artist.artistId %>"><%= artist.artistName %></a>
+    </div>
+</td>
+<td>
+
+</td>
+<td>
+
+</td>
+<td class="uk-width-1-10">
+    <div id="track-share-button" data-uk-dropdown="{mode: 'click'}">
+        <button
+                class="ub-button ub-button-ellipsis uk-button uk-button-small"
+                type="button">
+        </button>
+        <div class="uk-dropdown uk-dropdown-flip uk-dropdown-up" >
+            <ul class="uk-nav uk-nav-dropdown uk-nav-parent-icon" data-uk-nav>
+                <li class="uk-parent">
+                    <a href="#">
+                        Add to playlist...
+                    </a>
+                    <ul id="add-to-playlist-accordion" class="uk-nav-sub">
+                        <% _.each(pColl, function(playlist){%>
+                        <li data-playlist-id="<%= playlist.id %>" data-artist-id="<%= artist.artistId %>" class="ajout-artist-playlist">
+                            <a>
+                            <%= playlist.attributes.name %>
+                            </a>
+                        </li>
+                        <% }); %>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</td>
