@@ -4,13 +4,35 @@
 
 window.UB.Views.UserView = Backbone.View.extend({
 
-    initialize: function () {
+    events: {
+        "click #btn-follow-user"   : "followUser",
+        "click #btn-unfollow-user" : "unfollowUser"
+    }
+
+    , initialize: function () {
         _.bindAll (this, "render");
         this.listenTo(this.model, "change add sync", this.render);
-    },
+        this.listenTo(UB.session.user, "change add sync", this.render);
+    }
 
-    render: function() {
+    , render: function() {
         this.$el.html(this.template(this.model.toJSON()));
         return this;
+    }
+
+    , followUser: function (e) {
+        e.preventDefault();
+
+        this.trigger("followUser", {
+            toFollow: this.model.toJSON()
+        });
+    }
+
+    , unfollowUser: function (e) {
+        e.preventDefault();
+
+        this.trigger("unfollowUser", {
+            toUnfollow: this.model.toJSON()
+        });
     }
 });

@@ -455,11 +455,71 @@ window.UB.Routers.Router = Backbone.Router.extend({
                     model: user
                 });
                 self.$content.html(userView.render().el);
+
+                self.listenTo(userView, "followUser", self.followUser);
+                self.listenTo(userView, "unfollowUser", self.unfollowUser);
             },
             error: function () {
                 console.log("cannot fetch user.");
             }
         })
+    },
+
+    ajaxFollow: function (opts, data, callback) {
+        var url = UB.urlBase + "follow";
+        if (opts.method == "DELETE") {
+            url += "/" + data.id;
+        }
+
+        $.ajax({
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            type: opts.method,
+            data: JSON.stringify({
+                id: data.id
+            }),
+            crossDomain: true
+        }).done(function(data){
+            if(callback && 'success' in callback) callback.success(data);
+        }).fail(function(jqXHR){
+            if(callback && 'error' in callback) callback.error(jqXHR);
+        });
+    },
+
+    followUser: function (e) {
+        this.ajaxFollow({
+            method: "POST"
+        }, e.toFollow, {
+            success: function (data) {
+                // Current user is updated.
+                // This will trigger a change event.
+                UB.session.updateSessionUser(data);
+            },
+            error: function (jqXHR) {
+                console.log("Follow failed with status code " + jqXHR.status);
+                if (jqXHR.status == 401) {
+                    self.redirectToLoginSignup("Your session has expired.");
+                }
+            }
+        });
+    },
+
+    unfollowUser: function (e) {
+        this.ajaxFollow({
+            method: "DELETE"
+        }, e.toUnfollow, {
+            success: function (data) {
+                // Current user is updated.
+                // This will trigger a change event.
+                UB.session.updateSessionUser(data);
+            },
+            error: function (jqXHR) {
+                console.log("Follow failed with status code " + jqXHR.status);
+                if (jqXHR.status == 401) {
+                    self.redirectToLoginSignup("Your session has expired.");
+                }
+            }
+        });
     }
 
 });

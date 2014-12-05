@@ -8,8 +8,9 @@
 </div>
 
 <% if (id != UB.session.user.id) { %>
+<% var _id = id; %>
 <div id="follow-unfollow-buttons-container">
-    <% if (_.isUndefined(_.find(following, function(user) { return user.id == id } ))) { %>
+    <% if (_.isUndefined(_.find(UB.session.user.get("following"), function(user) { return user.id == _id } ))) { %>
     <button id="btn-follow-user" class="uk-button">Follow</button>
     <% } else { %>
     <button id="btn-unfollow-user" class="uk-button">Unfollow</button>
@@ -35,7 +36,7 @@
             <td><%= user.email %></td>
             <td>
                 <ul class="uk-list">
-                <% var playlists = UB.Collections.allPlaylists.getPlaylistsFromOwner(user.id).toJSON(); %>
+                <% var playlists = UB.Collections.allPlaylists.getPlaylistsFromOwner(user.id); %>
                 <% _.each(playlists, function(playlist) { %>
                     <li><a href="#playlists/<%= playlist.id %>"><%= playlist.name %></a></li>
                 <% }); %>
