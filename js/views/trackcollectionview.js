@@ -74,8 +74,9 @@ window.UB.Views.TrackCollectionView = Backbone.View.extend({
     },
 
     triggerPlaybackButtonClicked: function (e) {
+        var self = this;
         var trackModel = this.getTrackModelFromClickEvent(e);
-        this.trigger("playbackButtonClicked", {
+        self.trigger("playbackButtonClicked", {
             model: trackModel
         });
     },

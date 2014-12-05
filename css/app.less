@@ -14,7 +14,7 @@
 @import "loginsignup";
 @import "parsley.css";
 @import "playlistcollection";
-
+@import "searchresults.css";
 // Override for font location.
 // Because we have a uikit directory, the page was unable to load the FontAwesome font.
 
@@ -29,6 +29,7 @@
 html {
   font: 300 14px / 20px @global-font-family;
   background-color: @skin-dark-background-color;
+  margin-bottom: 100px;
 }
 
 h1, h2, h3, h4, h5, h6, .uk-navbar-nav > li > a {
@@ -62,6 +63,13 @@ h1, h2, h3, h4, h5, h6, .uk-navbar-nav > li > a {
 }
 
 .uk-search-field {
+  color: @place-holder-color;
+  border-color: @skin-dark-accent-color;
+
+
+}
+
+.uk-search-option {
   color: @place-holder-color;
   border-color: @skin-dark-accent-color;
 }
