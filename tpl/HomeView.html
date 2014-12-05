@@ -1,17 +1,25 @@
-<div class="uk-container uk-container-center uk-margin-large-top">
-    <div id="news">
-        <!-- <p class="centeredImage uk-margin-large-bottom">
-             <a href="#artists/5448636"><img src="_resources/Artists.png" alt="Artists"></a>
-        </p>-->
-    </div>
-    <div  id="menu-albums">
-        <p class="centeredImage uk-margin-large-bottom">
-            <a href="#albums/547449573"><img src="_resources/Albums.png" alt="Albums" ></a>
-        </p>
-    </div>
-    <div  id="menu-playlists">
-        <p class="centeredImage">
-            <a href="#playlists-offcanvas" data-uk-offcanvas><img src="_resources/Playlists.png" alt="Playlists" ></a>
-        </p>
+<div>
+    <h2>Recently played albums</h2>
+    <hr id="artist-info-divider" class="uk-article-divider">
+</div>
+<div id="most-viewed-albums">
+    <div class="uk-flex uk-flex-middle uk-height-1-1">
+        <% _.each(albums, function(album) { %>
+        <a href="#albums/<%= album.collectionId %>" class="album-thumbnail uk-thumbnail uk-thumbnail-mini">
+            <div class="cover-img-container">
+                <img src="<%= album.artworkUrl200 %>">
+            </div>
+            <div class="text_here">
+                <span class="album-thumbnail-caption uk-thumbnail-caption ellipsis_text">
+                    <div id="album-name">
+                        <%= album.collectionName %>
+                    </div>
+                    <div id="album-release-date">
+                        <%- UB.Utils.getYearFromDate(album.releaseDate) %>
+                    </div>
+                </span>
+            </div>
+        </a>
+        <% } ); %>
     </div>
 </div>

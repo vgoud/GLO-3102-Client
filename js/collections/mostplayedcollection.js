@@ -4,7 +4,7 @@
 
 window.UB.Collections.MostPlayedAlbums = Backbone.Collection.extend({
 
-    localStorage: new Backbone.LocalStorage("MostPlayedAlbums"),
-    model: UB.Models.TrackModel
+    localStorage: new Backbone.LocalStorage("most-played-albums"),
+    model: UB.Models.AlbumModel
 
 });

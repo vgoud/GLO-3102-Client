@@ -7,6 +7,7 @@ window.UB.Views.HomeView = Backbone.View.extend({
 
 
     initialize: function () {
+        this.listenTo(this.collection, 'add', this.render);
     },
 
     render: function() {

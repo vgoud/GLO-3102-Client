@@ -4,12 +4,8 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="less" level="application" />
-    <orderEntry type="library" name="less" level="application" />
-    <orderEntry type="library" name="jquery" level="application" />
-    <orderEntry type="library" name="underscore" level="application" />
-    <orderEntry type="library" name="backbone" level="application" />
-    <orderEntry type="library" name="uikit" level="application" />
+    <orderEntry type="library" name="backbone.routefilter" level="application" />
+    <orderEntry type="library" name="sprintf" level="application" />
+    <orderEntry type="library" name="parsley" level="application" />
   </component>
 </module>
-
