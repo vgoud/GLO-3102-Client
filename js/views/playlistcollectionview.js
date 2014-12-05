@@ -24,7 +24,7 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
 
     render: function () {
         this.$el.html(this.template({
-            playlists: this.collection.toJSON()
+            playlists: this.collection
             //playlists: filterPlaylists(this.collection.toJSON())
         }));
 

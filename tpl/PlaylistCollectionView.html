@@ -17,48 +17,62 @@
     </div>
 
     <ul id="playlists-menu" class="uk-list uk-list-space">
-        <p>Your playlists</p>
-        <% var groupedPlaylists = _.groupBy(playlists, function(playlist) { return playlist.get("owner").id }); %>
-        <% _.each(groupedPlaylists, function(playlistSet) { %>
-            <% _.each(playlistSet, function(playlist) { %>
-            <li class="playlist-row" data-playlist-id="<%= playlist.id %>" data-playlist-owner-id="playlist.owner.id">
-                <a href="#playlists/<%= playlist.id %>"
-                   class="playlist-link uk-width-2-3">
-                    <%= playlist.name %>
-                </a>
-    
-                <form class="uk-form">
-                    <input name="rename-input" class="rename-playlist-input uk-hidden" type="text" required>
-                </form>
+        <% var groupedPlaylists = playlists.groupPlaylistsByOwner(); %>
+        <% var fromOwner = groupedPlaylists[UB.session.user.id] %>
 
-                <div class="buttons-container uk-width-1-3">
-                    <div class="edit-delete-buttons-container">
-                        <a class="btn-playlist-edit uk-button uk-button-small"
-                           data-playlist-id="<%= playlist.id %>">
-                            <i class="uk-icon-pencil"></i>
-                        </a>
-                        <a class="btn-playlist-delete uk-button uk-button-small"
-                           data-playlist-id="<%= playlist.id %>">
-                            <i class="uk-icon-minus"></i>
-                        </a>
-                    </div>
-                    <div class="edit-buttons-group uk-button-group uk-hidden">
-                        <a class="btn-rename-submit uk-button uk-button-small"
-                           data-playlist-id="<%= playlist.id %>">
-                            <i class="uk-icon-check"></i>
-                        </a>
-                        <a class="btn-rename-cancel uk-button uk-button-small"
-                           data-playlist-id="<%= playlist.id %>">
-                            <i class="uk-icon-close"></i>
-                        </a>
-                    </div>
+        Your playlists (<%= fromOwner ? fromOwner.length : 0 %>)<% if (!fromOwner) { %><br><br><% } %>
+
+        <% _.each(fromOwner, function(playlist) { %>
+        <li class="playlist-row" data-playlist-id="<%= playlist.id %>" data-playlist-owner-id="<%= playlist.get('owner').id %>">
+            <a href="#playlists/<%= playlist.id %>"
+               class="playlist-link uk-width-2-3">
+                <%= playlist.get('name') %>
+            </a>
+
+            <form class="uk-form">
+                <input name="rename-input" class="rename-playlist-input uk-hidden" type="text" required>
+            </form>
+
+            <div class="buttons-container uk-width-1-3">
+                <div class="edit-delete-buttons-container">
+                    <a class="btn-playlist-edit uk-button uk-button-small"
+                       data-playlist-id="<%= playlist.id %>">
+                        <i class="uk-icon-pencil"></i>
+                    </a>
+                    <a class="btn-playlist-delete uk-button uk-button-small"
+                       data-playlist-id="<%= playlist.id %>">
+                        <i class="uk-icon-minus"></i>
+                    </a>
                 </div>
-            </li>
-            <%}); %>
-        <%}); %>
-        <button id="btn-hidden-open-modal" class="uk-hidden"
-                data-uk-modal="{target: '#rename-playlist-modal', bgclose:false}">
-        </button>
+                <div class="edit-buttons-group uk-button-group uk-hidden">
+                    <a class="btn-rename-submit uk-button uk-button-small"
+                       data-playlist-id="<%= playlist.id %>">
+                        <i class="uk-icon-check"></i>
+                    </a>
+                    <a class="btn-rename-cancel uk-button uk-button-small"
+                       data-playlist-id="<%= playlist.id %>">
+                        <i class="uk-icon-close"></i>
+                    </a>
+                </div>
+            </div>
+        </li>
+        <% }); %>
+
+        <% delete groupedPlaylists[UB.session.user.id] %>
+        <% Object.keys(groupedPlaylists).forEach(function(key) { %>
+
+        <%= groupedPlaylists[key][0].get('owner').name %> (<%= groupedPlaylists[key] ? groupedPlaylists[key].length : 0 %>)<% if (!groupedPlaylists[key]) { %><br><br><% } %>
+
+        <% _.each(groupedPlaylists[key], function(playlist) { %>
+        <li class="playlist-row" data-playlist-id="<%= playlist.id %>" data-playlist-owner-id="<%= playlist.get('owner').id %>">
+            <a href="#playlists/<%= playlist.id %>"
+               class="playlist-link uk-width-1-1">
+                <%= playlist.get('name') %>
+            </a>
+        </li>
+
+        <% }); %>
+        <% }); %>
     </ul>
 </div>
 
