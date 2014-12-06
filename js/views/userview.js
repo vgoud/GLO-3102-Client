@@ -13,6 +13,7 @@ window.UB.Views.UserView = Backbone.View.extend({
         _.bindAll (this, "render");
         this.listenTo(this.model, "change add sync", this.render);
         this.listenTo(UB.session.user, "change add sync", this.render);
+        this.listenTo(UB.Collections.allPlaylists, "change add sync remove", this.render);
     }
 
     , render: function() {

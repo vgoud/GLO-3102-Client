@@ -26,7 +26,7 @@
             <th>Name</th>
             <th>Email</th>
             <th>Playlists</th>
-            <th>Follow</th>
+            <!--<th>Follow</th>-->
         </tr>
         </thead>
         <tbody>
@@ -38,17 +38,17 @@
                 <ul class="uk-list">
                 <% var playlists = UB.Collections.allPlaylists.getPlaylistsFromOwner(user.id); %>
                 <% _.each(playlists, function(playlist) { %>
-                    <li><a href="#playlists/<%= playlist.id %>"><%= playlist.name %></a></li>
+                    <li><a href="#playlists/<%= playlist.id %>"><%= playlist.get("name") %> (<%= playlist.get("tracks").length %> track<% if (playlist.get("tracks").length > 1) { %>s<% } %>)</a></li>
                 <% }); %>
                 </ul>
             </td>
-            <td>
-                <ul class="uk-list">
-                    <% _.each(user.following, function(user) { %>
-                    <li><a href="#users/<%= user.id %>"><%= user.email %></a></li>
-                    <% }); %>
-                </ul>
-            </td>
+            <!--<td>-->
+                <!--<ul class="uk-list">-->
+                    <!--<% _.each(user.following, function(user) { %>-->
+                    <!--<li><a href="#users/<%= user.id %>"><%= user.email %></a></li>-->
+                    <!--<% }); %>-->
+                <!--</ul>-->
+            <!--</td>-->
         </tr>
         <% }); %>
         </tbody>
