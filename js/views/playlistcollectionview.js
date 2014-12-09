@@ -24,7 +24,7 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
 
     render: function () {
         this.$el.html(this.template({
-            playlists: this.collection.toJSON()
+            playlists: this.collection
             //playlists: filterPlaylists(this.collection.toJSON())
         }));
 
@@ -175,7 +175,7 @@ window.UB.Views.PlaylistCollectionView = Backbone.View.extend({
                 .removeClass("uk-hidden")
                 .val(playlist.get("name"));
             $parentContainer.find(".edit-buttons-group").removeClass("uk-hidden");
-            
+
             $parentContainer.find("input").focus();
         }
     },

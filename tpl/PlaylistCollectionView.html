@@ -17,12 +17,16 @@
     </div>
 
     <ul id="playlists-menu" class="uk-list uk-list-space">
-        <p>Your playlists</p>
-        <% _.each(playlists, function(playlist) { %>
-        <li class="playlist-row" data-playlist-id="<%= playlist.id %>">
+        <% var groupedPlaylists = playlists.groupPlaylistsByOwner(); %>
+        <% var fromOwner = groupedPlaylists[UB.session.user.id] %>
+
+        Your playlists (<%= fromOwner ? fromOwner.length : 0 %>)<% if (!fromOwner) { %><br><br><% } %>
+
+        <% _.each(fromOwner, function(playlist) { %>
+        <li class="playlist-row" data-playlist-id="<%= playlist.id %>" data-playlist-owner-id="<%= playlist.get('owner').id %>">
             <a href="#playlists/<%= playlist.id %>"
                class="playlist-link uk-width-2-3">
-                <%= playlist.name %>
+                <%= playlist.get('name') %>
             </a>
 
             <form class="uk-form">
@@ -52,10 +56,23 @@
                 </div>
             </div>
         </li>
-        <%}); %>
-        <button id="btn-hidden-open-modal" class="uk-hidden"
-                data-uk-modal="{target: '#rename-playlist-modal', bgclose:false}">
-        </button>
+        <% }); %>
+
+        <% delete groupedPlaylists[UB.session.user.id] %>
+        <% Object.keys(groupedPlaylists).forEach(function(key) { %>
+
+        <%= groupedPlaylists[key][0].get('owner').name %> (<%= groupedPlaylists[key] ? groupedPlaylists[key].length : 0 %>)<% if (!groupedPlaylists[key]) { %><br><br><% } %>
+
+        <% _.each(groupedPlaylists[key], function(playlist) { %>
+        <li class="playlist-row" data-playlist-id="<%= playlist.id %>" data-playlist-owner-id="<%= playlist.get('owner').id %>">
+            <a href="#playlists/<%= playlist.id %>"
+               class="playlist-link uk-width-1-1">
+                <%= playlist.get('name') %>
+            </a>
+        </li>
+
+        <% }); %>
+        <% }); %>
     </ul>
 </div>
 
