@@ -30,6 +30,7 @@ $(document).ready(function () {
         "LogoutButtonView",
         "ParametersButtonView",
         "LoginSignupView",
+        "RecentlyPlayedView",
         "SearchResultsView",
         "SearchResultTrackView",
         "SearchResultCollectionView",

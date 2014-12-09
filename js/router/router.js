@@ -134,9 +134,57 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     home: function () {
         this.renderGlobalView();
+        this.getRecentlyPlayed();
         this.$content.html(new UB.Views.HomeView().render().el);
     },
 
+    getRecentlyPlayed: function(){
+        var self = this;
+        UB.Collections.recentlyPlayedAlbums = new UB.Collections.RecentlyPlayedCollection();
+        UB.Collections.recentlyPlayedAlbums.fetch({
+            success: function (data) {
+                self.recentlyPlayedView = new UB.Views.RecentlyPlayedView({
+                    collection: data
+                });
+                $("#recently-played").append(self.recentlyPlayedView.render().el);
+            }
+        });
+    },
+
+    addRecentlyPlayed: function(ev) {
+        var albumToAdd = ev.model.toJSON();
+
+        UB.Collections.recentlyPlayedAlbums = new UB.Collections.RecentlyPlayedCollection();
+        UB.Collections.recentlyPlayedAlbums.create(albumToAdd);
+    },
+        /*
+
+        var artistAlbumsView = new UB.Views.RecentlyPlayedView({collection: UB.Collections.recentlyPlayedAlbums});
+        this.$content.append(artistAlbumsView.render().el);
+
+
+        self.$content.append(artistAlbumsView.render().el);
+
+
+        UB.Views.recentlyPlayedAlbums = new UB.Views.RecentlyPlayedView();
+        var self = this;
+
+        UB.Collections.recentlyPlayedAlbums.fetch({
+
+            success: function (dataAlbums) {
+                self.$content.html(new UB.Views.RecentlyPlayedView({collection: dataAlbums}).render().el);
+                self.render();
+            },
+
+            error: function (model, res) {
+                if (res.status == 401) {
+                    self.redirectToLoginSignup();
+                }
+            }
+        })
+
+    },
+  */
     initializeUserPlaylist: function () {
         var self = this;
         UB.Collections.userPlaylists = new UB.Collections.PlaylistCollection();
@@ -243,9 +291,10 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
         artist.fetch({
             success: function (data) {
+                console.log("Artist fetched successfully.");
                 artistAlbums.fetch({
                     success: function (dataAlbums) {
-                        console.log("Artist fetched successfully.");
+                        console.log("Albums fetched successfully.");
                         self.$content.html((new UB.Views.ArtistView({model: data})).render().el);
                         var artistAlbumsView = new UB.Views.AlbumsView({collection: dataAlbums});
                         self.$content.append(artistAlbumsView.render().el);
@@ -273,19 +322,13 @@ window.UB.Routers.Router = Backbone.Router.extend({
         this.displayArtist(id);
     },
 
-    mostPlayedAlbum: function(e) {
-        var mostPlayedAlbumCollection = window.UB.Collections.MostPlayedAlbums();
-        mostPlayedAlbumCollection.add(e.model);
-    },
-
     togglePlayPause: function (e) {
         console.log("PLAY");
         console.log(e);
         if (this.playerView) {
             this.playerView.togglePlayPause(e);
         }
-        var mostPlayedAlbumCollection = new window.UB.Collections.MostPlayedAlbums();
-        mostPlayedAlbumCollection.add(e.model);
+        this.addRecentlyPlayed(e);
     },
 
     displayPlaylist: function (id) {

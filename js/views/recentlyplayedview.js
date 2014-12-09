@@ -1,9 +1,11 @@
 /**
- * Created by Vincent on 2014-10-15.
+ * Created by Charles on 2014-10-30.
  */
 
-window.UB.Views.AlbumsView = Backbone.View.extend({
 
+window.UB.Views.RecentlyPlayedView = Backbone.View.extend({
+
+    collection: UB.Collections.RecentlyPlayedCollection,
     tagName: "div",
     className: "uk-container uk-container-center",
 
@@ -15,9 +17,6 @@ window.UB.Views.AlbumsView = Backbone.View.extend({
         this.$el.html(this.template({
             albums: this.collection.toJSON()
         }));
-//        this.$('.text_here').ThreeDots({
-//            max_rows:2
-//        });
         return this;
     }
 });
