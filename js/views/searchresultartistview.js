@@ -16,9 +16,9 @@ window.UB.Views.SearchResultArtistView = Backbone.View.extend({
     },
 
     render: function () {
-        var pColl = this.options.playlistCollection;
+        var pColl = this.options.playlistCollection.getPlaylistFromOwner(UB.session.user.id);
 
-        $(this.el).html(this.template({artist: this.model.toJSON(), pColl: pColl.models}));
+        $(this.el).html(this.template({artist: this.model.toJSON(), pColl: pColl}));
         return this;
     },
 
