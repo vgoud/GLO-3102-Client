@@ -39,7 +39,7 @@ window.UB.Views.AlbumInfoView = Backbone.View.extend({
 
     addAllTracksToPlaylist: function (event) {
         var playlistId = $(event.currentTarget).data("playlist-id");
-        var playlist = UB.Collections.userPlaylists.get(playlistId);
+        var playlist = UB.Collections.allPlaylists.get(playlistId);
 
         var $trackCollectionId = $(event.currentTarget).data("collection-id");
         var tracks = new UB.Collections.TrackCollection({id: $trackCollectionId});

@@ -24,7 +24,7 @@ window.UB.Collections.PlaylistCollection = Backbone.Collection.extend({
     }
 
     // Gets all playlists from a specified owner.
-    , getPlaylistFromOwner: function (ownerId) {
+    , getPlaylistsFromOwner: function (ownerId) {
         return _.filter(this.models, function (playlist) {
             return playlist.get("owner").id == ownerId;
         })

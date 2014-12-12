@@ -16,15 +16,15 @@ window.UB.Views.SearchResultArtistView = Backbone.View.extend({
     },
 
     render: function () {
-        var pColl = this.options.playlistCollection;
+        var pColl = this.options.playlistCollection.getPlaylistFromOwner(UB.session.user.id);
 
-        $(this.el).html(this.template({artist: this.model.toJSON(), pColl: pColl.models}));
+        $(this.el).html(this.template({artist: this.model.toJSON(), pColl: pColl}));
         return this;
     },
 
     addArtist: function (e) {
         var playlistId = $(e.currentTarget).data("playlist-id");
-        var playlist = UB.Collections.userPlaylists.get(playlistId);
+        var playlist = UB.Collections.allPlaylists.get(playlistId);
 
         var $artistId = $(e.currentTarget).data("artist-id");
         var albums = new UB.Collections.AlbumsCollection({id: $artistId});

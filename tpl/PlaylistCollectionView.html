@@ -61,7 +61,9 @@
         <% delete groupedPlaylists[UB.session.user.id] %>
         <% Object.keys(groupedPlaylists).forEach(function(key) { %>
 
-        <%= groupedPlaylists[key][0].get('owner').name %> (<%= groupedPlaylists[key] ? groupedPlaylists[key].length : 0 %>)<% if (!groupedPlaylists[key]) { %><br><br><% } %>
+        <a href="#users/<%= groupedPlaylists[key][0].get('owner').id %>">
+            <%= groupedPlaylists[key][0].get('owner').name %> (<%= groupedPlaylists[key] ? groupedPlaylists[key].length : 0 %>)<% if (!groupedPlaylists[key]) { %><br><br><% } %>
+        </a>
 
         <% _.each(groupedPlaylists[key], function(playlist) { %>
         <li class="playlist-row" data-playlist-id="<%= playlist.id %>" data-playlist-owner-id="<%= playlist.get('owner').id %>">

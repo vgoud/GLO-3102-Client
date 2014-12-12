@@ -16,16 +16,16 @@ window.UB.Views.SearchResultTrackView = Backbone.View.extend({
     },
 
     render: function () {
-        var pColl = this.options.playlistCollection;
+        var pColl = this.options.playlistCollection.getPlaylistFromOwner(UB.session.user.id);
 
-        $(this.el).html(this.template({track: this.model.toJSON(), pColl: pColl.models}));
+        $(this.el).html(this.template({track: this.model.toJSON(), pColl: pColl}));
         return this;
     },
 
     addTrack: function (e) {
 
         var playlistId = $(e.currentTarget).data("playlist-id");
-        var playlist = UB.Collections.userPlaylists.get(playlistId);
+        var playlist = UB.Collections.allPlaylists.get(playlistId);
         var track = this.model.attributes;
 
         playlist.addTrackToPlaylist(track);

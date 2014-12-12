@@ -14,7 +14,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
         "search/:id": "displaySearchResultBase",
         "search/:mode/:id": "displaySearchResultMode",
         "search/:id/limit/:num": "displaySearchResultBaseLimit",
-        "search/:mode/:id/limit/:num": "displaySearchResultModeLimit"
+        "search/:mode/:id/limit/:num": "displaySearchResultModeLimit",
+        "users/:id" : "user"
     },
 
     urlBase: UB.urlBase,
@@ -165,10 +166,10 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     initializeUserPlaylist: function () {
         var self = this;
-        UB.Collections.userPlaylists = new UB.Collections.PlaylistCollection();
-        UB.Collections.userPlaylists.url = this.urlBase + "playlists";
+        UB.Collections.allPlaylists = new UB.Collections.PlaylistCollection();
+        UB.Collections.allPlaylists.url = this.urlBase + "playlists";
 
-        UB.Collections.userPlaylists.fetch({
+        UB.Collections.allPlaylists.fetch({
             async: false,
             success: function (data) {
                 console.log("User playlists received.");
@@ -202,7 +203,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
         var album = new UB.Models.AlbumInfoModel({id: id});
         var tracks = new UB.Collections.TrackCollection();
 
-        var playlistCollection = UB.Collections.userPlaylists;
+        var playlistCollection = UB.Collections.allPlaylists;
 
         var self = this;
 
@@ -309,10 +310,10 @@ window.UB.Routers.Router = Backbone.Router.extend({
     },
 
     displayPlaylist: function (id) {
-        if (! UB.Collections.userPlaylists) {
+        if (! UB.Collections.allPlaylists) {
             this.initializeUserPlaylist();
         }
-        var playlist = UB.Collections.userPlaylists.get(id);
+        var playlist = UB.Collections.allPlaylists.get(id);
 
         if (playlist) {
             var self = this;
@@ -393,7 +394,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
     displaySearchResult: function (searchString, mode, url, limit) {
         var searchResult = new UB.Collections.SearchResultCollection();
 
-        var playlistCollection = UB.Collections.userPlaylists;
+        var playlistCollection = UB.Collections.allPlaylists;
         var self = this;
 
         searchResult.url = function () {
@@ -465,6 +466,87 @@ window.UB.Routers.Router = Backbone.Router.extend({
             model: UB.session.user
         });
         this.logoutbuttonview.render();
+    },
+
+    user: function (id) {
+        var self = this;
+        var user = new UB.Models.UserModel({
+            id: id
+        });
+        user.urlRoot = function () {
+            return UB.urlBase + "users"
+        };
+        user.fetch({
+            success: function (user) {
+                var userView = new UB.Views.UserView({
+                    model: user
+                });
+                self.$content.html(userView.render().el);
+
+                self.listenTo(userView, "followUser", self.followUser);
+                self.listenTo(userView, "unfollowUser", self.unfollowUser);
+            },
+            error: function () {
+                console.log("cannot fetch user.");
+            }
+        })
+    },
+
+    ajaxFollow: function (opts, data, callback) {
+        var url = UB.urlBase + "follow";
+        if (opts.method == "DELETE") {
+            url += "/" + data.id;
+        }
+
+        $.ajax({
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            type: opts.method,
+            data: JSON.stringify({
+                id: data.id
+            }),
+            crossDomain: true
+        }).done(function(data){
+            if(callback && 'success' in callback) callback.success(data);
+        }).fail(function(jqXHR){
+            if(callback && 'error' in callback) callback.error(jqXHR);
+        });
+    },
+
+    followUser: function (e) {
+        this.ajaxFollow({
+            method: "POST"
+        }, e.toFollow, {
+            success: function (data) {
+                // Current user is updated.
+                // This will trigger a change event.
+                UB.session.updateSessionUser(data);
+            },
+            error: function (jqXHR) {
+                console.log("Follow failed with status code " + jqXHR.status);
+                if (jqXHR.status == 401) {
+                    self.redirectToLoginSignup("Your session has expired.");
+                }
+            }
+        });
+    },
+
+    unfollowUser: function (e) {
+        this.ajaxFollow({
+            method: "DELETE"
+        }, e.toUnfollow, {
+            success: function (data) {
+                // Current user is updated.
+                // This will trigger a change event.
+                UB.session.updateSessionUser(data);
+            },
+            error: function (jqXHR) {
+                console.log("Follow failed with status code " + jqXHR.status);
+                if (jqXHR.status == 401) {
+                    self.redirectToLoginSignup("Your session has expired.");
+                }
+            }
+        });
     }
 
 });

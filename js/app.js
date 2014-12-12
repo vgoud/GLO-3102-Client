@@ -35,7 +35,8 @@ $(document).ready(function () {
         "SearchResultTrackView",
         "SearchResultCollectionView",
         "SearchResultArtistView",
-        "SearchResultUserView"
+        "SearchResultUserView",
+        "UserView"
     ], function () {
         UB.Routers.router = new UB.Routers.Router();
         UB.session = new UB.Models.SessionModel();
