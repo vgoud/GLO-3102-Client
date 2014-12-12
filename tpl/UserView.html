@@ -35,10 +35,13 @@
             data-playlist-owner-id="<%= playlist.get('owner').id %>">
             <a href="#playlists/<%= playlist.id %>"
                class="playlist-link">
-                <%- playlist.get("name") %> (<%=
-                playlist.get("tracks").length %> track<% if (playlist.get("tracks").length > 1) { %>s<% }
-                %>)
+                <%- playlist.get("name") %>
             </a>
+
+            <div class="playlist-nb-tracks">
+                <i class="uk-icon-chevron-right"></i>
+                <%= playlist.get("tracks").length %> track<% if (playlist.get("tracks").length > 1) { %>s<% }%>
+            </div>
 
             <form class="uk-form">
                 <input name="rename-input" class="rename-playlist-input uk-hidden" type="text" required>

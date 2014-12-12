@@ -15,9 +15,9 @@
     border-left: solid 1px @skin-dark-accent-color;
     padding-left: 15px;
 
-    & h1 {
-      font-size: 40px;
-    }
+//    & h1 {
+//      font-size: 40px;
+//    }
   }
 }
 
@@ -35,6 +35,11 @@
   flex-flow: row nowrap;
   justify-content: flex-start;
 
+  & .playlist-nb-tracks {
+    flex: 1 1 30%;
+    align-self: center;
+  }
+
   & .buttons-container {
     min-width: 60px;
     //    height: 0;
@@ -50,7 +55,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    flex: 1 1 100%;
+    flex: 1 1 70%;
   }
 
   & form {
@@ -75,6 +80,7 @@ ul li.playlist-row .buttons-container {
 #user-playlists li.playlist-row:hover {
   justify-content: space-between;
   background-color: #ffffff;
+  color: @skin-dark-accent-color;
 
   & .playlist-link {
     flex: 1 2 80%;
