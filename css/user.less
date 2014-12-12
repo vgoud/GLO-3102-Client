@@ -1,0 +1,107 @@
+@import "variables";
+
+#user-header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+
+  #user-icon-container {
+    height: 100%;
+    font-size: 100px;
+    margin: 0 25px 0 0;
+  }
+
+  #user-header-info {
+    border-left: solid 1px @skin-dark-accent-color;
+    padding-left: 15px;
+  }
+}
+
+#follow-unfollow-buttons-container {
+  margin-top: 20px;
+}
+
+#user-playlists li.playlist-row {
+  font-size: 14px;
+  padding: 2px 0 2px 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  min-height: 30px;
+  max-height: 30px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+
+  & .playlist-link {
+    flex: 2 1 80%;
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 25px;
+    align-self: center;
+  }
+
+  & form {
+    flex: 2 1 80%;
+    align-self: center;
+    justify-content: flex-start;
+  }
+
+  & input.rename-playlist-input {
+    color: @skin-dark-background-color;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 28px;
+    align-self: center;
+  }
+}
+
+ul#user-playlists li.playlist-row .buttons-container {
+  flex: 1 0 20%;
+  min-width: 75px;
+  max-width: 75px;
+  visibility: hidden;
+  justify-content: flex-end;
+}
+
+ul#user-playlists li.playlist-row:hover {
+
+  background-color: #ffffff;
+
+  form ul li { // Parsley annotations.
+    color: @skin-dark-background-color;
+  }
+
+  &:not(.dirty) .buttons-container {
+    visibility: visible;
+
+    & .btn-playlist-edit, & .btn-playlist-delete {
+      background: transparent;
+      color: @skin-dark-accent-color;
+      font-size: 18px;
+      justify-content: space-around;
+    }
+  }
+}
+
+ul#user-playlists li.playlist-row.dirty {
+  & .buttons-container .edit-delete-buttons-container {
+    display: none;
+  }
+}
+
+#user-playlists li.playlist-row.dirty {
+  & .edit-buttons-group {
+    visibility: visible;
+
+    & .uk-button-small {
+      background: transparent;
+      color: @skin-dark-accent-color;
+      font-size: 18px;
+    }
+  }
+}
+
+table#user-following td {
+  display: table-cell;
+  vertical-align: top;
+}

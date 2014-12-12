@@ -25,7 +25,7 @@ window.UB.Views.TrackView = Backbone.View.extend({
     addTrack: function (e) {
 
         var playlistId = $(e.currentTarget).data("playlist-id");
-        var playlist = UB.Collections.userPlaylists.get(playlistId);
+        var playlist = UB.Collections.allPlaylists.get(playlistId);
         var track = this.model.attributes;
 
         playlist.addTrackToPlaylist(track);
