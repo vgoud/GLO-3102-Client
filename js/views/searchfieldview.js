@@ -23,11 +23,12 @@ window.UB.Views.SearchFieldView = Backbone.View.extend({
         return this;
     },
 
-    submit: function () {
-        var self = this;
-        self.trigger("searchSucceeded", {
-            searchValue: this.$("#search-field-navbar").val(),
-            searchType: this.$("#search-option-navbar").val()
+    submit: function (e) {
+        var $target = $(e.target );
+
+        this.trigger("searchSucceeded", {
+            searchValue: $target.find(".uk-search-field").val(),
+            searchType: $target.find(".search-option-navbar option:selected").val()
         });
     },
 
@@ -45,7 +46,7 @@ window.UB.Views.SearchFieldView = Backbone.View.extend({
         });
 
         if (goodDatas) {
-            this.submit();
+            this.submit(e);
         };
     }
 });
