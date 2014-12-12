@@ -52,23 +52,21 @@ window.UB.Views.SearchResultArtistView = Backbone.View.extend({
 
                 $.when.apply($, deferreds).done( function() {
                     // Save the playlist only when ALL the fetches are done.
-                    _.forEach(trackModels, function (trackArray) {
-                        _.each(trackArray, function (track) {
-                            playlist.addTrackToPlaylist(track.toJSON());
-                            deferredTrackAdds.push(
-                                $.ajax({
-                                      type: "POST"
-                                    , url: UB.urlBase + "playlists/" + playlistId +  "/tracks"
-                                    , contentType: "application/json"
-                                    , data: JSON.stringify(track.toJSON())
-                                })
-                            );
-                        });
-                        $.when.apply($, deferredTrackAdds).done(function () {
-                                playlist.fetch();
-                            }
+                    _.forEach(_.flatten(trackModels), function (track) {
+                        deferredTrackAdds.push(
+                            $.ajax({
+                                  type: "POST"
+                                , url: UB.urlBase + "playlists/" + playlistId +  "/tracks"
+                                , contentType: "application/json"
+                                , data: JSON.stringify(track.toJSON())
+                            })
                         );
                     });
+
+                    $.when.apply($, deferredTrackAdds).done(function () {
+                            playlist.fetch();
+                        }
+                    );
                 });
 
                 this.$(".uk-close").click();
