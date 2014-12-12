@@ -31,7 +31,9 @@ window.UB.Views.SearchFieldView = Backbone.View.extend({
         });
     },
 
-    onSubmit: function () {
+    onSubmit: function (e) {
+        e.preventDefault();
+
         this.$("#submit-error").removeClass("error");
 
         var goodDatas = false;
