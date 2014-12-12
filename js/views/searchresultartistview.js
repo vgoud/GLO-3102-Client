@@ -16,7 +16,7 @@ window.UB.Views.SearchResultArtistView = Backbone.View.extend({
     },
 
     render: function () {
-        var pColl = this.options.playlistCollection.getPlaylistsFromOwner(UB.session.user.id);
+        var pColl = UB.Collections.allPlaylists.getPlaylistsFromOwner(UB.session.user.id);
 
         $(this.el).html(this.template({artist: this.model.toJSON(), pColl: pColl}));
         return this;
@@ -26,24 +26,51 @@ window.UB.Views.SearchResultArtistView = Backbone.View.extend({
         var playlistId = $(e.currentTarget).data("playlist-id");
         var playlist = UB.Collections.allPlaylists.get(playlistId);
 
-        var $artistId = $(e.currentTarget).data("artist-id");
-        var albums = new UB.Collections.AlbumsCollection({id: $artistId});
-        albums.url = UB.urlBase + "artists/" + $artistId + "/albums";
+        var artistId = $(e.currentTarget).data("artist-id");
+        var albums = new UB.Collections.AlbumsCollection({id: artistId});
+        albums.url = UB.urlBase + "artists/" + artistId + "/albums";
+
+        var deferreds = [];
+        var trackModels = [];
+        var deferredTrackAdds = [];
+
         albums.fetch({
-            success: function () {
-                _.forEach(albums.models, function (albums) {
-                    var $trackCollectionId = albums.attributes.collectionId;
-                    var tracks = new UB.Collections.TrackCollection({id: $trackCollectionId});
-                    tracks.url = UB.urlBase + "albums/" + $trackCollectionId + "/tracks";
-                    tracks.fetch({
-                        success: function () {
-                            _.forEach(tracks.models, function (track) {
-                                playlist.addTrackToPlaylist(track.toJSON());
-                            });
-                        }
+            success: function (albumsColl) {
+                _.forEach(albumsColl.models, function (album) {
+                    var trackCollectionId = album.get("collectionId");
+                    var tracks = new UB.Collections.TrackCollection({id: trackCollectionId});
+                    tracks.url = UB.urlBase + "albums/" + trackCollectionId + "/tracks";
+
+                    // Accumulate each deferred object returned by the fetch function.
+                    deferreds.push(
+                        tracks.fetch({
+                            success: function (tracksColl) {
+                                trackModels.push(tracksColl.models);
+                            }
+                    }));
+                });
+
+                $.when.apply($, deferreds).done( function() {
+                    // Save the playlist only when ALL the fetches are done.
+                    _.forEach(trackModels, function (trackArray) {
+                        _.each(trackArray, function (track) {
+                            playlist.addTrackToPlaylist(track.toJSON());
+                            deferredTrackAdds.push(
+                                $.ajax({
+                                      type: "POST"
+                                    , url: UB.urlBase + "playlists/" + playlistId +  "/tracks"
+                                    , contentType: "application/json"
+                                    , data: JSON.stringify(track.toJSON())
+                                })
+                            );
+                        });
+                        $.when.apply($, deferredTrackAdds).done(function () {
+                                playlist.fetch();
+                            }
+                        );
                     });
                 });
-                playlist.save();
+
                 this.$(".uk-close").click();
             }
         });
