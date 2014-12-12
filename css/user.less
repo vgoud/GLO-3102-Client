@@ -31,21 +31,29 @@
   margin-top: 5px;
   margin-bottom: 5px;
   min-height: 30px;
-  max-height: 30px;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-between;
+  justify-content: flex-start;
+
+  & .buttons-container {
+    min-width: 60px;
+    //    height: 0;
+    flex: none;
+    visibility: hidden;
+  }
 
   & .playlist-link {
-    flex: 2 1 80%;
     margin-top: auto;
     margin-bottom: auto;
     height: 25px;
     align-self: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1 1 100%;
   }
 
   & form {
-    flex: 2 1 80%;
     align-self: center;
     justify-content: flex-start;
   }
@@ -59,17 +67,18 @@
   }
 }
 
-ul#user-playlists li.playlist-row .buttons-container {
-  flex: 1 0 20%;
-  min-width: 75px;
-  max-width: 75px;
-  visibility: hidden;
-  justify-content: flex-end;
+ul li.playlist-row .buttons-container {
+  //  visibility: hidden;
+
 }
 
-ul#user-playlists li.playlist-row:hover {
-
+#user-playlists li.playlist-row:hover {
+  justify-content: space-between;
   background-color: #ffffff;
+
+  & .playlist-link {
+    flex: 1 2 80%;
+  }
 
   form ul li { // Parsley annotations.
     color: @skin-dark-background-color;
@@ -77,6 +86,10 @@ ul#user-playlists li.playlist-row:hover {
 
   &:not(.dirty) .buttons-container {
     visibility: visible;
+    flex: 1 1 20%;
+    align-self: center;
+    justify-content: flex-end;
+    min-width: 60px;
 
     & .btn-playlist-edit, & .btn-playlist-delete {
       background: transparent;
@@ -87,13 +100,24 @@ ul#user-playlists li.playlist-row:hover {
   }
 }
 
-ul#user-playlists li.playlist-row.dirty {
+ul li.playlist-row.dirty {
   & .buttons-container .edit-delete-buttons-container {
     display: none;
   }
 }
 
 #user-playlists li.playlist-row.dirty {
+  & form {
+    //    align-self: center;
+    justify-content: flex-start;
+    flex: 1 1 80%;
+  }
+
+  & .buttons-container {
+    flex: 1 1 20%;
+    justify-content: space-between;
+  }
+
   & .edit-buttons-group {
     visibility: visible;
 
@@ -116,10 +140,21 @@ table#user-following .user-followed-playlists li {
   justify-content: flex-start;
 
   & .user-followed-playlist-link {
-    flex: 3 1 70%;
+    flex: 1 1 70%;
     margin-right: 10px;
     transition: 100ms linear;
     border-bottom: solid 1px transparent;
+    overflow: hidden;
+//    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    & > a {
+      flex: 1 1 100%;
+      min-width: 100%;
+      overflow: hidden;
+//      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
 
     &:hover {
       border-bottom: solid 1px @skin-dark-accent-color;
