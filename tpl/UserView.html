@@ -1,56 +1,112 @@
-<div class="uk-container uk-container-center uk-margin-top">
-    <h1>
-        <%= name %>
-    </h1>
-    <h3>
-        <%= email %>
-    </h3>
-</div>
-
-<% if (id != UB.session.user.id) { %>
-<% var _id = id; %>
-<div id="follow-unfollow-buttons-container">
-    <% if (_.isUndefined(_.find(UB.session.user.get("following"), function(user) { return user.id == _id } ))) { %>
-    <button id="btn-follow-user" class="uk-button">Follow</button>
-    <% } else { %>
-    <button id="btn-unfollow-user" class="uk-button">Unfollow</button>
-    <% } %>
-</div>
-<% } %>
-
-<h2>Follow :</h2>
 <div class="uk-container uk-container-center">
-    <table class="uk-table uk-table-hover">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Playlists</th>
-            <!--<th>Follow</th>-->
-        </tr>
-        </thead>
-        <tbody>
-        <% _.each(following, function(user) { %>
-        <tr>
-            <td><%= user.name %></td>
-            <td><%= user.email %></td>
-            <td>
-                <ul class="uk-list">
-                <% var playlists = UB.Collections.allPlaylists.getPlaylistsFromOwner(user.id); %>
-                <% _.each(playlists, function(playlist) { %>
-                    <li><a href="#playlists/<%= playlist.id %>"><%= playlist.get("name") %> (<%= playlist.get("tracks").length %> track<% if (playlist.get("tracks").length > 1) { %>s<% } %>)</a></li>
-                <% }); %>
-                </ul>
-            </td>
-            <!--<td>-->
-                <!--<ul class="uk-list">-->
-                    <!--<% _.each(user.following, function(user) { %>-->
-                    <!--<li><a href="#users/<%= user.id %>"><%= user.email %></a></li>-->
-                    <!--<% }); %>-->
-                <!--</ul>-->
-            <!--</td>-->
-        </tr>
+    <div id="user-header" class="uk-margin-top">
+        <div id="user-icon-container">
+            <i class="uk-icon-user"></i>
+        </div>
+        <div id="user-header-info">
+            <h1>
+                <%= name %>
+            </h1>
+
+            <h3>
+                <%= email %>
+            </h3>
+        </div>
+    </div>
+
+    <% if (id != UB.session.user.id) { %>
+    <% var _id = id; %>
+    <div id="follow-unfollow-buttons-container">
+        <% if (_.isUndefined(_.find(UB.session.user.get("following"), function(user) { return user.id == _id } ))) { %>
+        <button id="btn-follow-user" class="uk-button">Follow</button>
+        <% } else { %>
+        <button id="btn-unfollow-user" class="uk-button">Unfollow</button>
+        <% } %>
+    </div>
+    <% } %>
+
+    <% var fromOwner = UB.Collections.allPlaylists.getPlaylistsFromOwner(id) %>
+
+    <h2>Playlists (<%= fromOwner ? fromOwner.length : 0 %>)<% if (!fromOwner) { %><br><br><% } %></h2>
+
+    <ul id="user-playlists" class="uk-list uk-list-space">
+        <% _.each(fromOwner, function(playlist) { %>
+        <li class="playlist-row" data-playlist-id="<%= playlist.id %>"
+            data-playlist-owner-id="<%= playlist.get('owner').id %>">
+            <a href="#playlists/<%= playlist.id %>"
+               class="playlist-link">
+                <%- playlist.get("name") %> (<%=
+                playlist.get("tracks").length %> track<% if (playlist.get("tracks").length > 1) { %>s<% }
+                %>)
+            </a>
+
+            <form class="uk-form">
+                <input name="rename-input" class="rename-playlist-input uk-hidden" type="text" required>
+            </form>
+
+            <% if (id == UB.session.user.id) { %>
+            <div class="buttons-container">
+                <div class="edit-delete-buttons-container">
+                    <a class="btn-playlist-edit uk-button uk-button-small"
+                       data-playlist-id="<%= playlist.id %>">
+                        <i class="uk-icon-pencil"></i>
+                    </a>
+                    <a class="btn-playlist-delete uk-button uk-button-small"
+                       data-playlist-id="<%= playlist.id %>">
+                        <i class="uk-icon-minus"></i>
+                    </a>
+                </div>
+                <div class="edit-buttons-group uk-button-group uk-hidden">
+                    <a class="btn-rename-submit uk-button uk-button-small"
+                       data-playlist-id="<%= playlist.id %>">
+                        <i class="uk-icon-check"></i>
+                    </a>
+                    <a class="btn-rename-cancel uk-button uk-button-small"
+                       data-playlist-id="<%= playlist.id %>">
+                        <i class="uk-icon-close"></i>
+                    </a>
+                </div>
+            </div>
+            <% } %>
+        </li>
         <% }); %>
-        </tbody>
-    </table>
+    </ul>
+
+    <h2>Follow :</h2>
+
+    <div>
+        <table id="user-following" class="uk-table uk-table-hover">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Playlists</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% _.each(following, function(user) { %>
+            <tr>
+                <td>
+                    <%= user.name %>
+                </td>
+                <td>
+                    <a href="#users/<%= user.id %>">
+                        <%= user.email %>
+                    </a>
+                </td>
+                <td>
+                    <ul class="uk-list">
+                        <% var playlists = UB.Collections.allPlaylists.getPlaylistsFromOwner(user.id); %>
+                        <% _.each(playlists, function(playlist) { %>
+                        <li><a href="#playlists/<%= playlist.id %>"><%= playlist.get("name") %> (<%=
+                            playlist.get("tracks").length %> track<% if (playlist.get("tracks").length > 1) { %>s<% }
+                            %>)</a></li>
+                        <% }); %>
+                    </ul>
+                </td>
+            </tr>
+            <% }); %>
+            </tbody>
+        </table>
+    </div>
 </div>
