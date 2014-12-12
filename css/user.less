@@ -14,6 +14,10 @@
   #user-header-info {
     border-left: solid 1px @skin-dark-accent-color;
     padding-left: 15px;
+
+    & h1 {
+      font-size: 40px;
+    }
   }
 }
 
@@ -104,4 +108,52 @@ ul#user-playlists li.playlist-row.dirty {
 table#user-following td {
   display: table-cell;
   vertical-align: top;
+}
+
+table#user-following .user-followed-playlists li {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+
+  & .user-followed-playlist-link {
+    flex: 3 1 70%;
+    margin-right: 10px;
+    transition: 100ms linear;
+    border-bottom: solid 1px transparent;
+
+    &:hover {
+      border-bottom: solid 1px @skin-dark-accent-color;
+    }
+  }
+
+  & .user-followed-playlist-nb-tracks {
+//    border-left: solid 1px #ffffff;
+    flex: 1 0 30%;
+    min-width: 95px;
+    max-width: 95px;
+    padding-left: 5px;
+
+    & i {
+      font-size: 12px;
+    }
+  }
+
+  @media screen and (min-width: 980px) {
+    & .user-followed-playlist-link {
+      flex: 1 1 50%;
+      margin-right: 10px;
+    }
+
+    & .user-followed-playlist-nb-tracks {
+      //    border-left: solid 1px #ffffff;
+      flex: 1 1 50%;
+//      min-width: 95px;
+//      max-width: 95px;
+      padding-left: 5px;
+
+      & i {
+        font-size: 12px;
+      }
+    }
+  }
 }
