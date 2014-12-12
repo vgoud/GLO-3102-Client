@@ -101,6 +101,24 @@ window.UB.Views.UserView = Backbone.View.extend({
         }
     }
 
+    , deletePlaylist: function (e) {
+        // TODO Ask confirmation.
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $target = $(e.currentTarget);
+            var playlistId = $target.data("playlist-id");
+            var model = UB.Collections.allPlaylists.get(playlistId);
+
+            this.trigger("playlistDeleted", {
+                playlistId: playlistId
+            });
+
+            // TODO error management.
+            model.destroy();
+        }
+    }
+
     , editPlaylist: function (e) {
         if (e) {
             // Clear all modifications so that we don't have multiple edits
