@@ -51,6 +51,8 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
         this.globalView = new UB.Views.GlobalView();
         this.globalView.render();
+        UB.Collections.recentlyPlayedAlbums = new UB.Collections.RecentlyPlayedCollection();
+        UB.Collections.recentlyPlayedAlbums.fetch();
 
         // This handler needs to be attached only once.
         var self = this;
@@ -79,7 +81,7 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     loginSignup: function () {
         this.isGlobalViewRendered = false;
-        
+
         this.loginSignupView = new UB.Views.LoginSignupView({
             model: UB.session.user
         });
@@ -134,57 +136,33 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     home: function () {
         this.renderGlobalView();
-        this.getRecentlyPlayed();
         this.$content.html(new UB.Views.HomeView().render().el);
-    },
-
-    getRecentlyPlayed: function(){
-        var self = this;
-        UB.Collections.recentlyPlayedAlbums = new UB.Collections.RecentlyPlayedCollection();
-        UB.Collections.recentlyPlayedAlbums.fetch({
-            success: function (data) {
-                self.recentlyPlayedView = new UB.Views.RecentlyPlayedView({
-                    collection: data
-                });
-                $("#recently-played").append(self.recentlyPlayedView.render().el);
-            }
-        });
+        this.$recentlyPlayedContent = $("#recently-played");
+        var recentlyPlayedView = new UB.Views.RecentlyPlayedView({collection: UB.Collections.recentlyPlayedAlbums});
+        this.$recentlyPlayedContent.append(recentlyPlayedView.render().el);
     },
 
     addRecentlyPlayed: function(ev) {
-        var albumToAdd = ev.model.toJSON();
-
-        UB.Collections.recentlyPlayedAlbums = new UB.Collections.RecentlyPlayedCollection();
-        UB.Collections.recentlyPlayedAlbums.create(albumToAdd);
-    },
-        /*
-
-        var artistAlbumsView = new UB.Views.RecentlyPlayedView({collection: UB.Collections.recentlyPlayedAlbums});
-        this.$content.append(artistAlbumsView.render().el);
-
-
-        self.$content.append(artistAlbumsView.render().el);
-
-
-        UB.Views.recentlyPlayedAlbums = new UB.Views.RecentlyPlayedView();
         var self = this;
+        var albumToAdd = new UB.Models.AlbumModel({id: ev.model.get("collectionId")});
+        albumToAdd.urlRoot = function() {
+            return self.urlBase + "albums";
+        };
+        albumToAdd.fetch({
+            success: function (data) {
+                console.log("FUCK YEAH");
+                console.log(data);
 
-        UB.Collections.recentlyPlayedAlbums.fetch({
-
-            success: function (dataAlbums) {
-                self.$content.html(new UB.Views.RecentlyPlayedView({collection: dataAlbums}).render().el);
-                self.render();
+                UB.Collections.recentlyPlayedAlbums.create((new UB.Models.LocalAlbumModel(albumToAdd.toJSON())).toJSON());
             },
-
-            error: function (model, res) {
-                if (res.status == 401) {
-                    self.redirectToLoginSignup();
-                }
+            error: function(model, res) {
+                console.log("CA CHIE!!!");
             }
-        })
+
+        });
 
     },
-  */
+
     initializeUserPlaylist: function () {
         var self = this;
         UB.Collections.userPlaylists = new UB.Collections.PlaylistCollection();
@@ -215,9 +193,9 @@ window.UB.Routers.Router = Backbone.Router.extend({
     },
 
     onPlaylistDeleted: function (e) {
-         if (this.playlistView && e && e.playlistId == this.playlistView.model.id) {
-             this.navigate("#home", {trigger: true});
-         }
+        if (this.playlistView && e && e.playlistId == this.playlistView.model.id) {
+            this.navigate("#home", {trigger: true});
+        }
     },
 
     displayAlbum: function (id) {
@@ -324,7 +302,6 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     togglePlayPause: function (e) {
         console.log("PLAY");
-        console.log(e);
         if (this.playerView) {
             this.playerView.togglePlayPause(e);
         }

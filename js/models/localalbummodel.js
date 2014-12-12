@@ -1,19 +1,12 @@
 /**
- * Created by Vincent on 2014-10-15.
+ * Created by Sebastien on 12/11/2014.
  */
 
-window.UB.Models.AlbumModel = Backbone.Model.extend({
-    defaults: {
-        collectionId: "",
-        collectionName: "",
-        artworkUrl100: ""
-    },
-
-    attributeId: "collectionId",
+window.UB.Models.LocalAlbumModel = UB.Models.AlbumModel.extend( {
 
     parse: function (data) {
 
-        var albumInfo = data.results[0];
+        var albumInfo = data;
 
         var extension =
             albumInfo.artworkUrl100.substr(
@@ -32,6 +25,6 @@ window.UB.Models.AlbumModel = Backbone.Model.extend({
                 0,
                 albumInfoWithSize.lastIndexOf(".")) + ".400x400-75" + extension;
 
-        return albumInfo;
+        return data;
     }
 });

@@ -5,7 +5,6 @@
 
 window.UB.Views.RecentlyPlayedView = Backbone.View.extend({
 
-    collection: UB.Collections.RecentlyPlayedCollection,
     tagName: "div",
     className: "uk-container uk-container-center",
 
