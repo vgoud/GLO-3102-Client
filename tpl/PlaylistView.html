@@ -10,14 +10,15 @@
             <%- owner.name %>
         </h3>
         <a href="#users/<%- owner.id %>">
-            <!--<h3>-->
-                <%- owner.email %>
-            <!--</h3>-->
+            <%- owner.email %>
         </a>
     </div>
 </div>
 
 <div class="uk-container uk-container-center">
+    <h2 id="playlist-tracks-title">
+        Tracks (<%- tracks.length %>)
+    </h2>
     <table class="uk-table uk-table-hover">
         <thead>
         <tr>

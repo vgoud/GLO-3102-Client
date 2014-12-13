@@ -24,7 +24,7 @@
             <ul>
                 <li>
                     <a id="logged-in-user-playlists-title" href="#users/<%= UB.session.user.id %>">
-                        Your playlists (<%= fromOwner ? fromOwner.length : 0 %>)<% if (!fromOwner) { %><br><br><% } %>
+                        Your playlists (<%= fromOwner ? fromOwner.length : 0 %>)
                     </a>
                 </li>
 
@@ -73,7 +73,7 @@
             <ul>
                 <li>
                     <a href="#users/<%= groupedPlaylists[key][0].get('owner').id %>">
-                        <%= groupedPlaylists[key][0].get('owner').name %> (<%= groupedPlaylists[key] ? groupedPlaylists[key].length : 0 %>)<% if (!groupedPlaylists[key]) { %><br><br><% } %>
+                        <%= groupedPlaylists[key][0].get('owner').name %> (<%= groupedPlaylists[key] ? groupedPlaylists[key].length : 0 %>)
                     </a>
                 </li>
 
@@ -81,13 +81,13 @@
                 <li class="playlist-row" data-playlist-id="<%= playlist.id %>" data-playlist-owner-id="<%= playlist.get('owner').id %>">
                     <a href="#playlists/<%= playlist.id %>"
                        class="playlist-link uk-width-1-1">
-                        <%= playlist.get('name') %>
+                        <%- playlist.get('name') %>
                     </a>
                 </li>
+                <% }); %>
             </ul>
         </li>
 
-        <% }); %>
         <% }); %>
     </ul>
 </div>
