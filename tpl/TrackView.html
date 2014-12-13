@@ -47,7 +47,7 @@
                         <% _.each(pColl, function(playlist){%>
                         <li data-playlist-id="<%= playlist.id %>" class="ajout-track-playlist">
                             <a>
-                            <%= playlist.attributes.name %>
+                            <%- playlist.attributes.name %>
                             </a>
                         </li>
                         <% }); %>
