@@ -26,6 +26,8 @@ window.UB.Views.LoginSignupView = Backbone.View.extend({
     render: function() {
         this.$el.html(this.template(this.model.toJSON()));
 
+        this.$loginSignupMessageAlert = this.$("#login-signup-message");
+
         this.loginParsleyFormInstance = this.$('#tab-login-form').parsley({
             errorClass: "uk-form-danger",
             successClass: "uk-form-success"
@@ -110,7 +112,32 @@ window.UB.Views.LoginSignupView = Backbone.View.extend({
 
         if (this.signupParsleyFormInstance.validate()) {
             this.submitSignup();
-        };
+        }
+    },
+
+    showMessage: function (e) {
+        if (this.$loginSignupMessageAlert) {
+            this.$loginSignupMessageAlert.find("p").text(e.msg.text);
+            this.$loginSignupMessageAlert.removeClass("uk-hidden");
+
+            switch (e.msg.code) {
+                case  "error" :
+                    this.$loginSignupMessageAlert.removeClass("uk-alert-success uk-alert-warning");
+                    this.$loginSignupMessageAlert.addClass("uk-alert-danger");
+                    break;
+                case "success" :
+                    this.$loginSignupMessageAlert.removeClass("uk-alert-danger uk-alert-warning");
+                    this.$loginSignupMessageAlert.addClass("uk-alert-success");
+                    break;
+                case "warning" :
+                    this.$loginSignupMessageAlert.removeClass("uk-alert-success uk-alert-danger");
+                    this.$loginSignupMessageAlert.addClass("uk-alert-warning");
+                    break;
+                default:
+                    this.$loginSignupMessageAlert.removeClass("uk-alert-success uk-alert-warning");
+                    this.$loginSignupMessageAlert.addClass("uk-alert-danger");
+            }
+        }
     }
 
 });

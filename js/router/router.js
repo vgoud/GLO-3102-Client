@@ -69,15 +69,27 @@ window.UB.Routers.Router = Backbone.Router.extend({
                 self.togglePlayPause(e)
             }
         });
+
+        this.listenTo(this, "loginSignupMessage", this.onLoginSignupMessage);
     },
 
-    redirectToLoginSignup: function () {
+    redirectToLoginSignup: function (message) {
         if (Backbone.history.fragment == "loginsignup") {
             // Reload the page.
             Backbone.history.loadUrl();
         } else {
             this.navigate("#loginsignup", {trigger: true});
         }
+
+        if (message) {
+            this.trigger("loginSignupMessage", {
+                msg: message
+            });
+        }
+    },
+
+    onLoginSignupMessage: function (e) {
+        this.loginSignupView.showMessage(e.msg);
     },
 
     loginSignup: function () {
@@ -99,7 +111,12 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     onSignupSucceeded: function (e) {
         // Redirect to login.
-        this.redirectToLoginSignup(e);
+        this.redirectToLoginSignup({
+            msg: {
+                  text: "Sign up successfully!"
+                , code: "success"
+            }
+        });
     },
 
     logout: function () {
@@ -108,7 +125,12 @@ window.UB.Routers.Router = Backbone.Router.extend({
             success: function () {
                 // Logged out successfully.
                 self.trigger("loggedOut");
-                self.redirectToLoginSignup();
+                self.redirectToLoginSignup({
+                    msg: {
+                          text: "Logged out successfully!"
+                        , code: "success"
+                    }
+                });
             }
         });
     },
@@ -185,7 +207,12 @@ window.UB.Routers.Router = Backbone.Router.extend({
             },
             error: function (model, res) {
                 if (res.status == 401) {
-                    self.redirectToLoginSignup();
+                    self.redirectToLoginSignup({
+                        msg: {
+                            text: "You need to sign in again."
+                            , code: "error"
+                        }
+                    });
                 }
             }
         });
@@ -235,14 +262,24 @@ window.UB.Routers.Router = Backbone.Router.extend({
                     },
                     error: function (model, res) {
                         if (res.status == 401) {
-                            self.redirectToLoginSignup();
+                            self.redirectToLoginSignup({
+                                msg: {
+                                    text: "You need to sign in again."
+                                    , code: "error"
+                                }
+                            });
                         }
                     }
                 });
             },
             error: function (model, res) {
                 if (res.status == 401) {
-                    self.redirectToLoginSignup();
+                    self.redirectToLoginSignup({
+                        msg: {
+                            text: "You need to sign in again."
+                            , code: "error"
+                        }
+                    });
                 }
             }
         });
@@ -283,14 +320,24 @@ window.UB.Routers.Router = Backbone.Router.extend({
                     },
                     error: function (model, res) {
                         if (res.status == 401) {
-                            self.redirectToLoginSignup();
+                            self.redirectToLoginSignup({
+                                msg: {
+                                    text: "You need to sign in again."
+                                    , code: "error"
+                                }
+                            });
                         }
                     }
                 });
             },
             error: function (model, res) {
                 if (res.status == 401) {
-                    self.redirectToLoginSignup();
+                    self.redirectToLoginSignup({
+                        msg: {
+                            text: "You need to sign in again."
+                            , code: "error"
+                        }
+                    });
                 }
             }
         });
@@ -420,7 +467,12 @@ window.UB.Routers.Router = Backbone.Router.extend({
             },
             error: function (model, res) {
                 if (res.status == 401) {
-                    self.redirectToLoginSignup();
+                    self.redirectToLoginSignup({
+                        msg: {
+                            text: "You need to sign in again."
+                            , code: "error"
+                        }
+                    });
                 }
             }
         });
@@ -525,7 +577,12 @@ window.UB.Routers.Router = Backbone.Router.extend({
             error: function (jqXHR) {
                 console.log("Follow failed with status code " + jqXHR.status);
                 if (jqXHR.status == 401) {
-                    self.redirectToLoginSignup("Your session has expired.");
+                    self.redirectToLoginSignup({
+                        msg: {
+                            text: "Your session has expired."
+                            , code: "error"
+                        }
+                    });
                 }
             }
         });
@@ -543,7 +600,12 @@ window.UB.Routers.Router = Backbone.Router.extend({
             error: function (jqXHR) {
                 console.log("Follow failed with status code " + jqXHR.status);
                 if (jqXHR.status == 401) {
-                    self.redirectToLoginSignup("Your session has expired.");
+                    self.redirectToLoginSignup({
+                        msg: {
+                              text: "Your session has expired."
+                            , code: "error"
+                        }
+                    });
                 }
             }
         });
