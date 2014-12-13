@@ -5,9 +5,6 @@
             Home
         </a>
     </li>
-    <li>
-        <a href="#playlists-offcanvas" data-uk-offcanvas>My Playlists</a>
-    </li>
 </ul>
 <div class="uk-navbar-flip uk-visible-large">
     <ul class="uk-navbar-nav">
@@ -17,7 +14,7 @@
             </div>
         </li>
         <li>
-            <a href="#">Parameters</a>
+            <a class="btn-myPage" href="#users/<%= UB.session.user.id %>">My Page</a>
         </li>
         <li>
             <a href="javascript:" class="btn-logout uk-navbar-nav-subtitle">Logout

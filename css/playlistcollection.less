@@ -3,6 +3,15 @@
 #playlists-menu {
   font-size: 16px;
 //  font-weight: bold;
+
+  & ul li {
+    margin-left: -15px;
+  }
+
+  & li ul li:first-child a:first-of-type {
+    color: #ffffff;
+    border-bottom: solid 1px #ffffff;
+  }
 }
 
 #playlists-menu li.playlist-row {
@@ -13,13 +22,24 @@
   min-height: 30px;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-between;
+  justify-content: flex-start;
+
+  & .buttons-container {
+//    min-width: 40px;
+//    max-width: 40px;
+    flex: none;
+    visibility: hidden;
+  }
 
   & .playlist-link {
     margin-top: auto;
     margin-bottom: auto;
     height: 25px;
     align-self: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1 1 100%;
   }
 
   & form {
@@ -37,14 +57,17 @@
 }
 
 ul li.playlist-row .buttons-container {
-  visibility: hidden;
-  align-self: center;
-  justify-content: flex-end;
+//  visibility: hidden;
+
 }
 
-ul li.playlist-row:hover {
-
+#playlists-menu li.playlist-row:hover {
+  justify-content: space-between;
   background-color: #ffffff;
+
+  & .playlist-link {
+    flex: 1 2 70%;
+  }
 
   form ul li { // Parsley annotations.
     color: @skin-dark-background-color;
@@ -52,12 +75,15 @@ ul li.playlist-row:hover {
 
   &:not(.dirty) .buttons-container {
     visibility: visible;
+    flex: 1 1 30%;
+//    align-self: center;
+    justify-content: space-between;
 
     & .btn-playlist-edit, & .btn-playlist-delete {
       background: transparent;
       color: @skin-dark-accent-color;
       font-size: 18px;
-      justify-content: space-around;
+      justify-content: space-between;
     }
   }
 }
@@ -69,6 +95,18 @@ ul li.playlist-row.dirty {
 }
 
 #playlists-menu li.playlist-row.dirty {
+
+  & form {
+//    align-self: center;
+    justify-content: flex-start;
+    flex: 1 1 70%;
+  }
+
+  & .buttons-container {
+    flex: 1 1 30%;
+    justify-content: space-between;
+  }
+
   & .edit-buttons-group {
     visibility: visible;
 

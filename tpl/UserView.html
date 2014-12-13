@@ -35,10 +35,13 @@
             data-playlist-owner-id="<%= playlist.get('owner').id %>">
             <a href="#playlists/<%= playlist.id %>"
                class="playlist-link">
-                <%- playlist.get("name") %> (<%=
-                playlist.get("tracks").length %> track<% if (playlist.get("tracks").length > 1) { %>s<% }
-                %>)
+                <%- playlist.get("name") %>
             </a>
+
+            <div class="playlist-nb-tracks">
+                <i class="uk-icon-chevron-right"></i>
+                <%= playlist.get("tracks").length %> track<% if (playlist.get("tracks").length > 1) { %>s<% }%>
+            </div>
 
             <form class="uk-form">
                 <input name="rename-input" class="rename-playlist-input uk-hidden" type="text" required>
@@ -72,7 +75,7 @@
         <% }); %>
     </ul>
 
-    <h2>Follow :</h2>
+    <h2>Follow (<%= following.length %>)</h2>
 
     <div>
         <table id="user-following" class="uk-table uk-table-hover">
@@ -95,12 +98,20 @@
                     </a>
                 </td>
                 <td>
-                    <ul class="uk-list">
+                    <ul class="user-followed-playlists uk-list">
                         <% var playlists = UB.Collections.allPlaylists.getPlaylistsFromOwner(user.id); %>
                         <% _.each(playlists, function(playlist) { %>
-                        <li><a href="#playlists/<%= playlist.id %>"><%= playlist.get("name") %> (<%=
-                            playlist.get("tracks").length %> track<% if (playlist.get("tracks").length > 1) { %>s<% }
-                            %>)</a></li>
+                        <li>
+                            <div class="user-followed-playlist-link">
+                                <a href="#playlists/<%= playlist.id %>">
+                                    <%- playlist.get("name") %>
+                                </a>
+                            </div>
+                            <div class="user-followed-playlist-nb-tracks">
+                                <i class="uk-icon-chevron-right"></i>
+                                <%= playlist.get("tracks").length %> track<% if (playlist.get("tracks").length > 1) { %>s<% }%>
+                            </div>
+                        </li>
                         <% }); %>
                     </ul>
                 </td>
