@@ -2,7 +2,7 @@
  * Created by Vincent on 2014-10-15.
  */
 
-window.UB.Models.AlbumModel = Backbone.Model.extend({
+window.UB.Models.AlbumStandAloneModel = Backbone.Model.extend({
     defaults: {
         collectionId: "",
         collectionName: "",
@@ -13,7 +13,7 @@ window.UB.Models.AlbumModel = Backbone.Model.extend({
 
     parse: function (data) {
 
-        var albumInfo = data;
+        var albumInfo = data.results[0];
 
         var extension =
             albumInfo.artworkUrl100.substr(

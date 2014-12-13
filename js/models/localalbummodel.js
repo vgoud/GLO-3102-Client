@@ -2,7 +2,15 @@
  * Created by Sebastien on 12/11/2014.
  */
 
-window.UB.Models.LocalAlbumModel = UB.Models.AlbumModel.extend( {
+window.UB.Models.LocalAlbumModel = Backbone.Model.extend( {
+
+    defaults: {
+        collectionId: "",
+        collectionName: "",
+        artworkUrl100: ""
+    },
+
+    attributeId: "collectionId",
 
     parse: function (data) {
 

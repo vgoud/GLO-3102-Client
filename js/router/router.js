@@ -167,13 +167,13 @@ window.UB.Routers.Router = Backbone.Router.extend({
 
     addRecentlyPlayed: function(ev) {
         var self = this;
-        var albumToAdd = new UB.Models.AlbumModel({id: ev.model.get("collectionId")});
+        var albumToAdd = new UB.Models.AlbumStandAloneModel({id: ev.model.get("collectionId")});
         albumToAdd.urlRoot = function() {
             return self.urlBase + "albums";
         };
         albumToAdd.fetch({
             success: function (data) {
-                console.log("FUCK YEAH");
+                console.log("Album received :");
                 console.log(data);
 
                 UB.Collections.recentlyPlayedAlbums.create((new UB.Models.LocalAlbumModel(albumToAdd.toJSON())).toJSON());
