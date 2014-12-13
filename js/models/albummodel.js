@@ -13,7 +13,7 @@ window.UB.Models.AlbumModel = Backbone.Model.extend({
 
     parse: function (data) {
 
-        var albumInfo = data.results[0];
+        var albumInfo = data; //.results[0];
 
         var extension =
             albumInfo.artworkUrl100.substr(
